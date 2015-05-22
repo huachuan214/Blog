@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记 《Semantics-driven portrait cartoon stylization》 // 在路上 </title>
+  <title> 论文笔记 《Semantics-driven portrait cartoon stylization》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/#comments" >
+            <a href="/Blog/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/"></span>
             </a>
           </span>
@@ -158,18 +158,18 @@
 
       
         <p>是某个实验室前辈ICIP10的oral paper，连接见这里：<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715" target="_blank" rel="external">http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715</a></p>
-<h2 id="流程">流程</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
-<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
-<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
+<h2 id="流程">流程</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
+<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
+<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
 <h2 id="Stylization">Stylization</h2><p>这里可以理解成分别用上面两张salmap作为引导图进行滤波，滤波要求满足，</p>
 <ol>
 <li>结果图像比起原图不能有太剧烈的变化（或者轮廓上不能有太剧烈的变化，相当于正则项）</li>
 <li>结果图像和引导图的梯度要相近或相关。</li>
 </ol>
-<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
-<p>sketch的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
-<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
-<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
+<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
+<p>sketch的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
+<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
+<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
 
       
     </div>
@@ -178,11 +178,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
-            <a href="/tags/Image-Processing/"> #Image Processing </a>
+            <a href="/Blog/tags/Image-Processing/"> #Image Processing </a>
           
-            <a href="/tags/Low-Level/"> #Low Level </a>
+            <a href="/Blog/tags/Low-Level/"> #Low Level </a>
           
         </div>
       
@@ -191,13 +191,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/04/29/paper-note-ssim/">论文笔记 《Image Quality Assessment:From Error Visibility to Structural Similarity》</a>
+              <a href="/Blog/2015/04/29/paper-note-ssim/">论文笔记 《Image Quality Assessment:From Error Visibility to Structural Similarity》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/03/10/about-affine-transform/">关于仿射变换</a>
+              <a href="/Blog/2015/03/10/about-affine-transform/">关于仿射变换</a>
             
           </div>
         </div>
@@ -214,7 +214,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/"
-               data-title="论文笔记 《Semantics-driven portrait cartoon stylization》" data-url="http://zhangliliang.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/">
+               data-title="论文笔记 《Semantics-driven portrait cartoon stylization》" data-url="http://xuchuanhua.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/">
           </div>
         
       </div>
@@ -256,13 +256,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -276,7 +276,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -286,7 +286,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -297,7 +297,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -315,12 +315,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -352,7 +352,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -378,13 +378,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -441,8 +441,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -936,7 +936,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

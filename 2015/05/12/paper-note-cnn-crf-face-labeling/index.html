@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记《Multi-Objective Convolutional Learning for Face Labeling》 // 在路上 </title>
+  <title> 论文笔记《Multi-Objective Convolutional Learning for Face Labeling》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/05/12/paper-note-cnn-crf-face-labeling/#comments" >
+            <a href="/Blog/2015/05/12/paper-note-cnn-crf-face-labeling/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/12/paper-note-cnn-crf-face-labeling/"></span>
             </a>
           </span>
@@ -158,11 +158,11 @@
 
       
         <p>来源自，<a href="http://graduatestudents.ucmerced.edu/sliu32/pages/multi-objective-convolutional-learning-face-labeling" target="_blank" rel="external">http://graduatestudents.ucmerced.edu/sliu32/pages/multi-objective-convolutional-learning-face-labeling</a><br>CVPR15命中，而且作者是个美女。</p>
-<h2 id="动机">动机</h2><p>该文章解决的是face labeling的问题，如Figure 1，输入是原图(a)，想要得到的是结果图(d)，可以看成是semantic segmentation的一个子问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152507.png" alt=""></p>
-<h2 id="CNN+CRF">CNN+CRF</h2><p>我觉得本文最厉害的一点是将CRF的公式转化为了可以跟CNN联合求解的形式。下面会描述这个过程。<br>公式1中用CRF对问题建模，X是输入的原始图像，Y是输出的label map，$E_u$表示CRF的unary项，这里可以理解为X中的一个patch决定了Y中的某个点的输出；$E_b$是binary项，表示Y中两个点$y_i$和$y_j$的关系由他们在X中对应的overlapping patch来决定。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512153118.png" alt=""><br>关键是对于上面的公式，怎么转化为一个CNN能够求解的形式。<br>对于unary项，很自然就能对应上可以将能量函数设为为softmax的形式。<br><strong>关键是对于binary项，可以通过引入一个额外的label $z_{ij}$来转化为一个二值问题，那么就可以用sigmoid来拟合了！</strong><br>明白这一点之后，CNN+CRF就比较顺理成章了。Figure 2给了示意图，作者将这两个loss都接到最后的FC上，联合训练。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152628.png" alt=""><br>最后在inferece的时候，需要将unary和binary得到的几张map做一个fusion，这一步用graphcut就好了：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512154402.png" alt=""><br>笔者觉得就上面而言，已经是一个挺漂亮的工作了。但是这篇paper还没有完，下面还有增加prior，full image inference，upsampling等工作。</p>
-<h2 id="Nonparametric_prior">Nonparametric prior</h2><p>face labeling虽然是semantic segmentation的子问题，但是也有自己的一些prior，比如人脸是一个强结构性的object，所以可以先通过估计一个label的概率图来提供prior。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152637.png" alt=""></p>
+<h2 id="动机">动机</h2><p>该文章解决的是face labeling的问题，如Figure 1，输入是原图(a)，想要得到的是结果图(d)，可以看成是semantic segmentation的一个子问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152507.png" alt=""></p>
+<h2 id="CNN+CRF">CNN+CRF</h2><p>我觉得本文最厉害的一点是将CRF的公式转化为了可以跟CNN联合求解的形式。下面会描述这个过程。<br>公式1中用CRF对问题建模，X是输入的原始图像，Y是输出的label map，$E_u$表示CRF的unary项，这里可以理解为X中的一个patch决定了Y中的某个点的输出；$E_b$是binary项，表示Y中两个点$y_i$和$y_j$的关系由他们在X中对应的overlapping patch来决定。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512153118.png" alt=""><br>关键是对于上面的公式，怎么转化为一个CNN能够求解的形式。<br>对于unary项，很自然就能对应上可以将能量函数设为为softmax的形式。<br><strong>关键是对于binary项，可以通过引入一个额外的label $z_{ij}$来转化为一个二值问题，那么就可以用sigmoid来拟合了！</strong><br>明白这一点之后，CNN+CRF就比较顺理成章了。Figure 2给了示意图，作者将这两个loss都接到最后的FC上，联合训练。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152628.png" alt=""><br>最后在inferece的时候，需要将unary和binary得到的几张map做一个fusion，这一步用graphcut就好了：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512154402.png" alt=""><br>笔者觉得就上面而言，已经是一个挺漂亮的工作了。但是这篇paper还没有完，下面还有增加prior，full image inference，upsampling等工作。</p>
+<h2 id="Nonparametric_prior">Nonparametric prior</h2><p>face labeling虽然是semantic segmentation的子问题，但是也有自己的一些prior，比如人脸是一个强结构性的object，所以可以先通过估计一个label的概率图来提供prior。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152637.png" alt=""></p>
 <h2 id="Full_image_inference">Full image inference</h2><p>跟FCN一样，也是将全连接层换成1x1的卷积核，考虑到这是FCN的同期工作，看来大家都想一块去了。</p>
-<h2 id="Upsampling">Upsampling</h2><p>这篇文章也考虑到upsampling的过程，不过用的是不同于FCN的方法。这里是通过pixel shift，最后拼接到一起来实现的。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152647.png" alt=""></p>
+<h2 id="Upsampling">Upsampling</h2><p>这篇文章也考虑到upsampling的过程，不过用的是不同于FCN的方法。这里是通过pixel shift，最后拼接到一起来实现的。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152647.png" alt=""></p>
 
       
     </div>
@@ -171,11 +171,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/CRF/"> #CRF </a>
+            <a href="/Blog/tags/CRF/"> #CRF </a>
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
         </div>
       
@@ -184,13 +184,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/05/17/paper-note-fast-rcnn/">论文笔记 《Fast R-CNN》</a>
+              <a href="/Blog/2015/05/17/paper-note-fast-rcnn/">论文笔记 《Fast R-CNN》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/05/paper-note-sr-using-deformable-patches/">论文笔记《Single Image Super-resolution using Deformable Patches》</a>
+              <a href="/Blog/2015/05/05/paper-note-sr-using-deformable-patches/">论文笔记《Single Image Super-resolution using Deformable Patches》</a>
             
           </div>
         </div>
@@ -207,7 +207,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/05/12/paper-note-cnn-crf-face-labeling/"
-               data-title="论文笔记《Multi-Objective Convolutional Learning for Face Labeling》" data-url="http://zhangliliang.com/2015/05/12/paper-note-cnn-crf-face-labeling/">
+               data-title="论文笔记《Multi-Objective Convolutional Learning for Face Labeling》" data-url="http://xuchuanhua.com/2015/05/12/paper-note-cnn-crf-face-labeling/">
           </div>
         
       </div>
@@ -249,13 +249,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -269,7 +269,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -279,7 +279,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -290,7 +290,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -308,12 +308,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -345,7 +345,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -371,13 +371,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -434,8 +434,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -929,7 +929,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

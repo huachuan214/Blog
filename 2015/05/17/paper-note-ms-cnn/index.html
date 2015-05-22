@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记 《Object detection via a multi-region & semantic segmentation-aware CNN model》 // 在路上 </title>
+  <title> 论文笔记 《Object detection via a multi-region & semantic segmentation-aware CNN model》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/05/17/paper-note-ms-cnn/#comments" >
+            <a href="/Blog/2015/05/17/paper-note-ms-cnn/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/17/paper-note-ms-cnn/"></span>
             </a>
           </span>
@@ -159,7 +159,7 @@
       
         <p>论文出处：<a href="http://arxiv.org/abs/1505.01749" target="_blank" rel="external">http://arxiv.org/abs/1505.01749</a></p>
 <h2 id="写在前面">写在前面</h2><p>今天连看了Fast RCNN和这一篇，一开始以为这篇会是Fast RCNN的加强版。看了之后发现不是，这篇提出的框架更像是SPP-Net的加强版，因为这篇并没有实现joint training，不同的步骤还是分开来跑的。不禁让人想，如果能够结合这篇和Fast RCNN的所有技巧，VOC07的mAP会不会上80%了啊。。Detection进步确实太快了。<br>闲话少说，下面进入正题。:)</p>
-<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
+<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
 <ol>
 <li>提出一个multi-region CNN 来增强特征</li>
 <li>提出一个semantic segmentation-aware CNN再进一步增强特征</li>
@@ -174,16 +174,16 @@
 <li>然后各自经过两个全连接层进一步提取特征</li>
 <li>最后所有特征连在一起得到一个长特征。</li>
 </ol>
-<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
+<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
 <ol>
 <li>原始的region，就是原来的那个object proposal的位置，对应Figure的中a</li>
 <li>截半，对应Figure3的b-e</li>
 <li>中心区域，对应g和h</li>
-<li>边界区域，对应i和j<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
+<li>边界区域，对应i和j<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
 <li>不同的region是focus在不同的物体区域的，所以他们应该是互补的，能够增强特征的多样性</li>
 <li>认为这个方法能够有效应对object proposal时候定位不准确的问题，并在6.2和6.3通过实验验证</li>
 </ol>
-<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
+<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
 <h2 id="Object_localization">Object localization</h2><p>这一步，对应的是RCNN或者SPP-Net的最后一步，也就是得到结果之后，对位置重新进行一次regression，不过这里做了几点的改进：</p>
 <ol>
 <li>使用CNN来训练regressor（在RCNN中是使用简单的函数来训练regressor的），具体来说跟Fast RCNN比较像啦，输出是4xC个值，其中C是类别个数，不过这里直接用L2 loss拟合完事。</li>
@@ -198,9 +198,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
         </div>
       
@@ -209,13 +209,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/05/19/paper-note-object-proposal-review-pami15/">论文笔记 《What makes for effective detection proposals?》</a>
+              <a href="/Blog/2015/05/19/paper-note-object-proposal-review-pami15/">论文笔记 《What makes for effective detection proposals?》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/05/17/paper-note-fast-rcnn/">论文笔记 《Fast R-CNN》</a>
+              <a href="/Blog/2015/05/17/paper-note-fast-rcnn/">论文笔记 《Fast R-CNN》</a>
             
           </div>
         </div>
@@ -232,7 +232,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/05/17/paper-note-ms-cnn/"
-               data-title="论文笔记 《Object detection via a multi-region & semantic segmentation-aware CNN model》" data-url="http://zhangliliang.com/2015/05/17/paper-note-ms-cnn/">
+               data-title="论文笔记 《Object detection via a multi-region & semantic segmentation-aware CNN model》" data-url="http://xuchuanhua.com/2015/05/17/paper-note-ms-cnn/">
           </div>
         
       </div>
@@ -274,13 +274,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -294,7 +294,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -304,7 +304,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -315,7 +315,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -333,12 +333,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -370,7 +370,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -396,13 +396,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -459,8 +459,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -954,7 +954,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

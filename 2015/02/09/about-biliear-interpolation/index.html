@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 关于双线性插值 // 在路上 </title>
+  <title> 关于双线性插值 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/02/09/about-biliear-interpolation/#comments" >
+            <a href="/Blog/2015/02/09/about-biliear-interpolation/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/09/about-biliear-interpolation/"></span>
             </a>
           </span>
@@ -170,7 +170,7 @@
 <h2 id="在matlab中的实现">在matlab中的实现</h2><p>在matlab中输入：<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">%</span> 生成一张简单的图片，并用双线性插值法放大到<span class="number">2</span>倍</span><br><span class="line">im = ui<span class="label">nt8</span><span class="comment">([8 16;16 32])</span>;</span><br><span class="line">imresize<span class="comment">(im, 2, 'bilinear')</span></span><br></pre></td></tr></table></figure></p>
 <p>返回结果会是：<br><figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ans </span>=<span class="string"></span><br><span class="line"></span><br><span class="line">    8   10   14   16</span><br><span class="line">   10   13   18   20</span><br><span class="line">   14   18   25   28</span><br><span class="line">   16   20   28   32</span></span><br></pre></td></tr></table></figure></p>
 <p>现在分析这个结果是怎么得到的。所幸matlab是可以通过ctrl+D找到部分的源码实现方法的，于是笔者大致读了一下，结合网上一些资料终于把如何映射这个问题给解决了。<br>最主要的函数是imresize.m中的这个函数：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[weights, indices]</span> = <span class="title">contributions</span><span class="params">(in_length, out_length, ...</span><br><span class="line">                                            scale, kernel, ...</span><br><span class="line">                                            kernel_width, antialiasing)</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (scale &lt; <span class="number">1</span>) &amp;&amp; (antialiasing)</span><br><span class="line">    <span class="comment">% Use a modified kernel to simultaneously interpolate and</span></span><br><span class="line">    <span class="comment">% antialias.</span></span><br><span class="line">    h = @(x) scale * kernel(scale * x);</span><br><span class="line">    kernel_width = kernel_width / scale;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="comment">% No antialiasing; use unmodified kernel.</span></span><br><span class="line">    h = kernel;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Output-space coordinates.</span></span><br><span class="line">x = (<span class="number">1</span>:out_length)<span class="operator">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% Input-space coordinates. Calculate the inverse mapping such that 0.5</span></span><br><span class="line"><span class="comment">% in output space maps to 0.5 in input space, and 0.5+scale in output</span></span><br><span class="line"><span class="comment">% space maps to 1.5 in input space.</span></span><br><span class="line">u = x/scale + <span class="number">0.5</span> * (<span class="number">1</span> - <span class="number">1</span>/scale);</span><br><span class="line"></span><br><span class="line"><span class="comment">% What is the left-most pixel that can be involved in the computation?</span></span><br><span class="line">left = <span class="built_in">floor</span>(u - kernel_width/<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% What is the maximum number of pixels that can be involved in the</span></span><br><span class="line"><span class="comment">% computation?  Note: it's OK to use an extra pixel here; if the</span></span><br><span class="line"><span class="comment">% corresponding weights are all zero, it will be eliminated at the end</span></span><br><span class="line"><span class="comment">% of this function.</span></span><br><span class="line">P = <span class="built_in">ceil</span>(kernel_width) + <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% The indices of the input pixels involved in computing the k-th output</span></span><br><span class="line"><span class="comment">% pixel are in row k of the indices matrix.</span></span><br><span class="line">indices = <span class="built_in">bsxfun</span>(@plus, left, <span class="number">0</span>:P-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% The weights used to compute the k-th output pixel are in row k of the</span></span><br><span class="line"><span class="comment">% weights matrix.</span></span><br><span class="line">weights = h(<span class="built_in">bsxfun</span>(@minus, u, indices));</span><br><span class="line"></span><br><span class="line"><span class="comment">% Normalize the weights matrix so that each row sums to 1.</span></span><br><span class="line">weights = <span class="built_in">bsxfun</span>(@rdivide, weights, sum(weights, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clamp out-of-range indices; has the effect of replicating end-points.</span></span><br><span class="line">indices = min(max(<span class="number">1</span>, indices), in_length);</span><br><span class="line"></span><br><span class="line"><span class="comment">% If a column in weights is all zero, get rid of it.</span></span><br><span class="line">kill = <span class="built_in">find</span>(~any(weights, <span class="number">1</span>));</span><br><span class="line"><span class="keyword">if</span> ~<span class="built_in">isempty</span>(kill)</span><br><span class="line">    weights(:,kill) = <span class="matrix">[]</span>;</span><br><span class="line">    indices(:,kill) = <span class="matrix">[]</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<p>matlab的注释写得很清楚了，output的坐标用x变量表示，对应映射回input的坐标用u表示，当x=0.5时候，u也应该为0.5;当x=0.5+scale时，u为1.5。这样会得到怎么的映射效果呢，笔者画了一幅示意图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/drawing.png" alt=""><br>这里的坐标系是matlab下的坐标系（左上角为原点，从1开始计数），其中红色的4个点表示input的四个点，灰色的16个点是output的点映射回到input坐标系下的坐标。图片下方有两行x和u分别是灰色点在output和input下的x方向上的坐标值。<br>所以根据上面的映射方法，得到output映射回input的图像特点有两个：</p>
+<p>matlab的注释写得很清楚了，output的坐标用x变量表示，对应映射回input的坐标用u表示，当x=0.5时候，u也应该为0.5;当x=0.5+scale时，u为1.5。这样会得到怎么的映射效果呢，笔者画了一幅示意图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/drawing.png" alt=""><br>这里的坐标系是matlab下的坐标系（左上角为原点，从1开始计数），其中红色的4个点表示input的四个点，灰色的16个点是output的点映射回到input坐标系下的坐标。图片下方有两行x和u分别是灰色点在output和input下的x方向上的坐标值。<br>所以根据上面的映射方法，得到output映射回input的图像特点有两个：</p>
 <ol>
 <li>图片的中心是重合的（图中央的黑点为中心）</li>
 <li>output中的相邻像素的距离为input相邻像素的距离的1/scale</li>
@@ -197,7 +197,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Image-Processing/"> #Image Processing </a>
+            <a href="/Blog/tags/Image-Processing/"> #Image Processing </a>
           
         </div>
       
@@ -206,13 +206,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/02/11/about-convolution/">关于卷积</a>
+              <a href="/Blog/2015/02/11/about-convolution/">关于卷积</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/01/about-sparse-coding/">关于Sparse Coding</a>
+              <a href="/Blog/2015/02/01/about-sparse-coding/">关于Sparse Coding</a>
             
           </div>
         </div>
@@ -229,7 +229,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/02/09/about-biliear-interpolation/"
-               data-title="关于双线性插值" data-url="http://zhangliliang.com/2015/02/09/about-biliear-interpolation/">
+               data-title="关于双线性插值" data-url="http://xuchuanhua.com/2015/02/09/about-biliear-interpolation/">
           </div>
         
       </div>
@@ -271,13 +271,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -291,7 +291,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -301,7 +301,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -312,7 +312,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -330,12 +330,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -367,7 +367,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -393,13 +393,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -456,8 +456,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -951,7 +951,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

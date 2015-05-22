@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记 《Fully Convolutional Networks for Semantic Segmentation》 // 在路上 </title>
+  <title> 论文笔记 《Fully Convolutional Networks for Semantic Segmentation》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/11/28/paper-note-fcn-segment/#comments" >
+            <a href="/Blog/2014/11/28/paper-note-fcn-segment/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/28/paper-note-fcn-segment/"></span>
             </a>
           </span>
@@ -158,12 +158,12 @@
 
       
         <p>论文出处：<a href="http://arxiv.org/abs/1411.4038" target="_blank" rel="external">http://arxiv.org/abs/1411.4038</a><br>估计是用来投CVPR15的，个人觉得应该至少是oral的节奏。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
-<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
+<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
 <h2 id="overfeat的trick">overfeat的trick</h2><p>这里讲overfeat是怎么形成dense output的，个人有点忘了，等看回之后补充。</p>
 <h2 id="另一种trick，对feature_map直接做upsample">另一种trick，对feature map直接做upsample</h2><p>这里是作者实际用的trick，本质上，就是对feature map做一个bilinear的上采样。作者还提到其实这样的上采样参数也是可以学习的，实现上基本就是对conv的FP和BP反过来。</p>
-<h2 id="结果">结果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
-<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
+<h2 id="结果">结果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
+<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
 
       
     </div>
@@ -172,9 +172,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
         </div>
       
@@ -183,13 +183,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/11/30/paper-note-fcnn-crowd-seg/">论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》</a>
+              <a href="/Blog/2014/11/30/paper-note-fcnn-crowd-seg/">论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/11/22/paper-note-latent-structural-svm/">论文笔记 《Learning Structural SVMs with Latent Variables》</a>
+              <a href="/Blog/2014/11/22/paper-note-latent-structural-svm/">论文笔记 《Learning Structural SVMs with Latent Variables》</a>
             
           </div>
         </div>
@@ -206,7 +206,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2014/11/28/paper-note-fcn-segment/"
-               data-title="论文笔记 《Fully Convolutional Networks for Semantic Segmentation》" data-url="http://zhangliliang.com/2014/11/28/paper-note-fcn-segment/">
+               data-title="论文笔记 《Fully Convolutional Networks for Semantic Segmentation》" data-url="http://xuchuanhua.com/2014/11/28/paper-note-fcn-segment/">
           </div>
         
       </div>
@@ -248,13 +248,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -268,7 +268,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -278,7 +278,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -289,7 +289,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -307,12 +307,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -344,7 +344,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -370,13 +370,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -433,8 +433,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -928,7 +928,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

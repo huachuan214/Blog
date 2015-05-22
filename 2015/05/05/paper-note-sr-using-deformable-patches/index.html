@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记《Single Image Super-resolution using Deformable Patches》 // 在路上 </title>
+  <title> 论文笔记《Single Image Super-resolution using Deformable Patches》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/05/05/paper-note-sr-using-deformable-patches/#comments" >
+            <a href="/Blog/2015/05/05/paper-note-sr-using-deformable-patches/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/05/05/paper-note-sr-using-deformable-patches/"></span>
             </a>
           </span>
@@ -158,14 +158,14 @@
 
       
         <p>是CVPR14的文章，项目地址见这里：<a href="https://sites.google.com/site/yuzhushome/single-image-super-resolution-using-deformable-patches" target="_blank" rel="external">https://sites.google.com/site/yuzhushome/single-image-super-resolution-using-deformable-patches</a></p>
-<h2 id="动机">动机</h2><p>首先，这篇文章做的是SR的问题。用的思路是exemplar based的合成方法，也就是对于一张输入的LR，先打散成很多的LR patch，对于每一个LR patch，在词典中找到最为匹配的一个或者几个HR exemplar patch，然后加权得到对应的合成HR patch。最后这些HR patch再拼合到一起就是最后的HR输出。<br>这篇文章的motivation如图1，黑框的是一个LR patch，如上述，一般的流程是在词典中找到最相似的HR patch即可，而这篇文章的改进主要在于在寻找HR patch这一步提出了一个deformable的概念，也就是认为可以通过对词典中的HR patch进行一定程度的形变，产生新的HR patch，而且这个HR patch更加适配于LR patch，从而得到更好的合成效果。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505210041.png" alt=""></p>
-<h2 id="流程">流程</h2><p>文章的整体流程如下图，首先，也是需要维护一个HR的词典，该词典通过trainset产生。对于来的一个LR图片，打散成很多的LR patch，对于每个LR patch，首先在词典中匹配到比较合适的HR patch作为合成的候选，然后求出deformable field进行形变，之后这些候选通过加权合成得到该LR patch对应的HR patch结果，最后所有的HR patch拼合成最后的HR结果。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505210048.png" alt=""><br>这里会有几个问题：</p>
+<h2 id="动机">动机</h2><p>首先，这篇文章做的是SR的问题。用的思路是exemplar based的合成方法，也就是对于一张输入的LR，先打散成很多的LR patch，对于每一个LR patch，在词典中找到最为匹配的一个或者几个HR exemplar patch，然后加权得到对应的合成HR patch。最后这些HR patch再拼合到一起就是最后的HR输出。<br>这篇文章的motivation如图1，黑框的是一个LR patch，如上述，一般的流程是在词典中找到最相似的HR patch即可，而这篇文章的改进主要在于在寻找HR patch这一步提出了一个deformable的概念，也就是认为可以通过对词典中的HR patch进行一定程度的形变，产生新的HR patch，而且这个HR patch更加适配于LR patch，从而得到更好的合成效果。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505210041.png" alt=""></p>
+<h2 id="流程">流程</h2><p>文章的整体流程如下图，首先，也是需要维护一个HR的词典，该词典通过trainset产生。对于来的一个LR图片，打散成很多的LR patch，对于每个LR patch，首先在词典中匹配到比较合适的HR patch作为合成的候选，然后求出deformable field进行形变，之后这些候选通过加权合成得到该LR patch对应的HR patch结果，最后所有的HR patch拼合成最后的HR结果。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505210048.png" alt=""><br>这里会有几个问题：</p>
 <ol>
 <li>怎么在dictionary中找到最合适的HR patch？</li>
 <li>怎么对HR patch进行deformation得到更加匹配的HR patch？</li>
 <li>最后加权合成时候的权值是怎么算的？</li>
 </ol>
-<p>在这三个问题里面，笔者关心的是第2个问题，于是下面只对第二个部分进行记录，其他部分参看原文了。<br>首先需要对SR问题进行建模，这里用经典的SR模型即可。X是HR，Y是LR，D是下采样矩阵，H是模糊矩阵，n是噪声：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505211956.png" alt=""><br>然后就是定义deformation了，在公式2中，$B_h$是还没有形变前的HR，$B_r$是形变之后的HR。这里假设有两种形变，一个是空间上的变换$\phi$，另外一个是灰度上的线性变换$\alpha$和$\beta$<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212006.png" alt=""><br>对于$\phi$又可以用x和y方向上的deformation field来表示，分别用u和v表示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212012.png" alt=""><br>然后假设deformation field的值比较小，那么就可以将上面公式转化成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212025.png" alt=""><br>这之后就是通过设计能量函数来求解这个$\phi$了：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212035.png" alt=""><br>从上式可以看出能量函数有两个部分，第一个部分是想约束得到的$B_r$经过模糊下采样后跟LR patch$P_l$保持一致性，第二部分的$\psi$是某种prior，用来做正则项的：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212042.png" alt=""><br>这里的正则项被称为smoothness prior和slowness prior。作者说他是从光流法得到的灵感，而且上述求解过程也是类似的光流法的形式。</p>
+<p>在这三个问题里面，笔者关心的是第2个问题，于是下面只对第二个部分进行记录，其他部分参看原文了。<br>首先需要对SR问题进行建模，这里用经典的SR模型即可。X是HR，Y是LR，D是下采样矩阵，H是模糊矩阵，n是噪声：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505211956.png" alt=""><br>然后就是定义deformation了，在公式2中，$B_h$是还没有形变前的HR，$B_r$是形变之后的HR。这里假设有两种形变，一个是空间上的变换$\phi$，另外一个是灰度上的线性变换$\alpha$和$\beta$<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212006.png" alt=""><br>对于$\phi$又可以用x和y方向上的deformation field来表示，分别用u和v表示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212012.png" alt=""><br>然后假设deformation field的值比较小，那么就可以将上面公式转化成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212025.png" alt=""><br>这之后就是通过设计能量函数来求解这个$\phi$了：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212035.png" alt=""><br>从上式可以看出能量函数有两个部分，第一个部分是想约束得到的$B_r$经过模糊下采样后跟LR patch$P_l$保持一致性，第二部分的$\psi$是某种prior，用来做正则项的：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212042.png" alt=""><br>这里的正则项被称为smoothness prior和slowness prior。作者说他是从光流法得到的灵感，而且上述求解过程也是类似的光流法的形式。</p>
 <p>（待续，总的来说笔者对这篇文章的公式还需要理解一下，先记录到这里，之后补上）</p>
 
       
@@ -175,11 +175,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
-            <a href="/tags/Image-Processing/"> #Image Processing </a>
+            <a href="/Blog/tags/Image-Processing/"> #Image Processing </a>
           
-            <a href="/tags/Low-Level/"> #Low Level </a>
+            <a href="/Blog/tags/Low-Level/"> #Low Level </a>
           
         </div>
       
@@ -188,13 +188,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/05/12/paper-note-cnn-crf-face-labeling/">论文笔记《Multi-Objective Convolutional Learning for Face Labeling》</a>
+              <a href="/Blog/2015/05/12/paper-note-cnn-crf-face-labeling/">论文笔记《Multi-Objective Convolutional Learning for Face Labeling》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/04/29/paper-note-ssim/">论文笔记 《Image Quality Assessment:From Error Visibility to Structural Similarity》</a>
+              <a href="/Blog/2015/04/29/paper-note-ssim/">论文笔记 《Image Quality Assessment:From Error Visibility to Structural Similarity》</a>
             
           </div>
         </div>
@@ -211,7 +211,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/05/05/paper-note-sr-using-deformable-patches/"
-               data-title="论文笔记《Single Image Super-resolution using Deformable Patches》" data-url="http://zhangliliang.com/2015/05/05/paper-note-sr-using-deformable-patches/">
+               data-title="论文笔记《Single Image Super-resolution using Deformable Patches》" data-url="http://xuchuanhua.com/2015/05/05/paper-note-sr-using-deformable-patches/">
           </div>
         
       </div>
@@ -253,13 +253,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -273,7 +273,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -283,7 +283,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -294,7 +294,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -312,12 +312,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -349,7 +349,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -375,13 +375,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -438,8 +438,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -933,7 +933,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

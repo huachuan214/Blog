@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 关于liblinear // 在路上 </title>
+  <title> 关于liblinear [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/09/06/about-liblinear/#comments" >
+            <a href="/Blog/2014/09/06/about-liblinear/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/09/06/about-liblinear/"></span>
             </a>
           </span>
@@ -228,7 +228,7 @@
 <p>出来的结果是：<br><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.......*</span><br><span class="line">optimization finished, <span class="comment">#iter = 75</span></span><br><span class="line">Objective <span class="built_in">value</span> = -<span class="number">115.101147</span></span><br><span class="line">nSV = <span class="number">184</span></span><br><span class="line">Accuracy = <span class="number">84.8148</span>% (<span class="number">229</span>/<span class="number">270</span>)</span><br><span class="line">Elapsed <span class="built_in">time</span> is <span class="number">0.006317</span> <span class="built_in">seconds</span>. <span class="comment">#速度快得飞起来了。。。</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="20140907_Linux下的配置和使用">20140907 Linux下的配置和使用</h2><p>配置也很简单，cd到该目录下，直接make即可，会生成两个可执行文件train和predict。<br>做个简单的测试，跟上文的matlab的测试样例差不多：<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./train heart_scale</span><br><span class="line">./predict heart_scale heart_scale.model heart_scale.<span class="literal">result</span></span><br></pre></td></tr></table></figure></p>
 <p>出来的结果如图：<br><img src="http://i.imgur.com/U6lEmF9.png" alt=""></p>
-<h2 id="20140907(1)_C\C++调用liblinear">20140907(1) C\C++调用liblinear</h2><p>其实也不算调用了，因为本来liblinear就是用C来写的:<br><a href="https://github.com/zhangliliang/liblinear/blob/master/linear.cpp" target="_blank" rel="external">https://github.com/zhangliliang/liblinear/blob/master/linear.cpp</a><br>没有在网上找到样例，那么如果要参考，就参考文件夹里面的train.c和predict.c吧：<br><a href="https://github.com/zhangliliang/liblinear/blob/master/train.c" target="_blank" rel="external">https://github.com/zhangliliang/liblinear/blob/master/train.c</a><br><a href="https://github.com/zhangliliang/liblinear/blob/master/predict.c" target="_blank" rel="external">https://github.com/zhangliliang/liblinear/blob/master/predict.c</a></p>
+<h2 id="20140907(1)_C\C++调用liblinear">20140907(1) C\C++调用liblinear</h2><p>其实也不算调用了，因为本来liblinear就是用C来写的:<br><a href="https://github.com/xuchuanhua/liblinear/blob/master/linear.cpp" target="_blank" rel="external">https://github.com/xuchuanhua/liblinear/blob/master/linear.cpp</a><br>没有在网上找到样例，那么如果要参考，就参考文件夹里面的train.c和predict.c吧：<br><a href="https://github.com/xuchuanhua/liblinear/blob/master/train.c" target="_blank" rel="external">https://github.com/xuchuanhua/liblinear/blob/master/train.c</a><br><a href="https://github.com/xuchuanhua/liblinear/blob/master/predict.c" target="_blank" rel="external">https://github.com/xuchuanhua/liblinear/blob/master/predict.c</a></p>
 <h2 id="其他可参考资料">其他可参考资料</h2><p>zouxy09写的资料，比较接近文档的中文翻译：<br><a href="http://blog.csdn.net/zouxy09/article/details/10947323" target="_blank" rel="external">LibLinear（SVM包）使用说明之（一）README</a><br><a href="http://blog.csdn.net/zouxy09/article/details/10947411" target="_blank" rel="external">LibLinear（SVM包）使用说明之（二）MATLAB接口</a><br><a href="http://blog.csdn.net/zouxy09/article/details/10947557" target="_blank" rel="external">LibLinear（SVM包）使用说明之（三）实践</a></p>
 
       
@@ -238,9 +238,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Machine-Learning/"> #Machine Learning </a>
+            <a href="/Blog/tags/Machine-Learning/"> #Machine Learning </a>
           
-            <a href="/tags/tools/"> #tools </a>
+            <a href="/Blog/tags/tools/"> #tools </a>
           
         </div>
       
@@ -249,13 +249,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/09/07/about-first-traval-at-kaggle/">Kaggle初体验</a>
+              <a href="/Blog/2014/09/07/about-first-traval-at-kaggle/">Kaggle初体验</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/09/01/paper-note-dpm/">论文笔记 《Object Detection with Discriminatively Trained Part Based Models》</a>
+              <a href="/Blog/2014/09/01/paper-note-dpm/">论文笔记 《Object Detection with Discriminatively Trained Part Based Models》</a>
             
           </div>
         </div>
@@ -272,7 +272,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2014/09/06/about-liblinear/"
-               data-title="关于liblinear" data-url="http://zhangliliang.com/2014/09/06/about-liblinear/">
+               data-title="关于liblinear" data-url="http://xuchuanhua.com/2014/09/06/about-liblinear/">
           </div>
         
       </div>
@@ -314,13 +314,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -334,7 +334,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -344,7 +344,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -355,7 +355,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -373,12 +373,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -410,7 +410,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -436,13 +436,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -499,8 +499,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -994,7 +994,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

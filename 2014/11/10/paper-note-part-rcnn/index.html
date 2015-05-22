@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记 《Part-based R-CNNs forFine-grained Category Detection》 // 在路上 </title>
+  <title> 论文笔记 《Part-based R-CNNs forFine-grained Category Detection》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/11/10/paper-note-part-rcnn/#comments" >
+            <a href="/Blog/2014/11/10/paper-note-part-rcnn/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/10/paper-note-part-rcnn/"></span>
             </a>
           </span>
@@ -158,7 +158,7 @@
 
       
         <p>ECCV14的oral，论文出处：<a href="http://www.cs.berkeley.edu/~rbg/papers/part-rcnn.pdf" target="_blank" rel="external">http://www.cs.berkeley.edu/~rbg/papers/part-rcnn.pdf</a></p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110155055.png" alt=""><br>fine-grained的核心挑战是定位part，于是这个工作在RCNN上加了part，主体流程见上图：</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110155055.png" alt=""><br>fine-grained的核心挑战是定位part，于是这个工作在RCNN上加了part，主体流程见上图：</p>
 <ol>
 <li>提取region proposal，这里用的selective search</li>
 <li>找到物体的bbox和part的bbox，这里需要用到空间信息进行重打分</li>
@@ -174,16 +174,16 @@
 <li>都用ImageNet的模型做pretrain，但这里finetuning一个200的分类器（这里对应了200种鸟）。而RCNN是tuning200类+1背景的。</li>
 <li>之后得到特征后，用SVM训练root和part的分类器。RCNN中没有part分类器（而且为啥part的分类器不在CNN中tuning之后再重新训练SVM呢？）</li>
 </ul>
-<h2 id="Geometric_constraints">Geometric constraints</h2><p>这里需要对上述root和part进行重新打分，利用到的是part相对于root的空间信息，用式子(1)表示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110212844.png" alt=""><br>上面的△(X)表示某种约束。<br>首先给出第一个约束是part的bbox应该要几乎都在root的bbox里面（最多只有10个像素能在外面），对应式子(2)和(3)：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110213318.png" alt=""><br>然后给出一个更强的约束是，part相对于root应该是有一个“默认”的位置的（比如鸟头应该在上方等），于是有基于第一个约束有了第二个约束，对应式子(4)：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214014.png" alt=""><br>其中$\delta_i$代表对part的位置的某种建模方式，文中提到了两种，分别是基于多高斯和最近邻的，对应下面：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214248.png" alt=""><br>基于最近邻的定位效果见这个：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214356.png" alt=""></p>
+<h2 id="Geometric_constraints">Geometric constraints</h2><p>这里需要对上述root和part进行重新打分，利用到的是part相对于root的空间信息，用式子(1)表示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110212844.png" alt=""><br>上面的△(X)表示某种约束。<br>首先给出第一个约束是part的bbox应该要几乎都在root的bbox里面（最多只有10个像素能在外面），对应式子(2)和(3)：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110213318.png" alt=""><br>然后给出一个更强的约束是，part相对于root应该是有一个“默认”的位置的（比如鸟头应该在上方等），于是有基于第一个约束有了第二个约束，对应式子(4)：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214014.png" alt=""><br>其中$\delta_i$代表对part的位置的某种建模方式，文中提到了两种，分别是基于多高斯和最近邻的，对应下面：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214248.png" alt=""><br>基于最近邻的定位效果见这个：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214356.png" alt=""></p>
 <h2 id="Fine-grained_categorization">Fine-grained categorization</h2><p>用上述方法得到了root和part的位置后，用CNN提取特征，然后拼成长向量，用SVM求解。</p>
 <h2 id="Evaluation">Evaluation</h2><p>用的数据集是Caltech-UCSD bird dataset(CUB200-2011)，有1w+的图片，200类鸟（即平均每类鸟50+张左右），标记有bbox和15个part的位置。<br>细节：</p>
 <ul>
 <li>作者只用到了头部和身体这两个part。</li>
 <li>CNN特征取的是fc6</li>
 </ul>
-<p>对比结果如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111100054.png" alt=""><br>大致意思是，提升10%以上了。<br>在给出bbox时候，是state-of-the-art（其中Oracle82%是因为测试阶段也用了bbox还有part标注）。在不给出bbox的时候，因为太难基本没有其他人做，这个方法依然是state-of-the-art。</p>
-<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111102825.png" alt=""><br>上图给出了去掉part特征时候的结果，也就是只利用空间信息来定位object，依然有提高，说明了空间约束有助于提高结果。</p>
-<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111103034.png" alt=""><br>上图对应selective search给出的proposal的召回率。在ol&gt;0.5时候，基本都能够召回。在ol&gt;0.7时候，召回率会大幅度下降。所以作者认为目前方法的bottleneck在于proposal方法。</p>
+<p>对比结果如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111100054.png" alt=""><br>大致意思是，提升10%以上了。<br>在给出bbox时候，是state-of-the-art（其中Oracle82%是因为测试阶段也用了bbox还有part标注）。在不给出bbox的时候，因为太难基本没有其他人做，这个方法依然是state-of-the-art。</p>
+<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111102825.png" alt=""><br>上图给出了去掉part特征时候的结果，也就是只利用空间信息来定位object，依然有提高，说明了空间约束有助于提高结果。</p>
+<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111103034.png" alt=""><br>上图对应selective search给出的proposal的召回率。在ol&gt;0.5时候，基本都能够召回。在ol&gt;0.7时候，召回率会大幅度下降。所以作者认为目前方法的bottleneck在于proposal方法。</p>
 <h2 id="总结">总结</h2><p>不愧是oral，感觉挺有启发。<br>提高10%以上主要功劳应该是在CNN特征。<br>其他贡献是part的定位和几何约束，大概能提高1~2%个点。</p>
 
       
@@ -193,9 +193,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
         </div>
       
@@ -204,13 +204,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2014/11/14/paper-note-joint-deep-learning-for-predestrian-detection/">论文笔记 《Joint Deep Learning for Pedestrian Detection》</a>
+              <a href="/Blog/2014/11/14/paper-note-joint-deep-learning-for-predestrian-detection/">论文笔记 《Joint Deep Learning for Pedestrian Detection》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/11/08/paper-note-cnn-analysis/">论文笔记 《Analyzing the Performance of Multilayer Neural Networks for Object Recognition》</a>
+              <a href="/Blog/2014/11/08/paper-note-cnn-analysis/">论文笔记 《Analyzing the Performance of Multilayer Neural Networks for Object Recognition》</a>
             
           </div>
         </div>
@@ -227,7 +227,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2014/11/10/paper-note-part-rcnn/"
-               data-title="论文笔记 《Part-based R-CNNs forFine-grained Category Detection》" data-url="http://zhangliliang.com/2014/11/10/paper-note-part-rcnn/">
+               data-title="论文笔记 《Part-based R-CNNs forFine-grained Category Detection》" data-url="http://xuchuanhua.com/2014/11/10/paper-note-part-rcnn/">
           </div>
         
       </div>
@@ -269,13 +269,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -289,7 +289,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -299,7 +299,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -310,7 +310,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -328,12 +328,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -365,7 +365,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -391,13 +391,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -454,8 +454,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -949,7 +949,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

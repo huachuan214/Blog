@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> 论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》 // 在路上 </title>
+  <title> 论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2014/11/30/paper-note-fcnn-crowd-seg/#comments" >
+            <a href="/Blog/2014/11/30/paper-note-fcnn-crowd-seg/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2014/11/30/paper-note-fcnn-crowd-seg/"></span>
             </a>
           </span>
@@ -158,7 +158,7 @@
 
       
         <p>论文出处：<a href="http://arxiv.org/abs/1411.4464" target="_blank" rel="external">http://arxiv.org/abs/1411.4464</a><br>王晓刚老师实验室的论文，估计也是用来投CVPR15的。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095210.png" alt=""><br>如上图，将有人地方从背景中区分出来，就是人群分割（Crowd Segmentation问题）<br>用CNN做分割的方法有如下三种：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095256.png" alt=""><br>-（a）patch-wise的输入方法，缺点是每次只能输出一个pixel的结果，速度慢。<br>-（b）全图输出，用全连接层来输出全图结果，速度有保证，但是认为没有translation invariance，也就是同样的patch如果在不同的位置输出结果会不一样。<br>-（c）将全连接层改成1x1卷积层，兼顾(a)和(b)的优点，保证速度，且有translation invariance</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095210.png" alt=""><br>如上图，将有人地方从背景中区分出来，就是人群分割（Crowd Segmentation问题）<br>用CNN做分割的方法有如下三种：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095256.png" alt=""><br>-（a）patch-wise的输入方法，缺点是每次只能输出一个pixel的结果，速度慢。<br>-（b）全图输出，用全连接层来输出全图结果，速度有保证，但是认为没有translation invariance，也就是同样的patch如果在不同的位置输出结果会不一样。<br>-（c）将全连接层改成1x1卷积层，兼顾(a)和(b)的优点，保证速度，且有translation invariance</p>
 <p>本文用的方法自然是(c)，这一篇其实跟上一篇FCN大同小异，不过提供了一些FCN没有的地方，可以互相对照着看看。</p>
 <h2 id="3-2_FCNN_中的一些实现细节">3.2 FCNN 中的一些实现细节</h2><p>记录本章提到的一些细节：</p>
 <ul>
@@ -167,14 +167,14 @@
 <li>gt的得到方式是经过两个pool，而不是直接调用resize函数（这个算很细节的考虑了）</li>
 <li>最后loss函数，是对每个点都做logistic。</li>
 </ul>
-<h2 id="4_Multi-stage_FCNN">4 Multi-stage FCNN</h2><p>本质上是生成了三种特征输入，最后做一个fusion：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095402.png" alt=""><br>三种特征分别是Apperance，Motion，Structure。<br>作者这里比较仔细地讨论了fusion的方式：</p>
+<h2 id="4_Multi-stage_FCNN">4 Multi-stage FCNN</h2><p>本质上是生成了三种特征输入，最后做一个fusion：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095402.png" alt=""><br>三种特征分别是Apperance，Motion，Structure。<br>作者这里比较仔细地讨论了fusion的方式：</p>
 <ul>
 <li>input fusion：直接在输入时候用channel拼起来</li>
 <li>feature fusion：在最后一层特征做fusion，之后predict结果</li>
 <li>decision fusion：三个网络三个predict map，最后对三张predict map做融合</li>
 </ul>
 <p>另外训练网络的细节也是用他们实验室一个常用的trick：训练好一个网络，fix住，然后训练后面的网络</p>
-<h2 id="结果">结果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130102716.png" alt=""><br>如上图，可以看成，其实fusion有提高，但是不会太多。感觉对于分割问题，同尺度的fusion对提高准确率差别不多。</p>
+<h2 id="结果">结果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130102716.png" alt=""><br>如上图，可以看成，其实fusion有提高，但是不会太多。感觉对于分割问题，同尺度的fusion对提高准确率差别不多。</p>
 
       
     </div>
@@ -183,9 +183,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/Computer-Vision/"> #Computer Vision </a>
+            <a href="/Blog/tags/Computer-Vision/"> #Computer Vision </a>
           
         </div>
       
@@ -194,13 +194,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/02/01/about-sparse-coding/">关于Sparse Coding</a>
+              <a href="/Blog/2015/02/01/about-sparse-coding/">关于Sparse Coding</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2014/11/28/paper-note-fcn-segment/">论文笔记 《Fully Convolutional Networks for Semantic Segmentation》</a>
+              <a href="/Blog/2014/11/28/paper-note-fcn-segment/">论文笔记 《Fully Convolutional Networks for Semantic Segmentation》</a>
             
           </div>
         </div>
@@ -217,7 +217,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2014/11/30/paper-note-fcnn-crowd-seg/"
-               data-title="论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》" data-url="http://zhangliliang.com/2014/11/30/paper-note-fcnn-crowd-seg/">
+               data-title="论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》" data-url="http://xuchuanhua.com/2014/11/30/paper-note-fcnn-crowd-seg/">
           </div>
         
       </div>
@@ -259,13 +259,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -279,7 +279,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -289,7 +289,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -300,7 +300,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -318,12 +318,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -355,7 +355,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -381,13 +381,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -444,8 +444,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -939,7 +939,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;

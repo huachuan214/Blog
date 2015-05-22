@@ -12,13 +12,13 @@
 
 
 
-  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+  <link rel="stylesheet" type="text/css" href="/Blog/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
 
 
-<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.2"/>
+<link rel="stylesheet" type="text/css" href="/Blog/css/main.css?v=0.4.2"/>
 
 
-    <meta name="description" content="On My Way to Be a Tech-savvy Researcher" />
+    <meta name="description" content="Travel to Be a DL Researcher" />
 
 
 
@@ -26,11 +26,11 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="在路上" type="application/atom+xml" />
+  <link rel="alternate" href="/Blog/atom.xml" title="旅爱" type="application/atom+xml" />
 
 
 
-  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.2" />
+  <link rel="shorticon icon" type="image/x-icon" href="/Blog/favicon.ico?v=0.4.2" />
 
 
 
@@ -45,7 +45,7 @@
   </script>
 
 
-  <title> Caffe源码阅读（2） 卷积层 // 在路上 </title>
+  <title> Caffe源码阅读（2） 卷积层 [旅爱] </title>
 </head>
 
 <body>
@@ -57,11 +57,11 @@
       <div class="header-inner">
         <h1 class="site-meta">
   <span class="logo-line-before"><i></i></span>
-  <a href="/" class="brand">
+  <a href="/Blog/" class="brand">
       <span class="logo">
         <i class="icon-logo"></i>
       </span>
-      <span class="site-title">在路上</span>
+      <span class="site-title">旅爱</span>
   </a>
   <span class="logo-line-after"><i></i></span>
 </h1>
@@ -72,7 +72,7 @@
     
       
       <li class="menu-item menu-item-home">
-        <a href="/">
+        <a href="/Blog/">
           <i class="menu-item-icon icon-home"></i> <br />
           首页
         </a>
@@ -80,7 +80,7 @@
     
       
       <li class="menu-item menu-item-archives">
-        <a href="/archives">
+        <a href="/Blog/archives">
           <i class="menu-item-icon icon-archives"></i> <br />
           归档
         </a>
@@ -88,7 +88,7 @@
     
       
       <li class="menu-item menu-item-tags">
-        <a href="/tags">
+        <a href="/Blog/tags">
           <i class="menu-item-icon icon-tags"></i> <br />
           标签
         </a>
@@ -96,7 +96,7 @@
     
       
       <li class="menu-item menu-item-about">
-        <a href="/about">
+        <a href="/Blog/about">
           <i class="menu-item-icon icon-about"></i> <br />
           关于
         </a>
@@ -142,7 +142,7 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2015/02/11/about-caffe-code-convolutional-layer/#comments" >
+            <a href="/Blog/2015/02/11/about-caffe-code-convolutional-layer/#comments" >
               <span class="post-comments-count ds-thread-count" data-thread-key="2015/02/11/about-caffe-code-convolutional-layer/"></span>
             </a>
           </span>
@@ -157,7 +157,7 @@
       
 
       
-        <p>大约半年前写过一篇关于Caffe全连接层的<a href="/2014/09/15/about-caffe-code-full-connected-layer/">文章</a>，这次更新卷积层的。</p>
+        <p>大约半年前写过一篇关于Caffe全连接层的<a href="/Blog/2014/09/15/about-caffe-code-full-connected-layer/">文章</a>，这次更新卷积层的。</p>
 <p>一开始笔者先看了卷积层的梯度传导公式，参考了这两篇：</p>
 <blockquote>
 <ol>
@@ -176,7 +176,7 @@
 <p>所以卷积看成是多个局部的全连接。笔者记得在某个地方看到过，实现卷积的方式有两个，一个是像caffe里面的im2col，另外一个是傅里叶变换。而后者的速度比较快，那么看来facebook给出的加速代码应该是用了傅里叶变换咯：)<br>言归正传，如果能够理解到<code>im2col</code>的作用，那么backward的代码也很容易理解了。<br>对于bias，直接就是delta(可能还要乘以<code>bias_multiplier_</code>，这个是Caffe自己的功能，默认不开启，即<code>bias_multiplier_=1</code>)<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Bias gradient, if necessary.</span></span><br><span class="line"><span class="keyword">if</span> <span class="comment">(bias_term_ &amp;&amp; this-&gt;param_propagate_down_[1])</span> &#123;</span><br><span class="line">  top_diff = top[i]-&gt;cpu_diff<span class="comment">()</span>;</span><br><span class="line">  for <span class="comment">(int n = 0; n &lt; num_; ++n)</span> &#123;</span><br><span class="line">	caffe_cpu_gemv&lt;Dtype&gt;<span class="comment">(CblasNoTrans, num_output_, N_,</span><br><span class="line">		1., top_diff + top[0]-&gt;offset(n)</span>,</span><br><span class="line">		bias_multiplier_.cpu_data<span class="comment">()</span>, <span class="number">1.</span>,</span><br><span class="line">		bias_diff);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>对于weights，batch中的每张图片，首先还是用<code>im2col</code>展开，之后用矩阵乘法表示累加：<br><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Since we saved memory in the forward pass by not storing all col</span></span><br><span class="line"><span class="comment">// data, we will need to recompute them.</span></span><br><span class="line">im2col_cpu(bottom_data + (*bottom)[i]-&gt;offset(<span class="keyword">n</span>), channels_, height_,</span><br><span class="line">		   width_, kernel_h_, kernel_w_, pad_h_, pad_w_,</span><br><span class="line">		   stride_h_, stride_w_, col_data);</span><br><span class="line"><span class="comment">// gradient w.r.t. weight. Note that we will accumulate diffs.</span></span><br><span class="line"><span class="keyword">if</span> (this-&gt;param_propagate_down_[0]) &#123;</span><br><span class="line">  <span class="keyword">for</span> (int <span class="keyword">g</span> = 0; <span class="keyword">g</span> &lt; group_; ++<span class="keyword">g</span>) &#123;</span><br><span class="line">	caffe_cpu_gemm&lt;Dtype&gt;(CblasNoTrans, CblasTrans, M_, K_, N_,</span><br><span class="line">		(Dtype)1., top_diff + top[i]-&gt;offset(<span class="keyword">n</span>) + top_offset * <span class="keyword">g</span>,</span><br><span class="line">		col_data + col_offset * <span class="keyword">g</span>, (Dtype)1.,</span><br><span class="line">		weight_diff + weight_offset * <span class="keyword">g</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>最后是计算需要传回前一层的delta，也是先看成多个独立的全连接，但是最后需要还原成带有空间结构的形状，需要调用逆过程<code>col2im</code>，其实也是一个累加的过程，让每个空间位置的delta累加起来。<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gradient w.r.t. bottom data, if necessary.</span></span><br><span class="line"><span class="keyword">if</span> <span class="comment">(propagate_down[i])</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> <span class="comment">(weight == NULL)</span> &#123;</span><br><span class="line">	weight = this-&gt;blobs_[<span class="number">0</span>]-&gt;cpu_data<span class="comment">()</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  for <span class="comment">(int g = 0; g &lt; group_; ++g)</span> &#123;</span><br><span class="line">	caffe_cpu_gemm&lt;Dtype&gt;<span class="comment">(CblasTrans, CblasNoTrans, K_, N_, M_,</span><br><span class="line">		(Dtype)</span><span class="number">1.</span>, weight + weight_offset * g,</span><br><span class="line">		top_diff + top[i]-&gt;offset<span class="comment">(n)</span> + top_offset * g,</span><br><span class="line">		<span class="comment">(Dtype)</span><span class="number">0.</span>, col_diff + col_offset * g);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// col2im back to the data</span></span><br><span class="line">  col<span class="number">2</span>im_cpu<span class="comment">(col_diff, channels_, height_, width_,</span><br><span class="line">	  kernel_h_, kernel_w_, pad_h_, pad_w_,</span><br><span class="line">	  stride_h_, stride_w_, bottom_diff + (*bottom)</span>[i]-&gt;offset<span class="comment">(n)</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>最后附带一提，在<a href="/2015/02/11/about-convolution/">“关于卷积”那篇</a>也提到了卷积运算是先要将kernel旋转180度之后再扫过去的。可以看出Caffe源码是没有这一步的，所以最后学出来的“kernel”实际上是应该还要旋转回来才是正确的卷积核。</p>
+<p>最后附带一提，在<a href="/Blog/2015/02/11/about-convolution/">“关于卷积”那篇</a>也提到了卷积运算是先要将kernel旋转180度之后再扫过去的。可以看出Caffe源码是没有这一步的，所以最后学出来的“kernel”实际上是应该还要旋转回来才是正确的卷积核。</p>
 
       
     </div>
@@ -185,9 +185,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CNN/"> #CNN </a>
+            <a href="/Blog/tags/CNN/"> #CNN </a>
           
-            <a href="/tags/tools/"> #tools </a>
+            <a href="/Blog/tags/tools/"> #tools </a>
           
         </div>
       
@@ -196,13 +196,13 @@
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2015/02/20/paper-note-super-resolution-for-single-image/">论文笔记 《Super-Resolution from a Single Image》</a>
+              <a href="/Blog/2015/02/20/paper-note-super-resolution-for-single-image/">论文笔记 《Super-Resolution from a Single Image》</a>
             
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2015/02/11/about-convolution/">关于卷积</a>
+              <a href="/Blog/2015/02/11/about-convolution/">关于卷积</a>
             
           </div>
         </div>
@@ -219,7 +219,7 @@
       <div class="comments" id="comments">
         
           <div class="ds-thread" data-thread-key="2015/02/11/about-caffe-code-convolutional-layer/"
-               data-title="Caffe源码阅读（2） 卷积层" data-url="http://zhangliliang.com/2015/02/11/about-caffe-code-convolutional-layer/">
+               data-title="Caffe源码阅读（2） 卷积层" data-url="http://xuchuanhua.com/2015/02/11/about-caffe-code-convolutional-layer/">
           </div>
         
       </div>
@@ -261,13 +261,13 @@
 
       <div class="site-overview">
         <div class="site-author motion-element">
-          <img class="site-author-image" src="/images/default_avatar.jpg" alt="Zhang Liliang" />
-          <p class="site-author-name">Zhang Liliang</p>
+          <img class="site-author-image" src="/Blog/images/default_avatar.jpg" alt="Xu Chuanhua" />
+          <p class="site-author-name">Xu Chuanhua</p>
         </div>
-        <p class="site-description motion-element">On My Way to Be a Tech-savvy Researcher</p>
+        <p class="site-description motion-element">Travel to Be a DL Researcher</p>
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
-            <a href="/archives">
+            <a href="/Blog/archives">
               <span class="site-state-item-count">68</span>
               <span class="site-state-item-name">日志</span>
             </a>
@@ -281,7 +281,7 @@
           </div>
 
           <div class="site-state-item site-state-tags">
-            <a href="/tags">
+            <a href="/Blog/tags">
               <span class="site-state-item-count">18</span>
               <span class="site-state-item-name">标签</span>
               </a>
@@ -291,7 +291,7 @@
 
         
           <div class="feed-link motion-element">
-            <a href="/atom.xml">
+            <a href="/Blog/atom.xml">
               <i class="menu-item-icon icon-feed"></i>
               RSS
             </a>
@@ -302,7 +302,7 @@
           
             
               <span class="links-of-author-item">
-              <a href="https://github.com/zhangliliang" target="_blank">GitHub</a>
+              <a href="https://github.com/xuchuanhua" target="_blank">GitHub</a>
             </span>
             
               <span class="links-of-author-item">
@@ -320,12 +320,12 @@
         
           <div class="cc-license motion-element">
             <a href="http://creativecommons.org/licenses/by-nc-sa/4.0" class="cc-opacity" target="_blank">
-              <img src="/images/cc-by-nc-sa.svg" alt="Creative Commons" />
+              <img src="/Blog/images/cc-by-nc-sa.svg" alt="Creative Commons" />
             </a>
           </div>
         
 		
-		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://zhangliliang.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/zhangliliang.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
+		<div style="position:relitive; left:60px;float:bottom" id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://xuchuanhua.com/', 'user' : 1169316, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-05-13', 'lang' : 'zh', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/78011d7a4"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/xuchuanhua.com--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
 
       </div>
 
@@ -357,7 +357,7 @@
   <span class="with-love">
     <i class="icon-heart"></i>
   </span>
-  <span class="author">Zhang Liliang</span>
+  <span class="author">Xu Chuanhua</span>
 </div>
 
 <div class="powered-by">
@@ -383,13 +383,13 @@
     <div class="back-to-top"></div>
   </div>
 
-  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+  <script type="text/javascript" src="/Blog/vendors/jquery/index.js?v=2.1.3"></script>
 
   
   
 
   
-  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $('.content img').each(function () {
@@ -446,8 +446,8 @@
 
   
 
-  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
-  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/Blog/vendors/velocity/velocity.ui.min.js"></script>
 
   <script type="text/javascript" id="motion.global">
   $(document).ready(function () {
@@ -941,7 +941,7 @@
   
 
   <script type="text/javascript">
-    var duoshuoQuery = {short_name:"zhangliliang"};
+    var duoshuoQuery = {short_name:"xuchuanhua"};
     (function() {
       var ds = document.createElement('script');
       ds.type = 'text/javascript';ds.async = true;
