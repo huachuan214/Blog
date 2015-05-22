@@ -159,14 +159,14 @@
       
         <p>这里主要是说一个计算图片的质量评估函数，叫SSIM，即Structure Similarity，在TIP04时候发表的工作，至今引用量超过9k，可见影响深远。出处是：<a href="http://ece.uwaterloo.ca/~z70wang/publications/ssim.pdf" target="_blank" rel="external">http://ece.uwaterloo.ca/~z70wang/publications/ssim.pdf</a><br>目前仅记录SSIM的计算公式，后续如果需要再深入推敲一下。</p>
 <h2 id="引入">引入</h2><p>首先还是要简单引入一下SSIM，它是一个图片质量的评估函数。<br>在它之前比较常见的评估函数是MSE(或者PSNR，本质上跟MSE就差了一个倒数加缩放因子)，作者将这一类评估方法称为quality assessment system based on error sensitivity，认为这种函数忽略了人类视觉系统的一些属性，所以是不准确的。<br>作者认为人类视觉系统更加看重与图片的结构信息（… the assumption that the human visual system is highly adapted to extract structural information from the viewing field.），于是就提出了基于结构相似度的图像评估方法，也就是SSIM了。</p>
-<h2 id="公式">公式</h2><p>作者给出了一个图表说明SSIM的计算过程，不得不赞一下这个图做得相当漂亮。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429201314.png" alt=""><br>从上图可以看出，SSIM的计算需要综合三个component，即luminance,constact和structure，所以总体的SSIM公式可以写成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429201326.png" alt=""><br>需要注意上述公式是对图片中的一个小patch进行求取的，作者认为这样能够减少variance，提高准确率。<br>然后对于每个component进行解释。</p>
+<h2 id="公式">公式</h2><p>作者给出了一个图表说明SSIM的计算过程，不得不赞一下这个图做得相当漂亮。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429201314.png" alt=""><br>从上图可以看出，SSIM的计算需要综合三个component，即luminance,constact和structure，所以总体的SSIM公式可以写成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429201326.png" alt=""><br>需要注意上述公式是对图片中的一个小patch进行求取的，作者认为这样能够减少variance，提高准确率。<br>然后对于每个component进行解释。</p>
 <ul>
 <li>对于luminance，对比的主体是patch的均值</li>
 <li>对于constract，对比的主体是patch的标准差</li>
 <li>对于structure，对比的主体是patch的归一化结果（也就是减去均值然后除以方差）</li>
 </ul>
-<p>然后，又考虑到几个因素，比如对偶性和有界性后，最后设定了一些超参数，得到SSIM的公式为：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429202222.png" alt=""></p>
-<p>最后，对于图片每个patch都求得一个SSIM，最后平均一下得到的MSSIM就是针对全图的分数了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429202231.png" alt=""></p>
+<p>然后，又考虑到几个因素，比如对偶性和有界性后，最后设定了一些超参数，得到SSIM的公式为：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429202222.png" alt=""></p>
+<p>最后，对于图片每个patch都求得一个SSIM，最后平均一下得到的MSSIM就是针对全图的分数了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429202231.png" alt=""></p>
 
       
     </div>

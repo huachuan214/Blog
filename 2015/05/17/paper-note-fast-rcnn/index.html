@@ -172,7 +172,7 @@
 <li>对于每个scale的每个ROI，求取映射关系，在conv5中crop出对应的patch。并用一个单层的SPP layer（这里称为Rol pooling layer）来统一到一样的尺度（对于AlexNet是6x6）。</li>
 <li>继续经过两个全连接得到特征，这特征有分别share到两个新的全连接，连接上两个优化目标。第一个优化目标是分类，使用softmax，第二个优化目标是bbox regression，使用了一个smooth的L1-loss.</li>
 </ol>
-<p>除了1，上面的2-4是joint training的。<br>测试时候，在4之后做一个NMS即可。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517103126.png" alt=""></p>
+<p>除了1，上面的2-4是joint training的。<br>测试时候，在4之后做一个NMS即可。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517103126.png" alt=""></p>
 <p>整体框架大致如上述所示了，对比回来SPP-Net，可以看出<strong>FRCN大致就是一个joint training版本的SPP-Net</strong>，改进如下：</p>
 <ol>
 <li>SPP-Net在实现上无法同时tuning在SPP layer两边的卷积层和全连接层。</li>
@@ -184,7 +184,7 @@
 <li>对于某个rol，怎么求取对应的feature map patch？这个论文没有提及，笔者也还没有仔细去抠，觉得这个问题可以到代码中寻找。:)</li>
 <li>为何只是一层的SPP layer？多层的SPP layer不会更好吗？对于这个问题，笔者认为是因为需要读取pretrain model来finetuning的原因，比如VGG就release了一个19层的model，如果是使用多层的SPP layer就不能够直接使用这个model的parameters，而需要重新训练了。</li>
 </ol>
-<h2 id="Multi-task_loss">Multi-task loss</h2><p>FRCN有两个loss，以下分别介绍。<br>对于分类loss，是一个N+1路的softmax输出，其中的N是类别个数，1是背景。为何不用SVM做分类器了？在5.4作者讨论了softmax效果比SVM好，因为它引入了类间竞争。（笔者觉得这个理由略牵强，估计还是实验效果验证了softmax的performance好吧 ^_^）<br>对于回归loss，是一个4xN路输出的regressor，也就是说对于每个类别都会训练一个单独的regressor的意思，比较有意思的是，这里regressor的loss不是L2的，而是一个平滑的L1，形式如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517114340.png" alt=""><br>作者这样设置的目的是想让loss对于离群点更加鲁棒，控制梯度的量级使得训练时不容易跑飞。<br>最后在5.1的讨论中，作者说明了Multitask loss是有助于网络的performance的。</p>
+<h2 id="Multi-task_loss">Multi-task loss</h2><p>FRCN有两个loss，以下分别介绍。<br>对于分类loss，是一个N+1路的softmax输出，其中的N是类别个数，1是背景。为何不用SVM做分类器了？在5.4作者讨论了softmax效果比SVM好，因为它引入了类间竞争。（笔者觉得这个理由略牵强，估计还是实验效果验证了softmax的performance好吧 ^_^）<br>对于回归loss，是一个4xN路输出的regressor，也就是说对于每个类别都会训练一个单独的regressor的意思，比较有意思的是，这里regressor的loss不是L2的，而是一个平滑的L1，形式如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517114340.png" alt=""><br>作者这样设置的目的是想让loss对于离群点更加鲁棒，控制梯度的量级使得训练时不容易跑飞。<br>最后在5.1的讨论中，作者说明了Multitask loss是有助于网络的performance的。</p>
 <h2 id="Scale_invariance">Scale invariance</h2><p>这里讨论object的scale问题，就是网络对于object的scale应该是要不敏感的。这里还是引用了SPP的方法，有两种。</p>
 <ol>
 <li>brute force （single scale），也就是简单认为object不需要预先resize到类似的scale再传入网络，直接将image定死为某种scale，直接输入网络来训练就好了，然后期望网络自己能够学习到scale-invariance的表达。</li>
@@ -198,7 +198,7 @@
 <li>有没有必要tuning所有的卷积层？答案是没有。如果留着浅层的卷积层不tuning，可以减少训练时间，而且mAP基本没有差别。</li>
 </ol>
 <h2 id="Data_augment">Data augment</h2><p>在训练期间，作者做过的唯一一个数据增量的方式是水平翻转。<br>作者也试过将VOC12的数据也作为拓展数据加入到finetune的数据中，结果VOC07的mAP从66.9到了70.0，说明对于网络来说，数据越多就是越好的。</p>
-<h2 id="Are_more_proposals_always_better？">Are more proposals always better？</h2><p>对应文章的5.5，答案是NO。<br>作者将proposal的方法粗略地分成了sparse（比如selective search）和dense（sliding windows）。<br>如Figure 3所示，不管是哪种方法，盲目增加proposal个数反而会损害到mAP的。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517125419.png" alt=""><br>作者引用了文献11的一句话来说明：““[sparse proposals] may improve detection quality by reducing spurious false positives.”<br>然后笔者搜索了一下，发现<a href="http://www.robots.ox.ac.uk/~vgg/rg/papers/hosang_pami15.pdf" target="_blank" rel="external">文献11</a>被TPAMI15录取了，看来也是要看一下啊。。</p>
+<h2 id="Are_more_proposals_always_better？">Are more proposals always better？</h2><p>对应文章的5.5，答案是NO。<br>作者将proposal的方法粗略地分成了sparse（比如selective search）和dense（sliding windows）。<br>如Figure 3所示，不管是哪种方法，盲目增加proposal个数反而会损害到mAP的。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517125419.png" alt=""><br>作者引用了文献11的一句话来说明：““[sparse proposals] may improve detection quality by reducing spurious false positives.”<br>然后笔者搜索了一下，发现<a href="http://www.robots.ox.ac.uk/~vgg/rg/papers/hosang_pami15.pdf" target="_blank" rel="external">文献11</a>被TPAMI15录取了，看来也是要看一下啊。。</p>
 
       
     </div>

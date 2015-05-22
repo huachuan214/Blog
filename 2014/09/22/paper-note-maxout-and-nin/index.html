@@ -189,7 +189,7 @@
 <li>maxout，有k个的3x3的w（这里的k是自由设定的），分别卷积得到k个1x1的输出，然后对这k个输入求最大值</li>
 <li>NIN，有k个3x3的w（这里的k也是自由设定的），分别卷积得到k个1x1的输出，然后对它们都进行relu，然后再次对它们进行卷积，结果再relu。（这个过程，等效于一个小型的全连接网络）</li>
 </ul>
-<h2 id="图例">图例</h2><p>继续渣手绘，从上到下分别对应常规卷积层，maxout，NIN：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/QQ图片20140922204523.jpg" alt=""></p>
+<h2 id="图例">图例</h2><p>继续渣手绘，从上到下分别对应常规卷积层，maxout，NIN：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/QQ图片20140922204523.jpg" alt=""></p>
 <h2 id="总结">总结</h2><p>总的来说，maxout和NIN都是对传统conv+relu的改进。<br>maxout想表明它能够拟合任何凸函数，也就能够拟合任何的激活函数（默认了激活函数都是凸的）<br>NIN想表明它不仅能够拟合任何凸函数，而且能够拟合任何函数，因为它本质上可以说是一个小型的全连接神经网络</p>
 
       

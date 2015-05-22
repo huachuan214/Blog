@@ -159,7 +159,7 @@
       
         <p>论文出处：<a href="http://arxiv.org/abs/1505.01749" target="_blank" rel="external">http://arxiv.org/abs/1505.01749</a></p>
 <h2 id="写在前面">写在前面</h2><p>今天连看了Fast RCNN和这一篇，一开始以为这篇会是Fast RCNN的加强版。看了之后发现不是，这篇提出的框架更像是SPP-Net的加强版，因为这篇并没有实现joint training，不同的步骤还是分开来跑的。不禁让人想，如果能够结合这篇和Fast RCNN的所有技巧，VOC07的mAP会不会上80%了啊。。Detection进步确实太快了。<br>闲话少说，下面进入正题。:)</p>
-<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
+<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
 <ol>
 <li>提出一个multi-region CNN 来增强特征</li>
 <li>提出一个semantic segmentation-aware CNN再进一步增强特征</li>
@@ -174,16 +174,16 @@
 <li>然后各自经过两个全连接层进一步提取特征</li>
 <li>最后所有特征连在一起得到一个长特征。</li>
 </ol>
-<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
+<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
 <ol>
 <li>原始的region，就是原来的那个object proposal的位置，对应Figure的中a</li>
 <li>截半，对应Figure3的b-e</li>
 <li>中心区域，对应g和h</li>
-<li>边界区域，对应i和j<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
+<li>边界区域，对应i和j<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
 <li>不同的region是focus在不同的物体区域的，所以他们应该是互补的，能够增强特征的多样性</li>
 <li>认为这个方法能够有效应对object proposal时候定位不准确的问题，并在6.2和6.3通过实验验证</li>
 </ol>
-<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
+<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
 <h2 id="Object_localization">Object localization</h2><p>这一步，对应的是RCNN或者SPP-Net的最后一步，也就是得到结果之后，对位置重新进行一次regression，不过这里做了几点的改进：</p>
 <ol>
 <li>使用CNN来训练regressor（在RCNN中是使用简单的函数来训练regressor的），具体来说跟Fast RCNN比较像啦，输出是4xC个值，其中C是类别个数，不过这里直接用L2 loss拟合完事。</li>

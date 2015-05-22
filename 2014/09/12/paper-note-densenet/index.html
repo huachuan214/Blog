@@ -165,9 +165,9 @@
 <li>将25个不同分辨率的图片拼成一个大图（为啥？下面说）</li>
 <li>将大图输入到CNN中（具体实现是caffe）</li>
 <li>得到了大图的feature map</li>
-<li>将大图裁剪成小图，得到特征金字塔<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912165233.png" alt=""></li>
+<li>将大图裁剪成小图，得到特征金字塔<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912165233.png" alt=""></li>
 </ol>
-<h2 id="动机">动机</h2><p>自然是用来替代HoG了，可以参考DPM中HoG的使用方法<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912165726.png" alt=""><br>作者最后也是给出了方便的接口，但是我没有找到代码。。。囧<br>DPM HOG: pyra = featpyramid(image)<br>DenseNet: pyra = convnet featpyramid(image filename)</p>
+<h2 id="动机">动机</h2><p>自然是用来替代HoG了，可以参考DPM中HoG的使用方法<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912165726.png" alt=""><br>作者最后也是给出了方便的接口，但是我没有找到代码。。。囧<br>DPM HOG: pyra = featpyramid(image)<br>DenseNet: pyra = convnet featpyramid(image filename)</p>
 <h2 id="实现">实现</h2><ul>
 <li><p>为何要拼成大图</p>
 <ul>
@@ -186,7 +186,7 @@
 <li>上图是用常规方法（类似selective search的region proposal）得到的feature map</li>
 <li>下图是用本文的方法（直接在原图上做）得到的feature map</li>
 </ul>
-<p>作者想claim的是，最后得到的feature map看起来长得差不多。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912170612.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912170620.png" alt=""></p>
+<p>作者想claim的是，最后得到的feature map看起来长得差不多。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912170612.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20140912170620.png" alt=""></p>
 <h2 id="拓展">拓展</h2><p>这篇文章作者是没有做实验验证效果的。另外一篇ECCV14的<a href="https://filebox.ece.vt.edu/~parikh/PnA2014/posters/Posters/SavallePnA2014.pdf" target="_blank" rel="external">workshop</a><br>用了把本文的CNN的特征金字塔用在了DPM上，下一篇博文会进行简单描述。</p>
 
       

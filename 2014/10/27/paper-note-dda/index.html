@@ -159,21 +159,21 @@
       
         <p>笔者吐槽，原来一个月没更新没看论文了。</p>
 <h2 id="来源">来源</h2><p>NIPS2014的一篇：<a href="http://www.eecs.berkeley.edu/~jhoffman/papers/adaptdet-submission_7-15-14.pdf" target="_blank" rel="external">http://www.eecs.berkeley.edu/~jhoffman/papers/adaptdet-submission_7-15-14.pdf</a></p>
-<h2 id="动机">动机</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152257.png" alt=""><br>如上图，动机简单来说是，物体的用来做cls的label易得，而用来做det的bbox不易得。<br>于是，我们能否找到一种方法，将一些有bbox信息的类的det功能transfer到另外一些没有给出bbox的类呢？<br>作者说可以：如果我们有一些类别，是同时知道它们的label和bbox的，那么能够找到一个方法，让另外一些没有给出bbox但给出了label的类，也能训练出一个不错的detector。</p>
-<h2 id="方法简述">方法简述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152307.png" alt=""><br>如上图。上面所说的有label也有bbox的集合称为B（图中绿色的部分），只有label而没有bbox的类为A类（图中的蓝色部分）<br>过程大致分成a) b) c)三步，依次解释：</p>
+<h2 id="动机">动机</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152257.png" alt=""><br>如上图，动机简单来说是，物体的用来做cls的label易得，而用来做det的bbox不易得。<br>于是，我们能否找到一种方法，将一些有bbox信息的类的det功能transfer到另外一些没有给出bbox的类呢？<br>作者说可以：如果我们有一些类别，是同时知道它们的label和bbox的，那么能够找到一个方法，让另外一些没有给出bbox但给出了label的类，也能训练出一个不错的detector。</p>
+<h2 id="方法简述">方法简述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152307.png" alt=""><br>如上图。上面所说的有label也有bbox的集合称为B（图中绿色的部分），只有label而没有bbox的类为A类（图中的蓝色部分）<br>过程大致分成a) b) c)三步，依次解释：</p>
 <ul>
 <li>a) 首先用AlexNet和Imagenet的120w图片训练一个用于做cls的1k路softmax分类器。然后摘掉softmax，换成multinomial logistic regression，重新finetuning。（由于这一步做的是cls，这里对A，B都做）</li>
 <li>b) 然后只考虑B，用RCNN框架再次tuning出适合det的一个网络，注意到这里也是添加了一个背景类（红色部分）</li>
 <li>c) 之后将A接回来就好了（。。。就是那么粗暴），中间黄色的部分代表某种变换，下面会说，但其实起到的作用不大。</li>
 </ul>
-<h2 id="效果">效果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152333.png" alt=""><br>如果直接用a)的cls，mAP大概是10.3%，如果经过b)和c)后，提高到15.85。加了黄色的变换，提高了一点，到15.97，所以其实没啥作用。下面解释下黄色变换部分是什么。</p>
+<h2 id="效果">效果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152333.png" alt=""><br>如果直接用a)的cls，mAP大概是10.3%，如果经过b)和c)后，提高到15.85。加了黄色的变换，提高了一点，到15.97，所以其实没啥作用。下面解释下黄色变换部分是什么。</p>
 <h2 id="黄色的adapt部分">黄色的adapt部分</h2><p>其实只是加了一种假设，就是A中的变化跟B应该是类似的。<br>于是作者加了一个最近邻思想的微调：</p>
 <ol>
 <li>对于A中某个类，找出B中跟他最相似的N个类（这里的相似用fc7特征的l2距离衡量）</li>
 <li>算出这N个类在a)和b)之间的变化，求平均</li>
 <li>给A的那个类也加上这个平均。</li>
 </ol>
-<p>用公式表示就是下面这个。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152325.png" alt=""></p>
+<p>用公式表示就是下面这个。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20141027152325.png" alt=""></p>
 <h2 id="总结">总结</h2><p>笔者感觉这个方法很暴力啊。。。。也就是认为了用det信息来finetuning之后，之前的层次就具有了det的能力？感觉略牵强。</p>
 
       

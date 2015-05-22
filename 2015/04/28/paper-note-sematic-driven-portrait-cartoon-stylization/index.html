@@ -158,18 +158,18 @@
 
       
         <p>是某个实验室前辈ICIP10的oral paper，连接见这里：<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715" target="_blank" rel="external">http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715</a></p>
-<h2 id="流程">流程</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
-<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
-<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
+<h2 id="流程">流程</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
+<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
+<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
 <h2 id="Stylization">Stylization</h2><p>这里可以理解成分别用上面两张salmap作为引导图进行滤波，滤波要求满足，</p>
 <ol>
 <li>结果图像比起原图不能有太剧烈的变化（或者轮廓上不能有太剧烈的变化，相当于正则项）</li>
 <li>结果图像和引导图的梯度要相近或相关。</li>
 </ol>
-<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
-<p>sketch的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
-<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
-<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
+<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
+<p>sketch的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
+<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
+<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
 
       
     </div>

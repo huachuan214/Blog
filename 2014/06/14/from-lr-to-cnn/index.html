@@ -186,7 +186,7 @@
 <p>这里为何要使用一个复杂的损失函数这构造了一个<strong>凸函数</strong>，而如果直接使用最小二乘进行定义，损失函数会变成非凸函数。</p>
 <p>实际上逻辑回归模型虽然名字带有<strong>回归</strong>，实际上一般用于二<strong>分类</strong>问题。即对$\hat{y}$设置一个阈值（一般是0.5），便实现了二分类问题。</p>
 <p><strong>而逻辑回归模型的另外一个名称为神经元模型——即我们认为大脑的神经元有着像上述模型一样的结构：一个神经元会根据与它相连的神经元的输入（$x$）做出反应，决定自身的激活程度（一般用sigmoid函数衡量激活程度），并将激活后的数值（$y$）输出到其他神经元。</strong><br><img src="http://deeplearning.stanford.edu/wiki/images/thumb/3/3d/SingleNeuron.png/300px-SingleNeuron.png" alt=""><br><small>图3 逻辑回归模型，即单个的神经元模型</small></p>
-<h3 id="神经网络（Neural_Network，简称NN）">神经网络（Neural Network，简称NN）</h3><p>逻辑回归的决策平面是线性的，所以，它一般只能够解决样本是<strong>线性可分</strong>的情况。<br>如果样本呈现非线性的时候，我们可以引入<a href="http://en.wikipedia.org/wiki/Polynomial_regression" target="_blank" rel="external">多项式回归</a>。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/polynomial%20regression.png" alt=""><br><small>图4 多项式回归解决样本线性不可分的情况，图片来自Andrew Ng的<a href="https://www.coursera.org/course/ml" target="_blank" rel="external">Machine Learning课程的课件</a></small></p>
+<h3 id="神经网络（Neural_Network，简称NN）">神经网络（Neural Network，简称NN）</h3><p>逻辑回归的决策平面是线性的，所以，它一般只能够解决样本是<strong>线性可分</strong>的情况。<br>如果样本呈现非线性的时候，我们可以引入<a href="http://en.wikipedia.org/wiki/Polynomial_regression" target="_blank" rel="external">多项式回归</a>。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/polynomial%20regression.png" alt=""><br><small>图4 多项式回归解决样本线性不可分的情况，图片来自Andrew Ng的<a href="https://www.coursera.org/course/ml" target="_blank" rel="external">Machine Learning课程的课件</a></small></p>
 <p>其实，多项式回归也可以看成是线性回归或者逻辑回归的一个特例——将线性回归或者逻辑回归的特征$x$转化为${x}^{2}, {x}^{3}…$等非线性的特征组合，然后对其进行线性的拟合。<br>多项式回归虽然能够解决非线性问题，但需要<strong>人工</strong>构造非线性的特征，那么，是否有一种模型，既能够应付样本非线性可分的情况，又同时能够<strong>自动</strong>构造非线性的特征呢？<br>答案是有的，这个模型就是<a href="http://deeplearning.stanford.edu/wiki/index.php/Neural_Networks" target="_blank" rel="external">神经网络</a>。<br><img src="http://deeplearning.stanford.edu/wiki/images/thumb/9/99/Network331.png/400px-Network331.png" alt=""><br><small>图5 带一个隐层的神经网络模型</small></p>
 <p>如图5所示，每个圆圈都是一个神经元（或者说是一个逻辑回归模型）。所以神经网络可以看成“线性组合-非线性激活函数-线性组合-非线性激活函数…”这样的较为复杂网络结构，它的决策面是复杂的，于是能够适应样本非线性可分的情况。<br>另一方面，图5中中间一列的橙色神经元构成的层次我们成为隐层。我们认为<strong>隐层的神经元对原始特征进行了组合，并提取出来了新的特征，而这个过程是模型在训练过程中自动“学习”出来的。</strong><br>神经网络的fomulation相对较为复杂，已经超出本文的范围，可参考<a href="http://deeplearning.stanford.edu/wiki/index.php/Neural_Networks" target="_blank" rel="external">Standford的深度学习教程</a></p>
 <h3 id="支持向量机（简称SVM）">支持向量机（简称SVM）</h3><p>神经网络的出现一度引起研究热潮，但神经网络有它的缺点：</p>
@@ -197,7 +197,7 @@
 <li>浅层神经网络对于特征学习的表达能力有限。</li>
 <li>深层神经网络的参数繁多，一方面容易导致过拟合问题，另一方面因为训练时间过长而导致不可学习。<br>于是，在上世纪90年代<a href="http://en.wikipedia.org/wiki/Support_vector_machine" target="_blank" rel="external">SVM</a>被提出来后，神经网络一度衰落了。<br>那么SVM是什么？<br>SVM，更准确的说是L-SVM，本质上依然是一个线性分类器，SVM的核心思想在于它的分类准则——最大间隔（max margin）.<br><img src="http://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Svm_max_sep_hyperplane_with_margin.png/220px-Svm_max_sep_hyperplane_with_margin.png" alt=""><br><small>图6 L-SVM本质上是最大分类间隔的线性分类器</small></li>
 </ul>
-<p>同为线性分类器的拓展，逻辑回归和L-SVM有着千丝万缕的关系，Andrew Ng的课件有一张图很清晰地把这两者的代价函数联系起来了（见图7）。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/SVMvsLogistic.png" alt=""><br><small>图7 L-SVM和逻辑回归的代价函数对比，SVM的有一个明显的转折点</small></p>
+<p>同为线性分类器的拓展，逻辑回归和L-SVM有着千丝万缕的关系，Andrew Ng的课件有一张图很清晰地把这两者的代价函数联系起来了（见图7）。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/SVMvsLogistic.png" alt=""><br><small>图7 L-SVM和逻辑回归的代价函数对比，SVM的有一个明显的转折点</small></p>
 <p>由于L-SVM是线性分类器，所以不能解决样本线性不可分的问题。于是后来人们引入了核函数的概念，于是得到了K-SVM（K是Kernel的意思）。从本质上讲，核函数是用于将原始特征映射到高维的特征空间中去，并认为在高为特征空间中能够实现线性可分。个人认为，这个跟多项式回归的思想是类似的，只不过核函数涵括的范围更加广，以及形式上更加优雅，使得它能够避免维数灾难。<br><img src="http://img.my.csdn.net/uploads/201304/03/1364952814_3505.gif" alt=""><br><small>图8 Kernel能够对特征进行非线性映射(图片from pluskid)</small></p>
 <p>SVM比起神经网络有着以下的优点：</p>
 <ul>
@@ -242,7 +242,7 @@
 </ol>
 </blockquote>
 <p>于是神经网络能够得到重新兴起，也就可以解释了。下文会选取一些样例来说明神经网络的强大之处。</p>
-<h3 id="CNN样例1_AlexNet">CNN样例1 AlexNet</h3><p>在ImageNet举办的大规模图像识别比赛ILSVRC2012中分类比赛中，Hinton的学生Alex搭建了一个8层的CNN，最终top-5的漏报率是16%，抛离而第二名的27%整整有11个百分点。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/alexnet2012.png" alt=""><br><small>图10 AlexNet的CNN结构，包括5个卷积层，和3个全连接层，最后一个softmax分类器</small></p>
+<h3 id="CNN样例1_AlexNet">CNN样例1 AlexNet</h3><p>在ImageNet举办的大规模图像识别比赛ILSVRC2012中分类比赛中，Hinton的学生Alex搭建了一个8层的CNN，最终top-5的漏报率是16%，抛离而第二名的27%整整有11个百分点。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/alexnet2012.png" alt=""><br><small>图10 AlexNet的CNN结构，包括5个卷积层，和3个全连接层，最后一个softmax分类器</small></p>
 <p>这个网络中用到的技术有：</p>
 <ul>
 <li>ReLU激活函数</li>
@@ -252,8 +252,8 @@
 <li>通过随机截取和PCA来增加数据</li>
 <li>Dropout</li>
 </ul>
-<h3 id="CNN样例2_deconvnet">CNN样例2 deconvnet</h3><p>在下一年的比赛ILSVRC2013中，在同样的数据集同样的任务下，Matthew进一步将漏报率降到了11%。他使用了一个被命名为“Deconvolutional Network”（简称deconvnet）的技术。<br>Matthew的核心工作在于尝试将CNN学习出来的特征映射回原图片，来对每个卷积层最具有判别性的部分实现可视化——也就是，观察CNN在卷积层中学习到了什么。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/deconvnet.png" alt=""><br><small>图11 deconvnet的思想是将网络的输出还原成输入</small></p>
-<h3 id="CNN样例3_DeepPose">CNN样例3 DeepPose</h3><p>DeepPose的贡献在于它对CNN使用了级联的思想：首先，可以用第一层CNN大致定位出人物的关节位置，然后使用反复使用第二层神经网络对第一层网络进行微调，以达到精细定位的目的。<br>从另外一个角度，这个工作也说明了，CNN不仅能够应付分类问题，也能够应付定位的问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/deeppose.png" alt=""><br><small>图12 DeepPose通过级联地使用CNN来达到精细定位关节的位置</small></p>
+<h3 id="CNN样例2_deconvnet">CNN样例2 deconvnet</h3><p>在下一年的比赛ILSVRC2013中，在同样的数据集同样的任务下，Matthew进一步将漏报率降到了11%。他使用了一个被命名为“Deconvolutional Network”（简称deconvnet）的技术。<br>Matthew的核心工作在于尝试将CNN学习出来的特征映射回原图片，来对每个卷积层最具有判别性的部分实现可视化——也就是，观察CNN在卷积层中学习到了什么。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/deconvnet.png" alt=""><br><small>图11 deconvnet的思想是将网络的输出还原成输入</small></p>
+<h3 id="CNN样例3_DeepPose">CNN样例3 DeepPose</h3><p>DeepPose的贡献在于它对CNN使用了级联的思想：首先，可以用第一层CNN大致定位出人物的关节位置，然后使用反复使用第二层神经网络对第一层网络进行微调，以达到精细定位的目的。<br>从另外一个角度，这个工作也说明了，CNN不仅能够应付分类问题，也能够应付定位的问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/deeppose.png" alt=""><br><small>图12 DeepPose通过级联地使用CNN来达到精细定位关节的位置</small></p>
 <h3 id="CNN样例4_CNN_vs_人工特征">CNN样例4 CNN vs 人工特征</h3><p><a href="http://arxiv.org/abs/1403.6382" target="_blank" rel="external">CNN Features off-the-shelf: an Astounding Baseline for Recognition</a><br>该工作旨在验证CNN提取出来的特征是否有效，于是作者做了这样的一个实验：将在ILSVRC2013的分类+定位比赛中获胜的OverFeat团队使用CNN提取出来的特征，加上一个L-SVM后构成了一个分类器，去跟各个物体分类的数据集上目前最好(state-of-the-art)的方法进行比较，结果几乎取得了全面的优胜。</p>
 <h2 id="总结">总结</h2><p>本文对数个分类器模型进行了介绍，并尝试统一到神经元网络模型的框架之中。<br>神经元网络模型的发展一直发生停滞，只是在中途有着不同的发展方向和重点。<br>神经元网络模型是个极其有效的模型，近年来由于样本数量和计算性能都得到了几何量级的提高，CNN这一深度框架得以发挥它的优势，在计算机视觉的数个领域都取得了不菲的成就。<br>目前来说，对CNN本身的研究还不够深入，CNN效果虽然优秀，但对于我们来说依然是一个黑盒子。弄清楚这个黑盒子的构造，从而更好地去改进它，会是一个相当重要的工作。</p>
 <h2 id="参考">参考</h2><ol>

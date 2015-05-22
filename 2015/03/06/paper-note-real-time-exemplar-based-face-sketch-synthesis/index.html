@@ -158,17 +158,17 @@
 
       
         <p>项目地址：<a href="http://www.cs.cityu.edu.hk/~yibisong/eccv14/index.html" target="_blank" rel="external">http://www.cs.cityu.edu.hk/~yibisong/eccv14/index.html</a><br>是ECCV14的文章。<br><strong>作者的PPT做的很棒，超级直观，很值得学习。</strong></p>
-<h2 id="文章SSD方法陈述">文章SSD方法陈述</h2><p>直接用PPT的截图来介绍本文章。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片2.JPG" alt=""><br>Face Sketch Synthesis是这样一个问题，给出人物的photo（上图左边），想办法合成它对应的sketch（上图右边）。这个问题在刑侦和娱乐方面都很有用。</p>
+<h2 id="文章SSD方法陈述">文章SSD方法陈述</h2><p>直接用PPT的截图来介绍本文章。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片2.JPG" alt=""><br>Face Sketch Synthesis是这样一个问题，给出人物的photo（上图左边），想办法合成它对应的sketch（上图右边）。这个问题在刑侦和娱乐方面都很有用。</p>
 <p>下面3页介绍LLE（原文引用文献[13]）的思想。它是一个Exemplar based的方法，也就是需要一个额外的training data（photo-sketch对）来支持该方法。大概意思可以这样描述：</p>
 <ol>
-<li>来了一张待合成的photo，对于这个photo的每一个点p，以它为中心截一个小patch（图中小黑窗），在training data中的photo用KNN的方法找到最相似的K个patch。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片3.JPG" alt=""></li>
-<li>并用这K个patch重构这个p对应的photo patch，找到重构系数。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片4.JPG" alt=""></li>
-<li>然后这个重构系数能够映射到sketch中，也就是对应的K个sketch的中点的值用相同的重构系数组合后，就是p对应的sketch value。重复上述步骤直到生成了所有点的sketch value，组合起来就是一整张sketch。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片5.JPG" alt=""></li>
+<li>来了一张待合成的photo，对于这个photo的每一个点p，以它为中心截一个小patch（图中小黑窗），在training data中的photo用KNN的方法找到最相似的K个patch。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片3.JPG" alt=""></li>
+<li>并用这K个patch重构这个p对应的photo patch，找到重构系数。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片4.JPG" alt=""></li>
+<li>然后这个重构系数能够映射到sketch中，也就是对应的K个sketch的中点的值用相同的重构系数组合后，就是p对应的sketch value。重复上述步骤直到生成了所有点的sketch value，组合起来就是一整张sketch。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片5.JPG" alt=""></li>
 </ol>
-<p>然后上述的方法合成的结果不够完美，有很多噪点，<strong>很自然就想到用去噪的方式将噪点给去掉</strong>。不过，从结果看直接用现成的去噪方法效果提升并不大。比如下图中的NLM方法，它的假设是“<strong>如果图像中两个patch长得很像，那么patch的中心的那点也一定很像</strong>”，于是可以做这个一个过程，对于参考点p，截一个小patch，然后在附近找到外观相像的patch，越相像，就给予越大的权值w，最后p的值为这这些patch的中心的点的加权平均。如下图所示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片6.JPG" alt=""><br>作者认为去噪效果不好的原因是上面说的假设不成立，因为这里的patch是合成的，不够natural。所以估算出来的w就不准确啦。</p>
-<p>然后引入BM3D的思想，见下图gif超直观，它的假设是这样的，“<strong>图片中相似的块能够聚合成一组，同组内的图片块可以互相帮助来denosing</strong>”<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/cameraman_thr.gif" alt=""></p>
-<p>于是作者就用了这个思想咯，他将方法称为SSD，如下图，如果要计算p的值，那么其实可以用附近的点来帮助它，<strong>每个点都给出一个proposal</strong>。比如附近一个点q就能提供这样一个proposal，用的是q的最近邻的重构系数，加上之前NN估计出来的偏移，来估计p的值。然后r也能提供一个proposal，<strong>最后这些proposal求个平均就是p的值了</strong>。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片8.JPG" alt=""></p>
-<p>最后一张图作者想说明，取领域大小对于算法效果不敏感，算法保留细节做得很好，比如眼睛的亮斑。不过其实也可以看出，取越多就越模糊了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片9.JPG" alt=""></p>
+<p>然后上述的方法合成的结果不够完美，有很多噪点，<strong>很自然就想到用去噪的方式将噪点给去掉</strong>。不过，从结果看直接用现成的去噪方法效果提升并不大。比如下图中的NLM方法，它的假设是“<strong>如果图像中两个patch长得很像，那么patch的中心的那点也一定很像</strong>”，于是可以做这个一个过程，对于参考点p，截一个小patch，然后在附近找到外观相像的patch，越相像，就给予越大的权值w，最后p的值为这这些patch的中心的点的加权平均。如下图所示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片6.JPG" alt=""><br>作者认为去噪效果不好的原因是上面说的假设不成立，因为这里的patch是合成的，不够natural。所以估算出来的w就不准确啦。</p>
+<p>然后引入BM3D的思想，见下图gif超直观，它的假设是这样的，“<strong>图片中相似的块能够聚合成一组，同组内的图片块可以互相帮助来denosing</strong>”<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/cameraman_thr.gif" alt=""></p>
+<p>于是作者就用了这个思想咯，他将方法称为SSD，如下图，如果要计算p的值，那么其实可以用附近的点来帮助它，<strong>每个点都给出一个proposal</strong>。比如附近一个点q就能提供这样一个proposal，用的是q的最近邻的重构系数，加上之前NN估计出来的偏移，来估计p的值。然后r也能提供一个proposal，<strong>最后这些proposal求个平均就是p的值了</strong>。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片8.JPG" alt=""></p>
+<p>最后一张图作者想说明，取领域大小对于算法效果不敏感，算法保留细节做得很好，比如眼睛的亮斑。不过其实也可以看出，取越多就越模糊了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片9.JPG" alt=""></p>
 <h2 id="本质上SSD和LLE的联系，前者是后者的补充">本质上SSD和LLE的联系，前者是后者的补充</h2><p>首先LLE是该文章的引用[13]，对应这篇<a href="http://mmlab.ie.cuhk.edu.hk/archive/2005/01467376.pdf" target="_blank" rel="external">论文</a>。它的实现方式跟上面的说的实际上有点差别，实际上，如果总结成三步，应该是：</p>
 <ol>
 <li>一样，对于测试图片的每一个p点，以它为中心截取patch，然后在training中找到K个最近邻的photo patch</li>
@@ -177,7 +177,7 @@
 </ol>
 <p>差别用粗体标注出来了，只有第三步是不一样的，<strong>也就是LLE原始方法中最后得到的是一个patch的结果，而上文只取了这个patch的最中心的一点作为它的结果</strong>。</p>
 <p>本文提出的SSD方法本质上的步骤也可以写成三步，第一步和第二步是一样的，也是需要得到p的重构系数。<strong>其实第三步跟LLE也是一样的，即也是用相同的重构系数得到整个sketch patch</strong>。</p>
-<p>那么SSD跟LLE的差别是什么？是取patch的<strong>stride</strong>，LLE的stride&gt;1，SSD的stride=1。<br>也就是一般来说，LLE的patch之间的overlap比SSD要小，如下图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150307095633.png" alt=""><br>可以看出LLE的patch之间的overlap还是比较小的，那么现在想象这个overlap一直变大，<strong>直到patch之间基本都要重叠在一起了，那么方法就是SSD</strong></p>
+<p>那么SSD跟LLE的差别是什么？是取patch的<strong>stride</strong>，LLE的stride&gt;1，SSD的stride=1。<br>也就是一般来说，LLE的patch之间的overlap比SSD要小，如下图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150307095633.png" alt=""><br>可以看出LLE的patch之间的overlap还是比较小的，那么现在想象这个overlap一直变大，<strong>直到patch之间基本都要重叠在一起了，那么方法就是SSD</strong></p>
 <p>那么本质的区别来了。在上文最开始提到的方法中，由于只使用了patch的中心，所以就相当于<strong>完全没有平均</strong>；在LLE中，大部分的点都是没有overlap的，<strong>只有overlap部分的点有做平均</strong>；然后SSD中，大部分的点（除了边缘的点）都有overlap，<strong>所以基本全图上每个点都做了平均</strong>。</p>
 <p>所以得到文中最后的好结果也就可以解释了：</p>
 <ol>
@@ -185,7 +185,7 @@
 <li>平均的副作用，就是会抑制掉边缘和高频细节，所以可以看成出来的sketch的比较“朦胧”，不够锐利。</li>
 <li>由于对齐得比较好，所以能够保留到眼睛的亮斑，而且亮斑本身不算高频信息，能够保留也很合理。（高频信息应该是头发，但总的来说，sketch本身就是由线段组成的，没有多少高频信息，所以这个方法用于做sketch相当合适）</li>
 </ol>
-<p>另外一个小缺点是基于合成方法都会有的合成错误：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150307101306.png" alt=""><br>比如上图这位女生的前额靠近中间的刘海就很难合成好，因为training set里面的图片对应的位置都是没有刘海的（大部分的发型都没有长刘海），所以找到的最近邻中也不会有刘海，基于它们合成出来的sketch也自然不会有刘海了。这个算是exemplar based方法对比与image based办法的一个缺点吧。</p>
+<p>另外一个小缺点是基于合成方法都会有的合成错误：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150307101306.png" alt=""><br>比如上图这位女生的前额靠近中间的刘海就很难合成好，因为training set里面的图片对应的位置都是没有刘海的（大部分的发型都没有长刘海），所以找到的最近邻中也不会有刘海，基于它们合成出来的sketch也自然不会有刘海了。这个算是exemplar based方法对比与image based办法的一个缺点吧。</p>
 
       
     </div>

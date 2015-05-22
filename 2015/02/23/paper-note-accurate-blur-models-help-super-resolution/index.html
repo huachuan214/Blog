@@ -160,15 +160,15 @@
         <p>项目地址见这里：<a href="http://www.wisdom.weizmann.ac.il/~levina/papers/supres/" target="_blank" rel="external">http://www.wisdom.weizmann.ac.il/~levina/papers/supres/</a><br>是ICCV13的poster paper。<br>跟<a href="/Blog/2015/02/21/paper-note-nonparam-blind-super-resolution/">上一篇</a>说的那个ICCV13的oral paper的切入点很类似，都是针对模糊核函数。或者说，前者说完模糊核函数很重要，我们要找到一种方法来恢复这个核函数啊，后者就把这个事情做了(所以一篇是poster一篇是oral咯。。)</p>
 <p>这篇的思路很简单，提出了核函数很重要的说法，然后先通过实验效果验证了一下，之后再用公式推导从理论上论证。</p>
 <p>下面大致贴一下论文的图。</p>
-<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121814.png" alt=""><br>$K_T$表示在从HR得到LR时候的核函数，$K_A$表示将LR恢复回HR时候用得核函数。有三个观察结果：</p>
+<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121814.png" alt=""><br>$K_T$表示在从HR得到LR时候的核函数，$K_A$表示将LR恢复回HR时候用得核函数。有三个观察结果：</p>
 <ol>
 <li>左上到右下的对角线是两个核函数相等，效果是最好的</li>
 <li>偏右上的三角部分，恢复时核函数比较宽，所以恢复出来的图像过于锐利。</li>
 <li>偏右下的三角部分，恢复时核函数比较窄，所以恢复出来的图像过于模糊。</li>
 </ol>
 <p>出现这个结果其实也蛮直观的，以上面第二点观察为例，如果模糊时候的函数比较窄（也就是模糊系数比较低的），但恢复时候的函数比较宽（也就是模糊系数比较高），那么就会过度恢复，所以就过于锐利了。而上面的第三点观察就刚好相反了。</p>
-<p>然后作者拿了一台相机拍照，并且通过工具估计出来它的PSF。之后做了实验，效果如下图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121835.png" alt=""><br>PSF比bicubic的模糊效果要更强，于是用bicubic进行恢复时候就会恢复不足，显得模糊了。作者是想通过这个来说明，我们需要恢复的SR的kernel不是固定的，而应该是根据当时模糊的效果自适应地进行调整的。</p>
-<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121901.png" alt=""><br>最后这张图作者是想说kernel比prior要重要。看左边一溜的图就好。其中第二行和第三行都是用了最简单的prior，而三四五行用了的prior比较复杂，但是出来的效果是差不多的。所以就说明，找到了正确的核函数，prior影响就变小了。</p>
+<p>然后作者拿了一台相机拍照，并且通过工具估计出来它的PSF。之后做了实验，效果如下图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121835.png" alt=""><br>PSF比bicubic的模糊效果要更强，于是用bicubic进行恢复时候就会恢复不足，显得模糊了。作者是想通过这个来说明，我们需要恢复的SR的kernel不是固定的，而应该是根据当时模糊的效果自适应地进行调整的。</p>
+<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121901.png" alt=""><br>最后这张图作者是想说kernel比prior要重要。看左边一溜的图就好。其中第二行和第三行都是用了最简单的prior，而三四五行用了的prior比较复杂，但是出来的效果是差不多的。所以就说明，找到了正确的核函数，prior影响就变小了。</p>
 <p>最后作者的结论是，核函数很重要啊，所以往后的工作应该要研究怎么得到核函数咯。然后，同年的一篇ICCV就讨论了一个思路，并且中了oral。（这算是一个悲伤的故事吗？）</p>
 
       

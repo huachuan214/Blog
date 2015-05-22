@@ -158,12 +158,12 @@
 
       
         <p>论文出处：<a href="http://arxiv.org/abs/1411.4038" target="_blank" rel="external">http://arxiv.org/abs/1411.4038</a><br>估计是用来投CVPR15的，个人觉得应该至少是oral的节奏。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
-<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
+<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
 <h2 id="overfeat的trick">overfeat的trick</h2><p>这里讲overfeat是怎么形成dense output的，个人有点忘了，等看回之后补充。</p>
 <h2 id="另一种trick，对feature_map直接做upsample">另一种trick，对feature map直接做upsample</h2><p>这里是作者实际用的trick，本质上，就是对feature map做一个bilinear的上采样。作者还提到其实这样的上采样参数也是可以学习的，实现上基本就是对conv的FP和BP反过来。</p>
-<h2 id="结果">结果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
-<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
+<h2 id="结果">结果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
+<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
 
       
     </div>

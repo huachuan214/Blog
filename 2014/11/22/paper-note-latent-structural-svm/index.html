@@ -159,14 +159,14 @@
       
         <p>论文出处：<a href="http://www.cs.cornell.edu/~cnyu/papers/icml09_latentssvm.pdf" target="_blank" rel="external">http://www.cs.cornell.edu/~cnyu/papers/icml09_latentssvm.pdf</a><br>ICML09的“老物”，作者项目见：<a href="http://www.cs.cornell.edu/~cnyu/latentssvm/" target="_blank" rel="external">http://www.cs.cornell.edu/~cnyu/latentssvm/</a></p>
 <h2 id="概述">概述</h2><p>先介绍structural SVM，然后介绍latent structual SVM的求解方法。</p>
-<h2 id="Structual_SVM">Structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145317.png" alt=""><br>大致理解成，y是某种结构化的label，φ是data和label的联合特征，由于y是离散的，所以只能通过搜索来进行求解。<br>由于预测label和真实label之间差值的Δ也是非凸离散的，所以需要找到一个凸上界来优化：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145326.png" alt=""><br>直观理解为，max那一项是通过搜索找出最接近真实label的y尖的得分；最后一项是真实label的真实得分。<br>最后加上正则项，就变成了SVM-like的loss function：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145334.png" alt=""></p>
-<h2 id="Latent_structual_SVM">Latent structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150120.png" alt=""><br>可以看出多出的一项是h，代表隐项，这项其实也是通过搜索得到，理解成搜索空间又变大了好多。。囧<br>衡量真实label和预测label差值的Δ也升级了，变成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150128.png" alt=""><br>大概给出的直观解释是：</p>
+<h2 id="Structual_SVM">Structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145317.png" alt=""><br>大致理解成，y是某种结构化的label，φ是data和label的联合特征，由于y是离散的，所以只能通过搜索来进行求解。<br>由于预测label和真实label之间差值的Δ也是非凸离散的，所以需要找到一个凸上界来优化：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145326.png" alt=""><br>直观理解为，max那一项是通过搜索找出最接近真实label的y尖的得分；最后一项是真实label的真实得分。<br>最后加上正则项，就变成了SVM-like的loss function：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145334.png" alt=""></p>
+<h2 id="Latent_structual_SVM">Latent structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150120.png" alt=""><br>可以看出多出的一项是h，代表隐项，这项其实也是通过搜索得到，理解成搜索空间又变大了好多。。囧<br>衡量真实label和预测label差值的Δ也升级了，变成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150128.png" alt=""><br>大概给出的直观解释是：</p>
 <ul>
 <li>h*是说，知道真实label的情况下（比如训练样本），搜索出最佳的隐变量h，作为h*</li>
 <li>h尖是说，不知道真实label情况下（比如测试样本），搜索出最佳的预测label和隐变量。</li>
 </ul>
-<p>之后经过一番求bound，得到最后的loss function形式为：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150151.png" alt=""><br>也算是SVM-like吧。</p>
-<h2 id="优化方法">优化方法</h2><p>由于上式减号两边都是凸的，所以用CCCP来求解：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153124.png" alt=""><br>撇开那么高大上的说法，对于latent structual SVM来说，其实是两步：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153130.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153139.png" alt=""><br>对应的直观含义是：</p>
+<p>之后经过一番求bound，得到最后的loss function形式为：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150151.png" alt=""><br>也算是SVM-like吧。</p>
+<h2 id="优化方法">优化方法</h2><p>由于上式减号两边都是凸的，所以用CCCP来求解：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153124.png" alt=""><br>撇开那么高大上的说法，对于latent structual SVM来说，其实是两步：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153130.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153139.png" alt=""><br>对应的直观含义是：</p>
 <ol>
 <li>对于真实label，求解最优的隐变量h*</li>
 <li>fix住h*，常规求解structual SVM</li>

@@ -158,7 +158,7 @@
 
       
         <p>ECCV14的oral，论文出处：<a href="http://www.cs.berkeley.edu/~rbg/papers/part-rcnn.pdf" target="_blank" rel="external">http://www.cs.berkeley.edu/~rbg/papers/part-rcnn.pdf</a></p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110155055.png" alt=""><br>fine-grained的核心挑战是定位part，于是这个工作在RCNN上加了part，主体流程见上图：</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110155055.png" alt=""><br>fine-grained的核心挑战是定位part，于是这个工作在RCNN上加了part，主体流程见上图：</p>
 <ol>
 <li>提取region proposal，这里用的selective search</li>
 <li>找到物体的bbox和part的bbox，这里需要用到空间信息进行重打分</li>
@@ -174,16 +174,16 @@
 <li>都用ImageNet的模型做pretrain，但这里finetuning一个200的分类器（这里对应了200种鸟）。而RCNN是tuning200类+1背景的。</li>
 <li>之后得到特征后，用SVM训练root和part的分类器。RCNN中没有part分类器（而且为啥part的分类器不在CNN中tuning之后再重新训练SVM呢？）</li>
 </ul>
-<h2 id="Geometric_constraints">Geometric constraints</h2><p>这里需要对上述root和part进行重新打分，利用到的是part相对于root的空间信息，用式子(1)表示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110212844.png" alt=""><br>上面的△(X)表示某种约束。<br>首先给出第一个约束是part的bbox应该要几乎都在root的bbox里面（最多只有10个像素能在外面），对应式子(2)和(3)：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110213318.png" alt=""><br>然后给出一个更强的约束是，part相对于root应该是有一个“默认”的位置的（比如鸟头应该在上方等），于是有基于第一个约束有了第二个约束，对应式子(4)：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214014.png" alt=""><br>其中$\delta_i$代表对part的位置的某种建模方式，文中提到了两种，分别是基于多高斯和最近邻的，对应下面：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214248.png" alt=""><br>基于最近邻的定位效果见这个：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141110214356.png" alt=""></p>
+<h2 id="Geometric_constraints">Geometric constraints</h2><p>这里需要对上述root和part进行重新打分，利用到的是part相对于root的空间信息，用式子(1)表示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110212844.png" alt=""><br>上面的△(X)表示某种约束。<br>首先给出第一个约束是part的bbox应该要几乎都在root的bbox里面（最多只有10个像素能在外面），对应式子(2)和(3)：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110213318.png" alt=""><br>然后给出一个更强的约束是，part相对于root应该是有一个“默认”的位置的（比如鸟头应该在上方等），于是有基于第一个约束有了第二个约束，对应式子(4)：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214014.png" alt=""><br>其中$\delta_i$代表对part的位置的某种建模方式，文中提到了两种，分别是基于多高斯和最近邻的，对应下面：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214248.png" alt=""><br>基于最近邻的定位效果见这个：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141110214356.png" alt=""></p>
 <h2 id="Fine-grained_categorization">Fine-grained categorization</h2><p>用上述方法得到了root和part的位置后，用CNN提取特征，然后拼成长向量，用SVM求解。</p>
 <h2 id="Evaluation">Evaluation</h2><p>用的数据集是Caltech-UCSD bird dataset(CUB200-2011)，有1w+的图片，200类鸟（即平均每类鸟50+张左右），标记有bbox和15个part的位置。<br>细节：</p>
 <ul>
 <li>作者只用到了头部和身体这两个part。</li>
 <li>CNN特征取的是fc6</li>
 </ul>
-<p>对比结果如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111100054.png" alt=""><br>大致意思是，提升10%以上了。<br>在给出bbox时候，是state-of-the-art（其中Oracle82%是因为测试阶段也用了bbox还有part标注）。在不给出bbox的时候，因为太难基本没有其他人做，这个方法依然是state-of-the-art。</p>
-<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111102825.png" alt=""><br>上图给出了去掉part特征时候的结果，也就是只利用空间信息来定位object，依然有提高，说明了空间约束有助于提高结果。</p>
-<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141111103034.png" alt=""><br>上图对应selective search给出的proposal的召回率。在ol&gt;0.5时候，基本都能够召回。在ol&gt;0.7时候，召回率会大幅度下降。所以作者认为目前方法的bottleneck在于proposal方法。</p>
+<p>对比结果如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111100054.png" alt=""><br>大致意思是，提升10%以上了。<br>在给出bbox时候，是state-of-the-art（其中Oracle82%是因为测试阶段也用了bbox还有part标注）。在不给出bbox的时候，因为太难基本没有其他人做，这个方法依然是state-of-the-art。</p>
+<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111102825.png" alt=""><br>上图给出了去掉part特征时候的结果，也就是只利用空间信息来定位object，依然有提高，说明了空间约束有助于提高结果。</p>
+<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141111103034.png" alt=""><br>上图对应selective search给出的proposal的召回率。在ol&gt;0.5时候，基本都能够召回。在ol&gt;0.7时候，召回率会大幅度下降。所以作者认为目前方法的bottleneck在于proposal方法。</p>
 <h2 id="总结">总结</h2><p>不愧是oral，感觉挺有启发。<br>提高10%以上主要功劳应该是在CNN特征。<br>其他贡献是part的定位和几何约束，大概能提高1~2%个点。</p>
 
       

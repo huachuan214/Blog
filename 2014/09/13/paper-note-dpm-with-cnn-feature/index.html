@@ -168,7 +168,7 @@
 <blockquote>
 <p>To achieve efficiency during training we exploit the LDA-based acceleration to DPM training of [5], using a whitened feature space constructed for CNN features; this reduces the computation time typically by a factor of four. To achieve efficiency during convolutions with the part templates (used both during training and testing), we perform convolutions using the Fast Fourier Transform, along the lines of [2]. This reduces the convolution cost from typically 12 seconds per object (using an optimized SSE implementation) to less than 2 seconds.</p>
 </blockquote>
-<h2 id="效果">效果</h2><p>如下图所示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/Screenshot%20from%202014-09-13%2011%3A40%3A24.png" alt=""><br>作者的总结是：</p>
+<h2 id="效果">效果</h2><p>如下图所示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/Screenshot%20from%202014-09-13%2011%3A40%3A24.png" alt=""><br>作者的总结是：</p>
 <ul>
 <li>第4行表示，用CNN特征代替到HoG特征后，mAP飙升了15个点</li>
 <li>第8行表示，CNN+DPM比RCNN要差4个点</li>

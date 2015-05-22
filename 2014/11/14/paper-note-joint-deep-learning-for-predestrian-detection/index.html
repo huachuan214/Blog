@@ -157,8 +157,8 @@
       
 
       
-        <h2 id="Motivation">Motivation</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141114154713.png" alt=""><br>见上图，一句话概括，将deformable part和occlusion融合到CNN里面做行人检测。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141114155325.png" alt=""><br>整体框架见上图。<br>流程大致是：</p>
+        <h2 id="Motivation">Motivation</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141114154713.png" alt=""><br>见上图，一句话概括，将deformable part和occlusion融合到CNN里面做行人检测。</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141114155325.png" alt=""><br>整体框架见上图。<br>流程大致是：</p>
 <ul>
 <li>以修改过的YUV特征和edge map作为输出</li>
 <li>一个卷积层（应该是看成root）</li>
@@ -173,8 +173,8 @@
 <li>sober边缘检测构成的边缘图</li>
 </ul>
 <p>目的，为了输出多尺度，并且引入边缘信息。</p>
-<h2 id="part_detection_map_&amp;_deformation_layer">part detection map &amp; deformation layer</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141114155334.png" alt=""><br>作者设置了不同大小的卷积核，对应不同的part，并且是分层结构。图中的黑色部分代表遮挡情况。<br>总共有20个代表part的卷积核<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141114155339.png" alt=""><br>对于某个核形成的一张feature map，认为是part的激活状况，通过学习（或者人为设置）deformable layer，并进行融合，能够得到一张带deformable part信息的激活图（上图中的Summed map），之后全图求max得到该part的得分。<br><strong>注意到，这里的deformable layer可以引入DPM所用的距离函数，这里假设了标准位置是人为设置的。</strong></p>
-<h2 id="visibility_reasoning(occlusion_handling)">visibility reasoning(occlusion handling)</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141114155349.png" alt=""><br>这部分是处理遮挡的，目前没有细看。</p>
+<h2 id="part_detection_map_&amp;_deformation_layer">part detection map &amp; deformation layer</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141114155334.png" alt=""><br>作者设置了不同大小的卷积核，对应不同的part，并且是分层结构。图中的黑色部分代表遮挡情况。<br>总共有20个代表part的卷积核<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141114155339.png" alt=""><br>对于某个核形成的一张feature map，认为是part的激活状况，通过学习（或者人为设置）deformable layer，并进行融合，能够得到一张带deformable part信息的激活图（上图中的Summed map），之后全图求max得到该part的得分。<br><strong>注意到，这里的deformable layer可以引入DPM所用的距离函数，这里假设了标准位置是人为设置的。</strong></p>
+<h2 id="visibility_reasoning(occlusion_handling)">visibility reasoning(occlusion handling)</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141114155349.png" alt=""><br>这部分是处理遮挡的，目前没有细看。</p>
 
       
     </div>
