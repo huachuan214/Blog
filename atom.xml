@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title><![CDATA[在路上]]></title>
-  <subtitle><![CDATA[做个会敲代码的researcher]]></subtitle>
+  <title><![CDATA[旅爱]]></title>
+  <subtitle><![CDATA[会敲代码的scholar]]></subtitle>
   <link href="/atom.xml" rel="self"/>
-  <link href="http://zhangliliang.com/"/>
-  <updated>2015-05-19T06:22:30.000Z</updated>
-  <id>http://zhangliliang.com/</id>
+  <link href="http://travelove.com/"/>
+  <updated>2015-05-20T06:20:30.000Z</updated>
+  <id>http://travelove.com/</id>
   
   <author>
-    <name><![CDATA[Zhang Liliang]]></name>
-    <email><![CDATA[zhangll.level0@gmail.com]]></email>
+    <name><![CDATA[Xu Chuanhua]]></name>
+    <email><![CDATA[chxu@m.scnu.edu.cn]]></email>
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
     <title><![CDATA[论文笔记 《What makes for effective detection proposals?》]]></title>
-    <link href="http://zhangliliang.com/2015/05/19/paper-note-object-proposal-review-pami15/"/>
-    <id>http://zhangliliang.com/2015/05/19/paper-note-object-proposal-review-pami15/</id>
+    <link href="http://xuchuanhua.com/2015/05/19/paper-note-object-proposal-review-pami15/"/>
+    <id>http://xuchuanhua.com/2015/05/19/paper-note-object-proposal-review-pami15/</id>
     <published>2015-05-19T01:35:02.000Z</published>
     <updated>2015-05-19T06:22:30.000Z</updated>
     <content type="html"><![CDATA[<p>最近开始准备回到detection大坑，刚好看到一篇关于object proposal的综述，而且貌似是中了PAMI的，所以就下载下来读了一下。<br>论文的项目地址：<br><a href="https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/object-recognition-and-scene-understanding/how-good-are-detection-proposals-really/" target="_blank" rel="external">https://www.mpi-inf.mpg.de/departments/computer-vision-and-multimodal-computing/research/object-recognition-and-scene-understanding/how-good-are-detection-proposals-really/</a></p>
@@ -28,7 +28,7 @@
 <li>讨论不同OP在PASCAL和ImageNet上的Recall，这里作者提出了Average Recall（简称AR）的一种新的标准</li>
 <li>讨论不同OP对于实际分类的性能比较（用了DPM和RCNN这两个著名detector进行比较），以及说明了AR是一个跟性能相当相关的标准。</li>
 </ol>
-<p>先上一个效果的一览表格：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519105213.png" alt=""><br>注意到这里只列出了可以找到源码的方法，那么，下面一点点开始整理。</p>
+<p>先上一个效果的一览表格：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519105213.png" alt=""><br>注意到这里只列出了可以找到源码的方法，那么，下面一点点开始整理。</p>
 <h2 id="各种OP方法的回顾">各种OP方法的回顾</h2><p>作者大致将OP方法分成了两类，一类叫grouping method，一类叫window scoring method。前者是指先将图片打碎，然后再聚合的一种方法，比如selective search。后者是生成大量window并打分，然后过滤掉低分的一种方法，比如objectness。另外还有一些介乎两者之间的方法，比如multibox。</p>
 <h3 id="Grouping_proposal_methods">Grouping proposal methods</h3><p>作者将grouping的方法继续细分为三个小类。SP，对superpixel进行聚合；GC，使用种子点然后groupcut进行分割；EC，从边缘图提取proposal。下面分别调一个进行介绍</p>
 <ul>
@@ -45,14 +45,14 @@
 <li>multibox，目前笔者所知唯一基于CNN提取proposal的方法，通过CNN回归N个候选框的位置并进行打分，目前在ImageNet的dectection track上应该是第一的。</li>
 </ul>
 <h3 id="Baseline_proposal_methods">Baseline proposal methods</h3><p>这里用了Uniform，Gaussian，Sliding Window和Superpixels作为baseline，不是重点就不展开说了。</p>
-<h2 id="各种OP方法对于复现的鲁棒性的讨论">各种OP方法对于复现的鲁棒性的讨论</h2><p>这里作者提出这样的假设：一个好的OP方法应该具有比较好的复现能力，也就是相似的图片中检索出来的object应该是具有一致性的。验证的方法是对PASCAL的图片做了各种扰动（如Figure 2），然后看是否还能检测出来相同的object的recall是多少，根据IoU的严格与否能够得到一条曲线，最后计算曲线下面积得到repeatability。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519105232.png" alt=""><br>这里图表很多具体请看原论文，这里直接上作者的结论，Bing和Edgeboxes在repeatability上表现最好。</p>
+<h2 id="各种OP方法对于复现的鲁棒性的讨论">各种OP方法对于复现的鲁棒性的讨论</h2><p>这里作者提出这样的假设：一个好的OP方法应该具有比较好的复现能力，也就是相似的图片中检索出来的object应该是具有一致性的。验证的方法是对PASCAL的图片做了各种扰动（如Figure 2），然后看是否还能检测出来相同的object的recall是多少，根据IoU的严格与否能够得到一条曲线，最后计算曲线下面积得到repeatability。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519105232.png" alt=""><br>这里图表很多具体请看原论文，这里直接上作者的结论，Bing和Edgeboxes在repeatability上表现最好。</p>
 <h2 id="各种OP方法的recall">各种OP方法的recall</h2><p>这里提出了好的OP方法应该有着较高的recall，不然就要漏掉检测的物体了。这里讨论了三种衡量recall的方式：</p>
 <ol>
 <li>Recall versus IoU threshold: 固定proposal数量，根据不同的IoU标准来计算recall</li>
 <li>Recall versus number of proposal windows: 跟1互补，这里先固定IoU，根据不同的proposal数目来计算recall</li>
 <li>Average recall(AR): 作者提出的，这里只是根据不同的proposal数目，计算IoU在0.5到1之间Recall。</li>
 </ol>
-<p>数据集方面，作者在PASCAL VOC07和ImagNet Detection dataset上面做了测试。<br>这里又有不少图，这里只贴一张AP的，其他请参考原论文咯。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519112811.png" alt=""><br>还是直接上结论</p>
+<p>数据集方面，作者在PASCAL VOC07和ImagNet Detection dataset上面做了测试。<br>这里又有不少图，这里只贴一张AP的，其他请参考原论文咯。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519112811.png" alt=""><br>还是直接上结论</p>
 <ul>
 <li>MCG， EdgeBox，SelectiveSearch, Rigor和Geodesic在不同proposal数目下表现都不错</li>
 <li>如果只限制小于1000的proposal，MCG,endres和CPMC效果最好</li>
@@ -62,10 +62,10 @@
 </ul>
 <h2 id="各种OP方法在实际做detection任务时候的效果">各种OP方法在实际做detection任务时候的效果</h2><p>这里作者在OP之后接上了两种在detection上很出名的detector来进行测试，一个是文献[54]的LM-LLDA（一个DPM变种），另外一个自然是R-CNN了，值得注意的是，这两个detector的作者都是rbg。。。真大神也。。。<br>这里用了各种OP方法提取了1k个proposal，之后作比较。<br>也是直接给作者结论：</p>
 <ul>
-<li>如果OP方法定位越准确，那么对分类器帮助会越大，因为定位越准确，分类器返回的分数会越高：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519140548.png" alt=""></li>
-<li>在LM-LLDA和R-CNN下，使得mAP最高的前5个OP方法都是MCG,SeletiveSearch,EdgeBoxes,Rigor和Geodesic。<br>分数一览如下图。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519134819.png" alt=""></li>
-<li>通过分析，作者发现AR和mAP有着很强的相关性：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519134830.png" alt=""></li>
-<li>作者用AR作为指导去tuning EdgeBoxes的参数，然后取得了更好的mAP（提高1.7个点）<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150519134857.png" alt=""></li>
+<li>如果OP方法定位越准确，那么对分类器帮助会越大，因为定位越准确，分类器返回的分数会越高：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519140548.png" alt=""></li>
+<li>在LM-LLDA和R-CNN下，使得mAP最高的前5个OP方法都是MCG,SeletiveSearch,EdgeBoxes,Rigor和Geodesic。<br>分数一览如下图。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519134819.png" alt=""></li>
+<li>通过分析，作者发现AR和mAP有着很强的相关性：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519134830.png" alt=""></li>
+<li>作者用AR作为指导去tuning EdgeBoxes的参数，然后取得了更好的mAP（提高1.7个点）<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150519134857.png" alt=""></li>
 </ul>
 <h2 id="全文的总结和讨论">全文的总结和讨论</h2><p>总结：</p>
 <ol>
@@ -86,21 +86,21 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Object Proposal" scheme="http://zhangliliang.com/tags/Object-Proposal/"/>
+      <category term="Object Proposal" scheme="http://xuchuanhua.com/tags/Object-Proposal/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Object detection via a multi-region & semantic segmentation-aware CNN model》]]></title>
-    <link href="http://zhangliliang.com/2015/05/17/paper-note-ms-cnn/"/>
-    <id>http://zhangliliang.com/2015/05/17/paper-note-ms-cnn/</id>
+    <link href="http://xuchuanhua.com/2015/05/17/paper-note-ms-cnn/"/>
+    <id>http://xuchuanhua.com/2015/05/17/paper-note-ms-cnn/</id>
     <published>2015-05-17T07:10:13.000Z</published>
     <updated>2015-05-17T08:46:15.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处：<a href="http://arxiv.org/abs/1505.01749" target="_blank" rel="external">http://arxiv.org/abs/1505.01749</a></p>
 <h2 id="写在前面">写在前面</h2><p>今天连看了Fast RCNN和这一篇，一开始以为这篇会是Fast RCNN的加强版。看了之后发现不是，这篇提出的框架更像是SPP-Net的加强版，因为这篇并没有实现joint training，不同的步骤还是分开来跑的。不禁让人想，如果能够结合这篇和Fast RCNN的所有技巧，VOC07的mAP会不会上80%了啊。。Detection进步确实太快了。<br>闲话少说，下面进入正题。:)</p>
-<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
+<h2 id="motivation">motivation</h2><p>对于某个region proposal来说，如何抽取比较好的特征？是否需要context辅助？是否需要考虑遮挡问题？<br>上述就是作者的motivation，如Figure 1，子图1的羊需要context，子图2的船不要context，子图3的车需要考虑遮挡问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151916.png" alt=""><br>所以该paper的核心研究内容是，如何更好地localize一个object，并抽取好的特征。<br>作者做了三件事：</p>
 <ol>
 <li>提出一个multi-region CNN 来增强特征</li>
 <li>提出一个semantic segmentation-aware CNN再进一步增强特征</li>
@@ -115,16 +115,16 @@
 <li>然后各自经过两个全连接层进一步提取特征</li>
 <li>最后所有特征连在一起得到一个长特征。</li>
 </ol>
-<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
+<p>可以看出，跟SPP提取proposal特征的过程很像，多出来是第2步，也就是这里的主要贡献点。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151924.png" alt=""><br>作者一共提出了4种共10个region：</p>
 <ol>
 <li>原始的region，就是原来的那个object proposal的位置，对应Figure的中a</li>
 <li>截半，对应Figure3的b-e</li>
 <li>中心区域，对应g和h</li>
-<li>边界区域，对应i和j<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
+<li>边界区域，对应i和j<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160709.png" alt=""><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517160717.png" alt=""><br>作者认为这样multi region的好处有两个</li>
 <li>不同的region是focus在不同的物体区域的，所以他们应该是互补的，能够增强特征的多样性</li>
 <li>认为这个方法能够有效应对object proposal时候定位不准确的问题，并在6.2和6.3通过实验验证</li>
 </ol>
-<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
+<h2 id="Sematic_segmentation-aware_CNN">Sematic segmentation-aware CNN</h2><p>这里的motivation是通过segmentation的特征来辅助detection。然后这里训练segmention用的是很出名的FCN的流程了，不过这里不需要用segmentation的标注，而是用bbox就好了，<strong>简单粗暴地把bbox里面认为是前景，外面认为是背景即可</strong>（也就是如Figure 5的中间一列）。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151940.png" alt=""><br>就这样训练，出来的结果还不错。笔者并不惊讶，因为笔者也做过类似的实验^_^。虽然表面看似这样的标注很粗暴，很多像素都会错标，但是CNN的纠错能力是很强的，就是将那些标错的pixel都看成是噪声，CNN依然能够根据更多的标对的像素来学习出来一个还不错的模型（如Figure 5的右列）。<br>用上述的方法训练出来一个还不错的segmentation CNN后，摘到最后一层，也加到上面的MR-CNN上，进一步增强特征。如Figure 4所示。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517151947.png" alt=""></p>
 <h2 id="Object_localization">Object localization</h2><p>这一步，对应的是RCNN或者SPP-Net的最后一步，也就是得到结果之后，对位置重新进行一次regression，不过这里做了几点的改进：</p>
 <ol>
 <li>使用CNN来训练regressor（在RCNN中是使用简单的函数来训练regressor的），具体来说跟Fast RCNN比较像啦，输出是4xC个值，其中C是类别个数，不过这里直接用L2 loss拟合完事。</li>
@@ -137,16 +137,16 @@
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Fast R-CNN》]]></title>
-    <link href="http://zhangliliang.com/2015/05/17/paper-note-fast-rcnn/"/>
-    <id>http://zhangliliang.com/2015/05/17/paper-note-fast-rcnn/</id>
+    <link href="http://xuchuanhua.com/2015/05/17/paper-note-fast-rcnn/"/>
+    <id>http://xuchuanhua.com/2015/05/17/paper-note-fast-rcnn/</id>
     <published>2015-05-17T01:33:38.000Z</published>
     <updated>2015-05-17T07:13:56.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处见：<a href="http://arxiv.org/abs/1504.08083" target="_blank" rel="external">http://arxiv.org/abs/1504.08083</a><br>项目见：<a href="https://github.com/rbgirshick/fast-rcnn" target="_blank" rel="external">https://github.com/rbgirshick/fast-rcnn</a></p>
@@ -164,7 +164,7 @@
 <li>对于每个scale的每个ROI，求取映射关系，在conv5中crop出对应的patch。并用一个单层的SPP layer（这里称为Rol pooling layer）来统一到一样的尺度（对于AlexNet是6x6）。</li>
 <li>继续经过两个全连接得到特征，这特征有分别share到两个新的全连接，连接上两个优化目标。第一个优化目标是分类，使用softmax，第二个优化目标是bbox regression，使用了一个smooth的L1-loss.</li>
 </ol>
-<p>除了1，上面的2-4是joint training的。<br>测试时候，在4之后做一个NMS即可。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517103126.png" alt=""></p>
+<p>除了1，上面的2-4是joint training的。<br>测试时候，在4之后做一个NMS即可。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517103126.png" alt=""></p>
 <p>整体框架大致如上述所示了，对比回来SPP-Net，可以看出<strong>FRCN大致就是一个joint training版本的SPP-Net</strong>，改进如下：</p>
 <ol>
 <li>SPP-Net在实现上无法同时tuning在SPP layer两边的卷积层和全连接层。</li>
@@ -176,7 +176,7 @@
 <li>对于某个rol，怎么求取对应的feature map patch？这个论文没有提及，笔者也还没有仔细去抠，觉得这个问题可以到代码中寻找。:)</li>
 <li>为何只是一层的SPP layer？多层的SPP layer不会更好吗？对于这个问题，笔者认为是因为需要读取pretrain model来finetuning的原因，比如VGG就release了一个19层的model，如果是使用多层的SPP layer就不能够直接使用这个model的parameters，而需要重新训练了。</li>
 </ol>
-<h2 id="Multi-task_loss">Multi-task loss</h2><p>FRCN有两个loss，以下分别介绍。<br>对于分类loss，是一个N+1路的softmax输出，其中的N是类别个数，1是背景。为何不用SVM做分类器了？在5.4作者讨论了softmax效果比SVM好，因为它引入了类间竞争。（笔者觉得这个理由略牵强，估计还是实验效果验证了softmax的performance好吧 ^_^）<br>对于回归loss，是一个4xN路输出的regressor，也就是说对于每个类别都会训练一个单独的regressor的意思，比较有意思的是，这里regressor的loss不是L2的，而是一个平滑的L1，形式如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517114340.png" alt=""><br>作者这样设置的目的是想让loss对于离群点更加鲁棒，控制梯度的量级使得训练时不容易跑飞。<br>最后在5.1的讨论中，作者说明了Multitask loss是有助于网络的performance的。</p>
+<h2 id="Multi-task_loss">Multi-task loss</h2><p>FRCN有两个loss，以下分别介绍。<br>对于分类loss，是一个N+1路的softmax输出，其中的N是类别个数，1是背景。为何不用SVM做分类器了？在5.4作者讨论了softmax效果比SVM好，因为它引入了类间竞争。（笔者觉得这个理由略牵强，估计还是实验效果验证了softmax的performance好吧 ^_^）<br>对于回归loss，是一个4xN路输出的regressor，也就是说对于每个类别都会训练一个单独的regressor的意思，比较有意思的是，这里regressor的loss不是L2的，而是一个平滑的L1，形式如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517114340.png" alt=""><br>作者这样设置的目的是想让loss对于离群点更加鲁棒，控制梯度的量级使得训练时不容易跑飞。<br>最后在5.1的讨论中，作者说明了Multitask loss是有助于网络的performance的。</p>
 <h2 id="Scale_invariance">Scale invariance</h2><p>这里讨论object的scale问题，就是网络对于object的scale应该是要不敏感的。这里还是引用了SPP的方法，有两种。</p>
 <ol>
 <li>brute force （single scale），也就是简单认为object不需要预先resize到类似的scale再传入网络，直接将image定死为某种scale，直接输入网络来训练就好了，然后期望网络自己能够学习到scale-invariance的表达。</li>
@@ -190,60 +190,60 @@
 <li>有没有必要tuning所有的卷积层？答案是没有。如果留着浅层的卷积层不tuning，可以减少训练时间，而且mAP基本没有差别。</li>
 </ol>
 <h2 id="Data_augment">Data augment</h2><p>在训练期间，作者做过的唯一一个数据增量的方式是水平翻转。<br>作者也试过将VOC12的数据也作为拓展数据加入到finetune的数据中，结果VOC07的mAP从66.9到了70.0，说明对于网络来说，数据越多就是越好的。</p>
-<h2 id="Are_more_proposals_always_better？">Are more proposals always better？</h2><p>对应文章的5.5，答案是NO。<br>作者将proposal的方法粗略地分成了sparse（比如selective search）和dense（sliding windows）。<br>如Figure 3所示，不管是哪种方法，盲目增加proposal个数反而会损害到mAP的。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150517125419.png" alt=""><br>作者引用了文献11的一句话来说明：““[sparse proposals] may improve detection quality by reducing spurious false positives.”<br>然后笔者搜索了一下，发现<a href="http://www.robots.ox.ac.uk/~vgg/rg/papers/hosang_pami15.pdf" target="_blank" rel="external">文献11</a>被TPAMI15录取了，看来也是要看一下啊。。</p>
+<h2 id="Are_more_proposals_always_better？">Are more proposals always better？</h2><p>对应文章的5.5，答案是NO。<br>作者将proposal的方法粗略地分成了sparse（比如selective search）和dense（sliding windows）。<br>如Figure 3所示，不管是哪种方法，盲目增加proposal个数反而会损害到mAP的。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150517125419.png" alt=""><br>作者引用了文献11的一句话来说明：““[sparse proposals] may improve detection quality by reducing spurious false positives.”<br>然后笔者搜索了一下，发现<a href="http://www.robots.ox.ac.uk/~vgg/rg/papers/hosang_pami15.pdf" target="_blank" rel="external">文献11</a>被TPAMI15录取了，看来也是要看一下啊。。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[Fast R-CNN约等于一个可以end-to-end joint training的SPP-Net。]]>
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记《Multi-Objective Convolutional Learning for Face Labeling》]]></title>
-    <link href="http://zhangliliang.com/2015/05/12/paper-note-cnn-crf-face-labeling/"/>
-    <id>http://zhangliliang.com/2015/05/12/paper-note-cnn-crf-face-labeling/</id>
+    <link href="http://xuchuanhua.com/2015/05/12/paper-note-cnn-crf-face-labeling/"/>
+    <id>http://xuchuanhua.com/2015/05/12/paper-note-cnn-crf-face-labeling/</id>
     <published>2015-05-12T07:19:57.000Z</published>
     <updated>2015-05-12T07:52:39.000Z</updated>
     <content type="html"><![CDATA[<p>来源自，<a href="http://graduatestudents.ucmerced.edu/sliu32/pages/multi-objective-convolutional-learning-face-labeling" target="_blank" rel="external">http://graduatestudents.ucmerced.edu/sliu32/pages/multi-objective-convolutional-learning-face-labeling</a><br>CVPR15命中，而且作者是个美女。</p>
-<h2 id="动机">动机</h2><p>该文章解决的是face labeling的问题，如Figure 1，输入是原图(a)，想要得到的是结果图(d)，可以看成是semantic segmentation的一个子问题。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152507.png" alt=""></p>
-<h2 id="CNN+CRF">CNN+CRF</h2><p>我觉得本文最厉害的一点是将CRF的公式转化为了可以跟CNN联合求解的形式。下面会描述这个过程。<br>公式1中用CRF对问题建模，X是输入的原始图像，Y是输出的label map，$E_u$表示CRF的unary项，这里可以理解为X中的一个patch决定了Y中的某个点的输出；$E_b$是binary项，表示Y中两个点$y_i$和$y_j$的关系由他们在X中对应的overlapping patch来决定。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512153118.png" alt=""><br>关键是对于上面的公式，怎么转化为一个CNN能够求解的形式。<br>对于unary项，很自然就能对应上可以将能量函数设为为softmax的形式。<br><strong>关键是对于binary项，可以通过引入一个额外的label $z_{ij}$来转化为一个二值问题，那么就可以用sigmoid来拟合了！</strong><br>明白这一点之后，CNN+CRF就比较顺理成章了。Figure 2给了示意图，作者将这两个loss都接到最后的FC上，联合训练。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152628.png" alt=""><br>最后在inferece的时候，需要将unary和binary得到的几张map做一个fusion，这一步用graphcut就好了：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512154402.png" alt=""><br>笔者觉得就上面而言，已经是一个挺漂亮的工作了。但是这篇paper还没有完，下面还有增加prior，full image inference，upsampling等工作。</p>
-<h2 id="Nonparametric_prior">Nonparametric prior</h2><p>face labeling虽然是semantic segmentation的子问题，但是也有自己的一些prior，比如人脸是一个强结构性的object，所以可以先通过估计一个label的概率图来提供prior。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152637.png" alt=""></p>
+<h2 id="动机">动机</h2><p>该文章解决的是face labeling的问题，如Figure 1，输入是原图(a)，想要得到的是结果图(d)，可以看成是semantic segmentation的一个子问题。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152507.png" alt=""></p>
+<h2 id="CNN+CRF">CNN+CRF</h2><p>我觉得本文最厉害的一点是将CRF的公式转化为了可以跟CNN联合求解的形式。下面会描述这个过程。<br>公式1中用CRF对问题建模，X是输入的原始图像，Y是输出的label map，$E_u$表示CRF的unary项，这里可以理解为X中的一个patch决定了Y中的某个点的输出；$E_b$是binary项，表示Y中两个点$y_i$和$y_j$的关系由他们在X中对应的overlapping patch来决定。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512153118.png" alt=""><br>关键是对于上面的公式，怎么转化为一个CNN能够求解的形式。<br>对于unary项，很自然就能对应上可以将能量函数设为为softmax的形式。<br><strong>关键是对于binary项，可以通过引入一个额外的label $z_{ij}$来转化为一个二值问题，那么就可以用sigmoid来拟合了！</strong><br>明白这一点之后，CNN+CRF就比较顺理成章了。Figure 2给了示意图，作者将这两个loss都接到最后的FC上，联合训练。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152628.png" alt=""><br>最后在inferece的时候，需要将unary和binary得到的几张map做一个fusion，这一步用graphcut就好了：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512154402.png" alt=""><br>笔者觉得就上面而言，已经是一个挺漂亮的工作了。但是这篇paper还没有完，下面还有增加prior，full image inference，upsampling等工作。</p>
+<h2 id="Nonparametric_prior">Nonparametric prior</h2><p>face labeling虽然是semantic segmentation的子问题，但是也有自己的一些prior，比如人脸是一个强结构性的object，所以可以先通过估计一个label的概率图来提供prior。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152637.png" alt=""></p>
 <h2 id="Full_image_inference">Full image inference</h2><p>跟FCN一样，也是将全连接层换成1x1的卷积核，考虑到这是FCN的同期工作，看来大家都想一块去了。</p>
-<h2 id="Upsampling">Upsampling</h2><p>这篇文章也考虑到upsampling的过程，不过用的是不同于FCN的方法。这里是通过pixel shift，最后拼接到一起来实现的。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150512152647.png" alt=""></p>
+<h2 id="Upsampling">Upsampling</h2><p>这篇文章也考虑到upsampling的过程，不过用的是不同于FCN的方法。这里是通过pixel shift，最后拼接到一起来实现的。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150512152647.png" alt=""></p>
 ]]></content>
     <summary type="html">
     <![CDATA[做的问题是face labeling，可以看成semantic segmentation的一个特例。将CRF和CNN融合求解，并引入一个prior来进一步纠正错误。并且也考虑到了全图测试的FCN和upsampling等工程问题，个人觉得是个很赞的工作。]]>
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="CRF" scheme="http://zhangliliang.com/tags/CRF/"/>
+      <category term="CRF" scheme="http://xuchuanhua.com/tags/CRF/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记《Single Image Super-resolution using Deformable Patches》]]></title>
-    <link href="http://zhangliliang.com/2015/05/05/paper-note-sr-using-deformable-patches/"/>
-    <id>http://zhangliliang.com/2015/05/05/paper-note-sr-using-deformable-patches/</id>
+    <link href="http://xuchuanhua.com/2015/05/05/paper-note-sr-using-deformable-patches/"/>
+    <id>http://xuchuanhua.com/2015/05/05/paper-note-sr-using-deformable-patches/</id>
     <published>2015-05-05T12:42:19.000Z</published>
     <updated>2015-05-05T13:37:02.000Z</updated>
     <content type="html"><![CDATA[<p>是CVPR14的文章，项目地址见这里：<a href="https://sites.google.com/site/yuzhushome/single-image-super-resolution-using-deformable-patches" target="_blank" rel="external">https://sites.google.com/site/yuzhushome/single-image-super-resolution-using-deformable-patches</a></p>
-<h2 id="动机">动机</h2><p>首先，这篇文章做的是SR的问题。用的思路是exemplar based的合成方法，也就是对于一张输入的LR，先打散成很多的LR patch，对于每一个LR patch，在词典中找到最为匹配的一个或者几个HR exemplar patch，然后加权得到对应的合成HR patch。最后这些HR patch再拼合到一起就是最后的HR输出。<br>这篇文章的motivation如图1，黑框的是一个LR patch，如上述，一般的流程是在词典中找到最相似的HR patch即可，而这篇文章的改进主要在于在寻找HR patch这一步提出了一个deformable的概念，也就是认为可以通过对词典中的HR patch进行一定程度的形变，产生新的HR patch，而且这个HR patch更加适配于LR patch，从而得到更好的合成效果。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505210041.png" alt=""></p>
-<h2 id="流程">流程</h2><p>文章的整体流程如下图，首先，也是需要维护一个HR的词典，该词典通过trainset产生。对于来的一个LR图片，打散成很多的LR patch，对于每个LR patch，首先在词典中匹配到比较合适的HR patch作为合成的候选，然后求出deformable field进行形变，之后这些候选通过加权合成得到该LR patch对应的HR patch结果，最后所有的HR patch拼合成最后的HR结果。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505210048.png" alt=""><br>这里会有几个问题：</p>
+<h2 id="动机">动机</h2><p>首先，这篇文章做的是SR的问题。用的思路是exemplar based的合成方法，也就是对于一张输入的LR，先打散成很多的LR patch，对于每一个LR patch，在词典中找到最为匹配的一个或者几个HR exemplar patch，然后加权得到对应的合成HR patch。最后这些HR patch再拼合到一起就是最后的HR输出。<br>这篇文章的motivation如图1，黑框的是一个LR patch，如上述，一般的流程是在词典中找到最相似的HR patch即可，而这篇文章的改进主要在于在寻找HR patch这一步提出了一个deformable的概念，也就是认为可以通过对词典中的HR patch进行一定程度的形变，产生新的HR patch，而且这个HR patch更加适配于LR patch，从而得到更好的合成效果。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505210041.png" alt=""></p>
+<h2 id="流程">流程</h2><p>文章的整体流程如下图，首先，也是需要维护一个HR的词典，该词典通过trainset产生。对于来的一个LR图片，打散成很多的LR patch，对于每个LR patch，首先在词典中匹配到比较合适的HR patch作为合成的候选，然后求出deformable field进行形变，之后这些候选通过加权合成得到该LR patch对应的HR patch结果，最后所有的HR patch拼合成最后的HR结果。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505210048.png" alt=""><br>这里会有几个问题：</p>
 <ol>
 <li>怎么在dictionary中找到最合适的HR patch？</li>
 <li>怎么对HR patch进行deformation得到更加匹配的HR patch？</li>
 <li>最后加权合成时候的权值是怎么算的？</li>
 </ol>
-<p>在这三个问题里面，笔者关心的是第2个问题，于是下面只对第二个部分进行记录，其他部分参看原文了。<br>首先需要对SR问题进行建模，这里用经典的SR模型即可。X是HR，Y是LR，D是下采样矩阵，H是模糊矩阵，n是噪声：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505211956.png" alt=""><br>然后就是定义deformation了，在公式2中，$B_h$是还没有形变前的HR，$B_r$是形变之后的HR。这里假设有两种形变，一个是空间上的变换$\phi$，另外一个是灰度上的线性变换$\alpha$和$\beta$<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212006.png" alt=""><br>对于$\phi$又可以用x和y方向上的deformation field来表示，分别用u和v表示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212012.png" alt=""><br>然后假设deformation field的值比较小，那么就可以将上面公式转化成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212025.png" alt=""><br>这之后就是通过设计能量函数来求解这个$\phi$了：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212035.png" alt=""><br>从上式可以看出能量函数有两个部分，第一个部分是想约束得到的$B_r$经过模糊下采样后跟LR patch$P_l$保持一致性，第二部分的$\psi$是某种prior，用来做正则项的：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150505212042.png" alt=""><br>这里的正则项被称为smoothness prior和slowness prior。作者说他是从光流法得到的灵感，而且上述求解过程也是类似的光流法的形式。</p>
+<p>在这三个问题里面，笔者关心的是第2个问题，于是下面只对第二个部分进行记录，其他部分参看原文了。<br>首先需要对SR问题进行建模，这里用经典的SR模型即可。X是HR，Y是LR，D是下采样矩阵，H是模糊矩阵，n是噪声：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505211956.png" alt=""><br>然后就是定义deformation了，在公式2中，$B_h$是还没有形变前的HR，$B_r$是形变之后的HR。这里假设有两种形变，一个是空间上的变换$\phi$，另外一个是灰度上的线性变换$\alpha$和$\beta$<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212006.png" alt=""><br>对于$\phi$又可以用x和y方向上的deformation field来表示，分别用u和v表示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212012.png" alt=""><br>然后假设deformation field的值比较小，那么就可以将上面公式转化成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212025.png" alt=""><br>这之后就是通过设计能量函数来求解这个$\phi$了：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212035.png" alt=""><br>从上式可以看出能量函数有两个部分，第一个部分是想约束得到的$B_r$经过模糊下采样后跟LR patch$P_l$保持一致性，第二部分的$\psi$是某种prior，用来做正则项的：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150505212042.png" alt=""><br>这里的正则项被称为smoothness prior和slowness prior。作者说他是从光流法得到的灵感，而且上述求解过程也是类似的光流法的形式。</p>
 <p>（待续，总的来说笔者对这篇文章的公式还需要理解一下，先记录到这里，之后补上）</p>
 ]]></content>
     <summary type="html">
@@ -251,79 +251,79 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Image Quality Assessment:From Error Visibility to Structural Similarity》]]></title>
-    <link href="http://zhangliliang.com/2015/04/29/paper-note-ssim/"/>
-    <id>http://zhangliliang.com/2015/04/29/paper-note-ssim/</id>
+    <link href="http://xuchuanhua.com/2015/04/29/paper-note-ssim/"/>
+    <id>http://xuchuanhua.com/2015/04/29/paper-note-ssim/</id>
     <published>2015-04-29T12:04:30.000Z</published>
     <updated>2015-05-17T16:21:59.000Z</updated>
     <content type="html"><![CDATA[<p>这里主要是说一个计算图片的质量评估函数，叫SSIM，即Structure Similarity，在TIP04时候发表的工作，至今引用量超过9k，可见影响深远。出处是：<a href="http://ece.uwaterloo.ca/~z70wang/publications/ssim.pdf" target="_blank" rel="external">http://ece.uwaterloo.ca/~z70wang/publications/ssim.pdf</a><br>目前仅记录SSIM的计算公式，后续如果需要再深入推敲一下。</p>
 <h2 id="引入">引入</h2><p>首先还是要简单引入一下SSIM，它是一个图片质量的评估函数。<br>在它之前比较常见的评估函数是MSE(或者PSNR，本质上跟MSE就差了一个倒数加缩放因子)，作者将这一类评估方法称为quality assessment system based on error sensitivity，认为这种函数忽略了人类视觉系统的一些属性，所以是不准确的。<br>作者认为人类视觉系统更加看重与图片的结构信息（… the assumption that the human visual system is highly adapted to extract structural information from the viewing field.），于是就提出了基于结构相似度的图像评估方法，也就是SSIM了。</p>
-<h2 id="公式">公式</h2><p>作者给出了一个图表说明SSIM的计算过程，不得不赞一下这个图做得相当漂亮。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429201314.png" alt=""><br>从上图可以看出，SSIM的计算需要综合三个component，即luminance,constact和structure，所以总体的SSIM公式可以写成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429201326.png" alt=""><br>需要注意上述公式是对图片中的一个小patch进行求取的，作者认为这样能够减少variance，提高准确率。<br>然后对于每个component进行解释。</p>
+<h2 id="公式">公式</h2><p>作者给出了一个图表说明SSIM的计算过程，不得不赞一下这个图做得相当漂亮。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429201314.png" alt=""><br>从上图可以看出，SSIM的计算需要综合三个component，即luminance,constact和structure，所以总体的SSIM公式可以写成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429201326.png" alt=""><br>需要注意上述公式是对图片中的一个小patch进行求取的，作者认为这样能够减少variance，提高准确率。<br>然后对于每个component进行解释。</p>
 <ul>
 <li>对于luminance，对比的主体是patch的均值</li>
 <li>对于constract，对比的主体是patch的标准差</li>
 <li>对于structure，对比的主体是patch的归一化结果（也就是减去均值然后除以方差）</li>
 </ul>
-<p>然后，又考虑到几个因素，比如对偶性和有界性后，最后设定了一些超参数，得到SSIM的公式为：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429202222.png" alt=""></p>
-<p>最后，对于图片每个patch都求得一个SSIM，最后平均一下得到的MSSIM就是针对全图的分数了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150429202231.png" alt=""></p>
+<p>然后，又考虑到几个因素，比如对偶性和有界性后，最后设定了一些超参数，得到SSIM的公式为：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429202222.png" alt=""></p>
+<p>最后，对于图片每个patch都求得一个SSIM，最后平均一下得到的MSSIM就是针对全图的分数了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150429202231.png" alt=""></p>
 ]]></content>
     <summary type="html">
     <![CDATA[简单记录SSIM的计算方法]]>
     
     </summary>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Semantics-driven portrait cartoon stylization》]]></title>
-    <link href="http://zhangliliang.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/"/>
-    <id>http://zhangliliang.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/</id>
+    <link href="http://xuchuanhua.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/"/>
+    <id>http://xuchuanhua.com/2015/04/28/paper-note-sematic-driven-portrait-cartoon-stylization/</id>
     <published>2015-04-28T03:02:30.000Z</published>
     <updated>2015-04-28T04:05:44.000Z</updated>
     <content type="html"><![CDATA[<p>是某个实验室前辈ICIP10的oral paper，连接见这里：<a href="http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715" target="_blank" rel="external">http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;arnumber=5651715</a></p>
-<h2 id="流程">流程</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
-<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
-<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
+<h2 id="流程">流程</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428111301.png" alt=""><br>如上图，首先用AOG对Emma进行parsing，之后分别用一个edge detector得到Region和sketch的map，之后用他们作为引导图，对原图进行风格化，最后两个分支做一个fusion。</p>
+<h2 id="Sematic_Parsing_via_AOG">Sematic Parsing via AOG</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113648.png" alt=""><br>这部分是对Emma进行parsing，And Or Graph(AOG)的大致思想是包括了And和Or两种节点。And节点的意思是脸由眼睛And鼻子等7个part组成，Or节点的意思是眼睛可以是大眼or小眼。AOG需要预先定义。<br>这一步结束后，Emma的脸的各个component有了，每个component可以用一个二元组表示$v_i =&lt; Λ_i, l_i &gt;$，表示位置和范围。</p>
+<h2 id="Region_and_Sketch_Saliency_via_Long-Edge_Detector">Region and Sketch Saliency via Long-Edge Detector</h2><p>之后对于原图用long-edge detector，得到了两张map，然后又对这两张map进行处理，就得到了region salmap和sketch salmap，前者的重点是component的细节特征，后者的重点是边缘信息（用于最后描黑边，这里的sketch所指就是这些黑边）<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113824.png" alt=""><br>上图的a和b表示两张salmap，c和d是用他们作为引导图对原图滤波之后的结果。怎么滤波见下一个小节。</p>
 <h2 id="Stylization">Stylization</h2><p>这里可以理解成分别用上面两张salmap作为引导图进行滤波，滤波要求满足，</p>
 <ol>
 <li>结果图像比起原图不能有太剧烈的变化（或者轮廓上不能有太剧烈的变化，相当于正则项）</li>
 <li>结果图像和引导图的梯度要相近或相关。</li>
 </ol>
-<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
-<p>sketch的objective：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
-<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
-<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
+<p>所以objective function都可以理解成是两个part组成。<br>region的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113834.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113838.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113844.png" alt=""></p>
+<p>sketch的objective：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113854.png" alt=""></p>
+<p>注意到，这里的objective都利用到了一开始parsing出来的component的信息，对于每个component，他们的权重等参数是不同的，需要人为设置<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428115959.png" alt=""></p>
+<h2 id="Result">Result</h2><p>最后将sketch的滤波结果盖在region的结果上。就是最后的结果了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150428113903.png" alt=""></p>
 ]]></content>
     <summary type="html">
     <![CDATA[两步走，先用AOG来parsing一张肖像图的各个component，之后对于每个component单独设置渲染的映射，最后求取一个全局的优化解。]]>
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[关于仿射变换]]></title>
-    <link href="http://zhangliliang.com/2015/03/10/about-affine-transform/"/>
-    <id>http://zhangliliang.com/2015/03/10/about-affine-transform/</id>
+    <link href="http://xuchuanhua.com/2015/03/10/about-affine-transform/"/>
+    <id>http://xuchuanhua.com/2015/03/10/about-affine-transform/</id>
     <published>2015-03-10T02:32:15.000Z</published>
     <updated>2015-03-10T08:01:58.000Z</updated>
     <content type="html"><![CDATA[<h2 id="20150310">20150310</h2><p>先看了仿射变换的<a href="http://zh.wikipedia.org/zh/%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2" target="_blank" rel="external">wiki</a><br>即仿射=线性变换（矩阵A）+平移（向量b），这里的线性变换就可以包括了旋转和缩放了。<br><img src="http://upload.wikimedia.org/math/4/9/d/49de1c94b75c4bd3fc3bbc7e08be33b3.png" alt=""><br>如果写成其次的方式是，也就是可以将线性变换和平移都统一到一个矩阵中，称为仿射矩阵：<br><img src="http://upload.wikimedia.org/math/6/5/5/65510671c4bff125774c5d3fa856c0e2.png" alt=""><br>或者<br><img src="http://www.mcudiy.cn/attachment/Mon_1407/33_8_c43f1f2156d6b3f.jpg?17" alt=""></p>
@@ -343,28 +343,28 @@
     
     </summary>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Real-Time Exemplar-Based Face Sketch Synthesis》]]></title>
-    <link href="http://zhangliliang.com/2015/03/06/paper-note-real-time-exemplar-based-face-sketch-synthesis/"/>
-    <id>http://zhangliliang.com/2015/03/06/paper-note-real-time-exemplar-based-face-sketch-synthesis/</id>
+    <link href="http://xuchuanhua.com/2015/03/06/paper-note-real-time-exemplar-based-face-sketch-synthesis/"/>
+    <id>http://xuchuanhua.com/2015/03/06/paper-note-real-time-exemplar-based-face-sketch-synthesis/</id>
     <published>2015-03-06T15:41:23.000Z</published>
     <updated>2015-03-07T02:23:12.000Z</updated>
     <content type="html"><![CDATA[<p>项目地址：<a href="http://www.cs.cityu.edu.hk/~yibisong/eccv14/index.html" target="_blank" rel="external">http://www.cs.cityu.edu.hk/~yibisong/eccv14/index.html</a><br>是ECCV14的文章。<br><strong>作者的PPT做的很棒，超级直观，很值得学习。</strong></p>
-<h2 id="文章SSD方法陈述">文章SSD方法陈述</h2><p>直接用PPT的截图来介绍本文章。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片2.JPG" alt=""><br>Face Sketch Synthesis是这样一个问题，给出人物的photo（上图左边），想办法合成它对应的sketch（上图右边）。这个问题在刑侦和娱乐方面都很有用。</p>
+<h2 id="文章SSD方法陈述">文章SSD方法陈述</h2><p>直接用PPT的截图来介绍本文章。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片2.JPG" alt=""><br>Face Sketch Synthesis是这样一个问题，给出人物的photo（上图左边），想办法合成它对应的sketch（上图右边）。这个问题在刑侦和娱乐方面都很有用。</p>
 <p>下面3页介绍LLE（原文引用文献[13]）的思想。它是一个Exemplar based的方法，也就是需要一个额外的training data（photo-sketch对）来支持该方法。大概意思可以这样描述：</p>
 <ol>
-<li>来了一张待合成的photo，对于这个photo的每一个点p，以它为中心截一个小patch（图中小黑窗），在training data中的photo用KNN的方法找到最相似的K个patch。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片3.JPG" alt=""></li>
-<li>并用这K个patch重构这个p对应的photo patch，找到重构系数。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片4.JPG" alt=""></li>
-<li>然后这个重构系数能够映射到sketch中，也就是对应的K个sketch的中点的值用相同的重构系数组合后，就是p对应的sketch value。重复上述步骤直到生成了所有点的sketch value，组合起来就是一整张sketch。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片5.JPG" alt=""></li>
+<li>来了一张待合成的photo，对于这个photo的每一个点p，以它为中心截一个小patch（图中小黑窗），在training data中的photo用KNN的方法找到最相似的K个patch。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片3.JPG" alt=""></li>
+<li>并用这K个patch重构这个p对应的photo patch，找到重构系数。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片4.JPG" alt=""></li>
+<li>然后这个重构系数能够映射到sketch中，也就是对应的K个sketch的中点的值用相同的重构系数组合后，就是p对应的sketch value。重复上述步骤直到生成了所有点的sketch value，组合起来就是一整张sketch。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片5.JPG" alt=""></li>
 </ol>
-<p>然后上述的方法合成的结果不够完美，有很多噪点，<strong>很自然就想到用去噪的方式将噪点给去掉</strong>。不过，从结果看直接用现成的去噪方法效果提升并不大。比如下图中的NLM方法，它的假设是“<strong>如果图像中两个patch长得很像，那么patch的中心的那点也一定很像</strong>”，于是可以做这个一个过程，对于参考点p，截一个小patch，然后在附近找到外观相像的patch，越相像，就给予越大的权值w，最后p的值为这这些patch的中心的点的加权平均。如下图所示：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片6.JPG" alt=""><br>作者认为去噪效果不好的原因是上面说的假设不成立，因为这里的patch是合成的，不够natural。所以估算出来的w就不准确啦。</p>
-<p>然后引入BM3D的思想，见下图gif超直观，它的假设是这样的，“<strong>图片中相似的块能够聚合成一组，同组内的图片块可以互相帮助来denosing</strong>”<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/cameraman_thr.gif" alt=""></p>
-<p>于是作者就用了这个思想咯，他将方法称为SSD，如下图，如果要计算p的值，那么其实可以用附近的点来帮助它，<strong>每个点都给出一个proposal</strong>。比如附近一个点q就能提供这样一个proposal，用的是q的最近邻的重构系数，加上之前NN估计出来的偏移，来估计p的值。然后r也能提供一个proposal，<strong>最后这些proposal求个平均就是p的值了</strong>。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片8.JPG" alt=""></p>
-<p>最后一张图作者想说明，取领域大小对于算法效果不敏感，算法保留细节做得很好，比如眼睛的亮斑。不过其实也可以看出，取越多就越模糊了。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/幻灯片9.JPG" alt=""></p>
+<p>然后上述的方法合成的结果不够完美，有很多噪点，<strong>很自然就想到用去噪的方式将噪点给去掉</strong>。不过，从结果看直接用现成的去噪方法效果提升并不大。比如下图中的NLM方法，它的假设是“<strong>如果图像中两个patch长得很像，那么patch的中心的那点也一定很像</strong>”，于是可以做这个一个过程，对于参考点p，截一个小patch，然后在附近找到外观相像的patch，越相像，就给予越大的权值w，最后p的值为这这些patch的中心的点的加权平均。如下图所示：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片6.JPG" alt=""><br>作者认为去噪效果不好的原因是上面说的假设不成立，因为这里的patch是合成的，不够natural。所以估算出来的w就不准确啦。</p>
+<p>然后引入BM3D的思想，见下图gif超直观，它的假设是这样的，“<strong>图片中相似的块能够聚合成一组，同组内的图片块可以互相帮助来denosing</strong>”<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/cameraman_thr.gif" alt=""></p>
+<p>于是作者就用了这个思想咯，他将方法称为SSD，如下图，如果要计算p的值，那么其实可以用附近的点来帮助它，<strong>每个点都给出一个proposal</strong>。比如附近一个点q就能提供这样一个proposal，用的是q的最近邻的重构系数，加上之前NN估计出来的偏移，来估计p的值。然后r也能提供一个proposal，<strong>最后这些proposal求个平均就是p的值了</strong>。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片8.JPG" alt=""></p>
+<p>最后一张图作者想说明，取领域大小对于算法效果不敏感，算法保留细节做得很好，比如眼睛的亮斑。不过其实也可以看出，取越多就越模糊了。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/幻灯片9.JPG" alt=""></p>
 <h2 id="本质上SSD和LLE的联系，前者是后者的补充">本质上SSD和LLE的联系，前者是后者的补充</h2><p>首先LLE是该文章的引用[13]，对应这篇<a href="http://mmlab.ie.cuhk.edu.hk/archive/2005/01467376.pdf" target="_blank" rel="external">论文</a>。它的实现方式跟上面的说的实际上有点差别，实际上，如果总结成三步，应该是：</p>
 <ol>
 <li>一样，对于测试图片的每一个p点，以它为中心截取patch，然后在training中找到K个最近邻的photo patch</li>
@@ -373,7 +373,7 @@
 </ol>
 <p>差别用粗体标注出来了，只有第三步是不一样的，<strong>也就是LLE原始方法中最后得到的是一个patch的结果，而上文只取了这个patch的最中心的一点作为它的结果</strong>。</p>
 <p>本文提出的SSD方法本质上的步骤也可以写成三步，第一步和第二步是一样的，也是需要得到p的重构系数。<strong>其实第三步跟LLE也是一样的，即也是用相同的重构系数得到整个sketch patch</strong>。</p>
-<p>那么SSD跟LLE的差别是什么？是取patch的<strong>stride</strong>，LLE的stride&gt;1，SSD的stride=1。<br>也就是一般来说，LLE的patch之间的overlap比SSD要小，如下图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150307095633.png" alt=""><br>可以看出LLE的patch之间的overlap还是比较小的，那么现在想象这个overlap一直变大，<strong>直到patch之间基本都要重叠在一起了，那么方法就是SSD</strong></p>
+<p>那么SSD跟LLE的差别是什么？是取patch的<strong>stride</strong>，LLE的stride&gt;1，SSD的stride=1。<br>也就是一般来说，LLE的patch之间的overlap比SSD要小，如下图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150307095633.png" alt=""><br>可以看出LLE的patch之间的overlap还是比较小的，那么现在想象这个overlap一直变大，<strong>直到patch之间基本都要重叠在一起了，那么方法就是SSD</strong></p>
 <p>那么本质的区别来了。在上文最开始提到的方法中，由于只使用了patch的中心，所以就相当于<strong>完全没有平均</strong>；在LLE中，大部分的点都是没有overlap的，<strong>只有overlap部分的点有做平均</strong>；然后SSD中，大部分的点（除了边缘的点）都有overlap，<strong>所以基本全图上每个点都做了平均</strong>。</p>
 <p>所以得到文中最后的好结果也就可以解释了：</p>
 <ol>
@@ -381,23 +381,23 @@
 <li>平均的副作用，就是会抑制掉边缘和高频细节，所以可以看成出来的sketch的比较“朦胧”，不够锐利。</li>
 <li>由于对齐得比较好，所以能够保留到眼睛的亮斑，而且亮斑本身不算高频信息，能够保留也很合理。（高频信息应该是头发，但总的来说，sketch本身就是由线段组成的，没有多少高频信息，所以这个方法用于做sketch相当合适）</li>
 </ol>
-<p>另外一个小缺点是基于合成方法都会有的合成错误：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150307101306.png" alt=""><br>比如上图这位女生的前额靠近中间的刘海就很难合成好，因为training set里面的图片对应的位置都是没有刘海的（大部分的发型都没有长刘海），所以找到的最近邻中也不会有刘海，基于它们合成出来的sketch也自然不会有刘海了。这个算是exemplar based方法对比与image based办法的一个缺点吧。</p>
+<p>另外一个小缺点是基于合成方法都会有的合成错误：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150307101306.png" alt=""><br>比如上图这位女生的前额靠近中间的刘海就很难合成好，因为training set里面的图片对应的位置都是没有刘海的（大部分的发型都没有长刘海），所以找到的最近邻中也不会有刘海，基于它们合成出来的sketch也自然不会有刘海了。这个算是exemplar based方法对比与image based办法的一个缺点吧。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[一句话概括，用denoising的思想改进了LLE模型，但本质应该算是算是LLE模型的一种补充。其中最重要的假设是“图片中相似的块能够聚合成一组，同组内的图片块可以互相帮助来denosing”]]>
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Convolutional Neural Networks at Constrained Time Cost》]]></title>
-    <link href="http://zhangliliang.com/2015/03/05/paper-note-cnn-at-constrained-time-cost/"/>
-    <id>http://zhangliliang.com/2015/03/05/paper-note-cnn-at-constrained-time-cost/</id>
+    <link href="http://xuchuanhua.com/2015/03/05/paper-note-cnn-at-constrained-time-cost/"/>
+    <id>http://xuchuanhua.com/2015/03/05/paper-note-cnn-at-constrained-time-cost/</id>
     <published>2015-03-05T07:46:56.000Z</published>
     <updated>2015-03-05T13:01:55.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处，<a href="http://arxiv.org/pdf/1412.1710v1" target="_blank" rel="external">http://arxiv.org/pdf/1412.1710v1</a><br>Kaiming He在CVPR15的工作。拜大神，一下子中了5篇。</p>
@@ -418,30 +418,30 @@
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Accurate Blur Models vs. Image Priors in Single Image Super-Resolution》]]></title>
-    <link href="http://zhangliliang.com/2015/02/23/paper-note-accurate-blur-models-help-super-resolution/"/>
-    <id>http://zhangliliang.com/2015/02/23/paper-note-accurate-blur-models-help-super-resolution/</id>
+    <link href="http://xuchuanhua.com/2015/02/23/paper-note-accurate-blur-models-help-super-resolution/"/>
+    <id>http://xuchuanhua.com/2015/02/23/paper-note-accurate-blur-models-help-super-resolution/</id>
     <published>2015-02-23T04:08:37.000Z</published>
     <updated>2015-02-23T04:38:49.000Z</updated>
     <content type="html"><![CDATA[<p>项目地址见这里：<a href="http://www.wisdom.weizmann.ac.il/~levina/papers/supres/" target="_blank" rel="external">http://www.wisdom.weizmann.ac.il/~levina/papers/supres/</a><br>是ICCV13的poster paper。<br>跟<a href="/2015/02/21/paper-note-nonparam-blind-super-resolution/">上一篇</a>说的那个ICCV13的oral paper的切入点很类似，都是针对模糊核函数。或者说，前者说完模糊核函数很重要，我们要找到一种方法来恢复这个核函数啊，后者就把这个事情做了(所以一篇是poster一篇是oral咯。。)</p>
 <p>这篇的思路很简单，提出了核函数很重要的说法，然后先通过实验效果验证了一下，之后再用公式推导从理论上论证。</p>
 <p>下面大致贴一下论文的图。</p>
-<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121814.png" alt=""><br>$K_T$表示在从HR得到LR时候的核函数，$K_A$表示将LR恢复回HR时候用得核函数。有三个观察结果：</p>
+<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121814.png" alt=""><br>$K_T$表示在从HR得到LR时候的核函数，$K_A$表示将LR恢复回HR时候用得核函数。有三个观察结果：</p>
 <ol>
 <li>左上到右下的对角线是两个核函数相等，效果是最好的</li>
 <li>偏右上的三角部分，恢复时核函数比较宽，所以恢复出来的图像过于锐利。</li>
 <li>偏右下的三角部分，恢复时核函数比较窄，所以恢复出来的图像过于模糊。</li>
 </ol>
 <p>出现这个结果其实也蛮直观的，以上面第二点观察为例，如果模糊时候的函数比较窄（也就是模糊系数比较低的），但恢复时候的函数比较宽（也就是模糊系数比较高），那么就会过度恢复，所以就过于锐利了。而上面的第三点观察就刚好相反了。</p>
-<p>然后作者拿了一台相机拍照，并且通过工具估计出来它的PSF。之后做了实验，效果如下图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121835.png" alt=""><br>PSF比bicubic的模糊效果要更强，于是用bicubic进行恢复时候就会恢复不足，显得模糊了。作者是想通过这个来说明，我们需要恢复的SR的kernel不是固定的，而应该是根据当时模糊的效果自适应地进行调整的。</p>
-<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150223121901.png" alt=""><br>最后这张图作者是想说kernel比prior要重要。看左边一溜的图就好。其中第二行和第三行都是用了最简单的prior，而三四五行用了的prior比较复杂，但是出来的效果是差不多的。所以就说明，找到了正确的核函数，prior影响就变小了。</p>
+<p>然后作者拿了一台相机拍照，并且通过工具估计出来它的PSF。之后做了实验，效果如下图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121835.png" alt=""><br>PSF比bicubic的模糊效果要更强，于是用bicubic进行恢复时候就会恢复不足，显得模糊了。作者是想通过这个来说明，我们需要恢复的SR的kernel不是固定的，而应该是根据当时模糊的效果自适应地进行调整的。</p>
+<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150223121901.png" alt=""><br>最后这张图作者是想说kernel比prior要重要。看左边一溜的图就好。其中第二行和第三行都是用了最简单的prior，而三四五行用了的prior比较复杂，但是出来的效果是差不多的。所以就说明，找到了正确的核函数，prior影响就变小了。</p>
 <p>最后作者的结论是，核函数很重要啊，所以往后的工作应该要研究怎么得到核函数咯。然后，同年的一篇ICCV就讨论了一个思路，并且中了oral。（这算是一个悲伤的故事吗？）</p>
 ]]></content>
     <summary type="html">
@@ -449,22 +449,22 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Nonparametric Blind Super-Resolution》]]></title>
-    <link href="http://zhangliliang.com/2015/02/21/paper-note-nonparam-blind-super-resolution/"/>
-    <id>http://zhangliliang.com/2015/02/21/paper-note-nonparam-blind-super-resolution/</id>
+    <link href="http://xuchuanhua.com/2015/02/21/paper-note-nonparam-blind-super-resolution/"/>
+    <id>http://xuchuanhua.com/2015/02/21/paper-note-nonparam-blind-super-resolution/</id>
     <published>2015-02-21T03:09:02.000Z</published>
     <updated>2015-02-21T03:35:06.000Z</updated>
     <content type="html"><![CDATA[<p>论文项目：<a href="http://www.wisdom.weizmann.ac.il/~vision/BlindSR.html" target="_blank" rel="external">http://www.wisdom.weizmann.ac.il/~vision/BlindSR.html</a><br>ICCV13的oral，观看地址见：<a href="http://techtalks.tv/talks/nonparametric-blind-super-resolution/59401/" target="_blank" rel="external">http://techtalks.tv/talks/nonparametric-blind-super-resolution/59401/</a><br>目前引用量11。</p>
 <h2 id="问题引入">问题引入</h2><p>一般情况下，SR问题都是假设了blur kernel是PSF或者Guassian，但作者认为这是不正确的，作者提出了kernel应该从低分辨率图像中进行直接估计来进行恢复，然后再基于这个kernel来进行SR。</p>
-<h2 id="什么才是正确的SR_kernel？">什么才是正确的SR kernel？</h2><p>（注：这部分对应原文sect 2，中间的一些符号笔者没有理解，先将脉络记录下来先）<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150221111654.png" alt=""><br>如上图，作者认为图像原来是在一个contiunous scene f(x)下，不管是high-res image h[n]还是low-res image l[n]，都看成是f(x)的一种经过PSF模糊之后的采样，差别是它们的PSF是不同的。<br>而SR问题中需求得到的kernel，实际上应该是从h[n]到l[n]的模糊核函数，这个过程等价于先从h[n]反卷积到f(x)再卷积到l[n]，用傅里叶变换后在频域表示为：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150221112156.png" alt=""><br>总的来说，这个kernel不是PSF的离散化，而是具有更加震荡的模式。</p>
-<h2 id="怎么通过低分辨率图像直接恢复kernel？">怎么通过低分辨率图像直接恢复kernel？</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150221112533.png" alt=""><br>经过公式推理，作者得到了这样一个观察。如上图所示，在低分辨率图像l中，首先将它进一步模糊降采样为l^alpha，并在这两个尺度下找到了一对最近邻的q和r^alpha，而r^alpha是在l中对应的r区域模糊降采样得到，那么q和r的关系也会满足与q是r的模糊降采样，该形式可以转换成一个线性的约束：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150221113019.png" alt=""><br>也就是，如果能够找到多个这样q-r对，能够通过最小二乘法估计得到kernel的值。<br>于是问题是如何得到这样的q-r对。方法也是很简单，先初始化一个k，然后通过k得到新的l^alpha，之后通过NN找到目前的q-r对，重新估计新的k。重复该步骤直到收敛。</p>
+<h2 id="什么才是正确的SR_kernel？">什么才是正确的SR kernel？</h2><p>（注：这部分对应原文sect 2，中间的一些符号笔者没有理解，先将脉络记录下来先）<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150221111654.png" alt=""><br>如上图，作者认为图像原来是在一个contiunous scene f(x)下，不管是high-res image h[n]还是low-res image l[n]，都看成是f(x)的一种经过PSF模糊之后的采样，差别是它们的PSF是不同的。<br>而SR问题中需求得到的kernel，实际上应该是从h[n]到l[n]的模糊核函数，这个过程等价于先从h[n]反卷积到f(x)再卷积到l[n]，用傅里叶变换后在频域表示为：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150221112156.png" alt=""><br>总的来说，这个kernel不是PSF的离散化，而是具有更加震荡的模式。</p>
+<h2 id="怎么通过低分辨率图像直接恢复kernel？">怎么通过低分辨率图像直接恢复kernel？</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150221112533.png" alt=""><br>经过公式推理，作者得到了这样一个观察。如上图所示，在低分辨率图像l中，首先将它进一步模糊降采样为l^alpha，并在这两个尺度下找到了一对最近邻的q和r^alpha，而r^alpha是在l中对应的r区域模糊降采样得到，那么q和r的关系也会满足与q是r的模糊降采样，该形式可以转换成一个线性的约束：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150221113019.png" alt=""><br>也就是，如果能够找到多个这样q-r对，能够通过最小二乘法估计得到kernel的值。<br>于是问题是如何得到这样的q-r对。方法也是很简单，先初始化一个k，然后通过k得到新的l^alpha，之后通过NN找到目前的q-r对，重新估计新的k。重复该步骤直到收敛。</p>
 <h2 id="引入外部图片时候的kernel恢复">引入外部图片时候的kernel恢复</h2><p>基本同上述过程，只不过这时候l^alpha是在外部图片中得到。</p>
 ]]></content>
     <summary type="html">
@@ -472,27 +472,27 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Super-Resolution from a Single Image》]]></title>
-    <link href="http://zhangliliang.com/2015/02/20/paper-note-super-resolution-for-single-image/"/>
-    <id>http://zhangliliang.com/2015/02/20/paper-note-super-resolution-for-single-image/</id>
+    <link href="http://xuchuanhua.com/2015/02/20/paper-note-super-resolution-for-single-image/"/>
+    <id>http://xuchuanhua.com/2015/02/20/paper-note-super-resolution-for-single-image/</id>
     <published>2015-02-20T04:21:01.000Z</published>
     <updated>2015-02-20T05:43:39.000Z</updated>
     <content type="html"><![CDATA[<p>项目地址见这里：<a href="http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html" target="_blank" rel="external">http://www.wisdom.weizmann.ac.il/~vision/SingleImageSR.html</a><br>ICCV09的论文，目前引入有550+</p>
 <h2 id="简介">简介</h2><p>先简单说说什么是超分辨。<br>输入一张低分辨率图像，比如100x100，将其升高到到高分辨率，比如200x200，并且要求清晰度尽量不变。也就是输出结果比输入有着更多的信息，是一个ill-posed的问题，所以称为“超”分辨。<br>一开始超分辨问题一般是用<strong>多张</strong>的相似的低分辨图像恢复成单张高分辨率图像，后来发现了其局限性，提出了基于样例学习的方法，即通过产生多个“低分辨-高分辨”图像对并学习其中的对应关系。<br>该文章将上述两种方法称为“Classical SR”和“Example-based SR”，并提出一个框架将它们整合在一起，而且能够用于<strong>单张</strong>低分辨率图像到高分辨率图像的恢复。</p>
-<h2 id="核心">核心</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150220122755.png" alt=""><br>见上图，作者发现了图像的自相似性：即在同一个张图片的多个尺度下，能够找到外观极其类似的图像块。例，在原图中，左上角子图中的红框是屋子的一扇窗户；而在低分辨率图像中，它跟屋子的门极其相似（左下角子图红框）。于是可以认为找到了一个“低分辨-高分辨”图像对，这样就能够利用相关信息进行恢复。</p>
-<h2 id="两种形式的恢复">两种形式的恢复</h2><p>先说第一种Classical SR。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150220124328.png" alt=""><br>上图(a)中代表的过程就就是Classical SR的过程，也就是利用多张低分辨图像的同样位置的patch来拟合高分辨率图像中的对应区域。<br>这里需要提到，从高分辨率到低分辨率的产生一般写成下面形式：</p>
+<h2 id="核心">核心</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150220122755.png" alt=""><br>见上图，作者发现了图像的自相似性：即在同一个张图片的多个尺度下，能够找到外观极其类似的图像块。例，在原图中，左上角子图中的红框是屋子的一扇窗户；而在低分辨率图像中，它跟屋子的门极其相似（左下角子图红框）。于是可以认为找到了一个“低分辨-高分辨”图像对，这样就能够利用相关信息进行恢复。</p>
+<h2 id="两种形式的恢复">两种形式的恢复</h2><p>先说第一种Classical SR。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150220124328.png" alt=""><br>上图(a)中代表的过程就就是Classical SR的过程，也就是利用多张低分辨图像的同样位置的patch来拟合高分辨率图像中的对应区域。<br>这里需要提到，从高分辨率到低分辨率的产生一般写成下面形式：</p>
 <blockquote>
-<p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150220131320.png" alt=""><br>$j$是下标，忽略之<br>$H$是高分辨图像， $L$是低分辨图像<br>$B$是一个blurred filter，比如PSF或者Guassian<br>$↓$表示下采样（就是最原始的nearest，没有用bilinear或者bicubic的）</p>
+<p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150220131320.png" alt=""><br>$j$是下标，忽略之<br>$H$是高分辨图像， $L$是低分辨图像<br>$B$是一个blurred filter，比如PSF或者Guassian<br>$↓$表示下采样（就是最原始的nearest，没有用bilinear或者bicubic的）</p>
 </blockquote>
-<p>所以对于低分辨率图片中的一点，可以找到高分辨率图片的一个patch进行对应（上图中的圆形，类似于CNN中的感受野的概念，下面也用感受野来表示这个patch），可以改写成一个线性的约束表达式：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150220131843.png" alt=""><br>当这些区域之间有重叠的时候，就可以通过联立方程求解了。<br>这个就是Classical SR的一般性求解过程，这里需要多张低分辨率图像。<br>加上该文章提出的自相似性，就可以只用单张的低分辨率图像了：对于低分辨图像中的每个patch，用NN找到相似的patch，然后映射会高分辨率的感受野，通过重叠部分来联立方程。（对应上图(b)）</p>
-<p>然后说第二种Example-based SR。<br>其实也直观，就是Classical SR是在同一个尺度下找相似的，而Example-based SR是在不同尺度下找相似的。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20150220132742.png" alt=""><br>简单描述过程，如上图，对于$I_0$图像中的深绿色小块，在它下两层的图像$I_{-2}$中找到了一个相似块，该块对应回去在$I_0$中对应的是浅绿色的一个“大块”。那么就认为在$I_0$中找到了一对example。然后直接将它复制到$I_2$的对应位置。<br>可以看出这里做了一个假设，就是认为example之间的对应关系不用学习，直接复制就可以。</p>
+<p>所以对于低分辨率图片中的一点，可以找到高分辨率图片的一个patch进行对应（上图中的圆形，类似于CNN中的感受野的概念，下面也用感受野来表示这个patch），可以改写成一个线性的约束表达式：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150220131843.png" alt=""><br>当这些区域之间有重叠的时候，就可以通过联立方程求解了。<br>这个就是Classical SR的一般性求解过程，这里需要多张低分辨率图像。<br>加上该文章提出的自相似性，就可以只用单张的低分辨率图像了：对于低分辨图像中的每个patch，用NN找到相似的patch，然后映射会高分辨率的感受野，通过重叠部分来联立方程。（对应上图(b)）</p>
+<p>然后说第二种Example-based SR。<br>其实也直观，就是Classical SR是在同一个尺度下找相似的，而Example-based SR是在不同尺度下找相似的。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20150220132742.png" alt=""><br>简单描述过程，如上图，对于$I_0$图像中的深绿色小块，在它下两层的图像$I_{-2}$中找到了一个相似块，该块对应回去在$I_0$中对应的是浅绿色的一个“大块”。那么就认为在$I_0$中找到了一对example。然后直接将它复制到$I_2$的对应位置。<br>可以看出这里做了一个假设，就是认为example之间的对应关系不用学习，直接复制就可以。</p>
 <p>然后整体的框架也如上图所示，对于输入的一张低分辨图像$I_0$，结合Example-based和classical两种方法来恢复出高分辨率图像。<br>这里还有一个细节，就是作者使用了一种coarse to fine的思想，即对于高分辨率的图（图中的紫色部分），也就是先恢复$I_1$，然后对错误部分进行纠正（用back projected），然后继续恢复$I_2$，再纠正，直到恢复到$I_n$，也即是需要的高分辨率图$H$。</p>
 ]]></content>
     <summary type="html">
@@ -500,16 +500,16 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Low Level" scheme="http://zhangliliang.com/tags/Low-Level/"/>
+      <category term="Low Level" scheme="http://xuchuanhua.com/tags/Low-Level/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[Caffe源码阅读（2） 卷积层]]></title>
-    <link href="http://zhangliliang.com/2015/02/11/about-caffe-code-convolutional-layer/"/>
-    <id>http://zhangliliang.com/2015/02/11/about-caffe-code-convolutional-layer/</id>
+    <link href="http://xuchuanhua.com/2015/02/11/about-caffe-code-convolutional-layer/"/>
+    <id>http://xuchuanhua.com/2015/02/11/about-caffe-code-convolutional-layer/</id>
     <published>2015-02-11T14:07:22.000Z</published>
     <updated>2015-05-17T16:08:04.000Z</updated>
     <content type="html"><![CDATA[<p>大约半年前写过一篇关于Caffe全连接层的<a href="/2014/09/15/about-caffe-code-full-connected-layer/">文章</a>，这次更新卷积层的。</p>
@@ -538,16 +538,16 @@
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="tools" scheme="http://zhangliliang.com/tags/tools/"/>
+      <category term="tools" scheme="http://xuchuanhua.com/tags/tools/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[关于卷积]]></title>
-    <link href="http://zhangliliang.com/2015/02/11/about-convolution/"/>
-    <id>http://zhangliliang.com/2015/02/11/about-convolution/</id>
+    <link href="http://xuchuanhua.com/2015/02/11/about-convolution/"/>
+    <id>http://xuchuanhua.com/2015/02/11/about-convolution/</id>
     <published>2015-02-11T01:52:08.000Z</published>
     <updated>2015-02-17T03:38:25.000Z</updated>
     <content type="html"><![CDATA[<h2 id="20150211">20150211</h2><p>感觉从学习高数开始就没有搞明白过卷积究竟是干嘛的，google了一下有什么比较直观的理解方式，得到的大都与时域和信号有关（比如<a href="http://blog.sciencenet.cn/blog-287179-425373.html" target="_blank" rel="external">这篇</a>,<a href="http://www.zhihu.com/question/23336874" target="_blank" rel="external">这篇</a>），其实我想搞明白的是卷积跟图像处理的关系(<a href="http://www.zhihu.com/question/27251882" target="_blank" rel="external">这篇</a>提到一点)。先记录一些目前似懂非懂的内容。</p>
@@ -574,14 +574,14 @@
     
     </summary>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[关于双线性插值]]></title>
-    <link href="http://zhangliliang.com/2015/02/09/about-biliear-interpolation/"/>
-    <id>http://zhangliliang.com/2015/02/09/about-biliear-interpolation/</id>
+    <link href="http://xuchuanhua.com/2015/02/09/about-biliear-interpolation/"/>
+    <id>http://xuchuanhua.com/2015/02/09/about-biliear-interpolation/</id>
     <published>2015-02-09T07:35:55.000Z</published>
     <updated>2015-02-09T08:44:56.000Z</updated>
     <content type="html"><![CDATA[<p>最近工作涉及到了插值算法，查了一下发现原来这东西如果抠细节的话并不简单，于是记录一下。这篇先记录的是双线性插值。</p>
@@ -597,7 +597,7 @@
 <h2 id="在matlab中的实现">在matlab中的实现</h2><p>在matlab中输入：<br><figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">%</span> 生成一张简单的图片，并用双线性插值法放大到<span class="number">2</span>倍</span><br><span class="line">im = ui<span class="label">nt8</span><span class="comment">([8 16;16 32])</span>;</span><br><span class="line">imresize<span class="comment">(im, 2, 'bilinear')</span></span><br></pre></td></tr></table></figure></p>
 <p>返回结果会是：<br><figure class="highlight fix"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">ans </span>=<span class="string"></span><br><span class="line"></span><br><span class="line">    8   10   14   16</span><br><span class="line">   10   13   18   20</span><br><span class="line">   14   18   25   28</span><br><span class="line">   16   20   28   32</span></span><br></pre></td></tr></table></figure></p>
 <p>现在分析这个结果是怎么得到的。所幸matlab是可以通过ctrl+D找到部分的源码实现方法的，于是笔者大致读了一下，结合网上一些资料终于把如何映射这个问题给解决了。<br>最主要的函数是imresize.m中的这个函数：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="params">[weights, indices]</span> = <span class="title">contributions</span><span class="params">(in_length, out_length, ...</span><br><span class="line">                                            scale, kernel, ...</span><br><span class="line">                                            kernel_width, antialiasing)</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (scale &lt; <span class="number">1</span>) &amp;&amp; (antialiasing)</span><br><span class="line">    <span class="comment">% Use a modified kernel to simultaneously interpolate and</span></span><br><span class="line">    <span class="comment">% antialias.</span></span><br><span class="line">    h = @(x) scale * kernel(scale * x);</span><br><span class="line">    kernel_width = kernel_width / scale;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    <span class="comment">% No antialiasing; use unmodified kernel.</span></span><br><span class="line">    h = kernel;</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% Output-space coordinates.</span></span><br><span class="line">x = (<span class="number">1</span>:out_length)<span class="operator">'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% Input-space coordinates. Calculate the inverse mapping such that 0.5</span></span><br><span class="line"><span class="comment">% in output space maps to 0.5 in input space, and 0.5+scale in output</span></span><br><span class="line"><span class="comment">% space maps to 1.5 in input space.</span></span><br><span class="line">u = x/scale + <span class="number">0.5</span> * (<span class="number">1</span> - <span class="number">1</span>/scale);</span><br><span class="line"></span><br><span class="line"><span class="comment">% What is the left-most pixel that can be involved in the computation?</span></span><br><span class="line">left = <span class="built_in">floor</span>(u - kernel_width/<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% What is the maximum number of pixels that can be involved in the</span></span><br><span class="line"><span class="comment">% computation?  Note: it's OK to use an extra pixel here; if the</span></span><br><span class="line"><span class="comment">% corresponding weights are all zero, it will be eliminated at the end</span></span><br><span class="line"><span class="comment">% of this function.</span></span><br><span class="line">P = <span class="built_in">ceil</span>(kernel_width) + <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">% The indices of the input pixels involved in computing the k-th output</span></span><br><span class="line"><span class="comment">% pixel are in row k of the indices matrix.</span></span><br><span class="line">indices = <span class="built_in">bsxfun</span>(@plus, left, <span class="number">0</span>:P-<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">% The weights used to compute the k-th output pixel are in row k of the</span></span><br><span class="line"><span class="comment">% weights matrix.</span></span><br><span class="line">weights = h(<span class="built_in">bsxfun</span>(@minus, u, indices));</span><br><span class="line"></span><br><span class="line"><span class="comment">% Normalize the weights matrix so that each row sums to 1.</span></span><br><span class="line">weights = <span class="built_in">bsxfun</span>(@rdivide, weights, sum(weights, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">% Clamp out-of-range indices; has the effect of replicating end-points.</span></span><br><span class="line">indices = min(max(<span class="number">1</span>, indices), in_length);</span><br><span class="line"></span><br><span class="line"><span class="comment">% If a column in weights is all zero, get rid of it.</span></span><br><span class="line">kill = <span class="built_in">find</span>(~any(weights, <span class="number">1</span>));</span><br><span class="line"><span class="keyword">if</span> ~<span class="built_in">isempty</span>(kill)</span><br><span class="line">    weights(:,kill) = <span class="matrix">[]</span>;</span><br><span class="line">    indices(:,kill) = <span class="matrix">[]</span>;</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<p>matlab的注释写得很清楚了，output的坐标用x变量表示，对应映射回input的坐标用u表示，当x=0.5时候，u也应该为0.5;当x=0.5+scale时，u为1.5。这样会得到怎么的映射效果呢，笔者画了一幅示意图：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/drawing.png" alt=""><br>这里的坐标系是matlab下的坐标系（左上角为原点，从1开始计数），其中红色的4个点表示input的四个点，灰色的16个点是output的点映射回到input坐标系下的坐标。图片下方有两行x和u分别是灰色点在output和input下的x方向上的坐标值。<br>所以根据上面的映射方法，得到output映射回input的图像特点有两个：</p>
+<p>matlab的注释写得很清楚了，output的坐标用x变量表示，对应映射回input的坐标用u表示，当x=0.5时候，u也应该为0.5;当x=0.5+scale时，u为1.5。这样会得到怎么的映射效果呢，笔者画了一幅示意图：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/drawing.png" alt=""><br>这里的坐标系是matlab下的坐标系（左上角为原点，从1开始计数），其中红色的4个点表示input的四个点，灰色的16个点是output的点映射回到input坐标系下的坐标。图片下方有两行x和u分别是灰色点在output和input下的x方向上的坐标值。<br>所以根据上面的映射方法，得到output映射回input的图像特点有两个：</p>
 <ol>
 <li>图片的中心是重合的（图中央的黑点为中心）</li>
 <li>output中的相邻像素的距离为input相邻像素的距离的1/scale</li>
@@ -622,14 +622,14 @@
     
     </summary>
     
-      <category term="Image Processing" scheme="http://zhangliliang.com/tags/Image-Processing/"/>
+      <category term="Image Processing" scheme="http://xuchuanhua.com/tags/Image-Processing/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[关于Sparse Coding]]></title>
-    <link href="http://zhangliliang.com/2015/02/01/about-sparse-coding/"/>
-    <id>http://zhangliliang.com/2015/02/01/about-sparse-coding/</id>
+    <link href="http://xuchuanhua.com/2015/02/01/about-sparse-coding/"/>
+    <id>http://xuchuanhua.com/2015/02/01/about-sparse-coding/</id>
     <published>2015-02-01T02:07:12.000Z</published>
     <updated>2015-02-01T03:58:06.000Z</updated>
     <content type="html"><![CDATA[<h2 id="20150201_基本概念">20150201 基本概念</h2><p>基本概念参考了<a href="http://ufldl.stanford.edu/wiki/index.php/Sparse_Coding" target="_blank" rel="external">UFLDL</a>。<br>对于每个输入x，需要找到一组基φ来进行重构，形式化表示为：<br><img src="http://ufldl.stanford.edu/wiki/images/math/9/5/7/95773d0fedcb4bc39aff6546ccd5af25.png" alt=""><br>其中φ的维度k是大于x的维度n的，称为over-complete(超完备)，它的好处是：</p>
@@ -666,20 +666,20 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="Sparse Coding" scheme="http://zhangliliang.com/tags/Sparse-Coding/"/>
+      <category term="Sparse Coding" scheme="http://xuchuanhua.com/tags/Sparse-Coding/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Fully Convolutional Neural Networks for Crowd Segmentation》]]></title>
-    <link href="http://zhangliliang.com/2014/11/30/paper-note-fcnn-crowd-seg/"/>
-    <id>http://zhangliliang.com/2014/11/30/paper-note-fcnn-crowd-seg/</id>
+    <link href="http://xuchuanhua.com/2014/11/30/paper-note-fcnn-crowd-seg/"/>
+    <id>http://xuchuanhua.com/2014/11/30/paper-note-fcnn-crowd-seg/</id>
     <published>2014-11-30T01:47:30.000Z</published>
     <updated>2015-02-01T02:37:39.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处：<a href="http://arxiv.org/abs/1411.4464" target="_blank" rel="external">http://arxiv.org/abs/1411.4464</a><br>王晓刚老师实验室的论文，估计也是用来投CVPR15的。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095210.png" alt=""><br>如上图，将有人地方从背景中区分出来，就是人群分割（Crowd Segmentation问题）<br>用CNN做分割的方法有如下三种：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095256.png" alt=""><br>-（a）patch-wise的输入方法，缺点是每次只能输出一个pixel的结果，速度慢。<br>-（b）全图输出，用全连接层来输出全图结果，速度有保证，但是认为没有translation invariance，也就是同样的patch如果在不同的位置输出结果会不一样。<br>-（c）将全连接层改成1x1卷积层，兼顾(a)和(b)的优点，保证速度，且有translation invariance</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095210.png" alt=""><br>如上图，将有人地方从背景中区分出来，就是人群分割（Crowd Segmentation问题）<br>用CNN做分割的方法有如下三种：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095256.png" alt=""><br>-（a）patch-wise的输入方法，缺点是每次只能输出一个pixel的结果，速度慢。<br>-（b）全图输出，用全连接层来输出全图结果，速度有保证，但是认为没有translation invariance，也就是同样的patch如果在不同的位置输出结果会不一样。<br>-（c）将全连接层改成1x1卷积层，兼顾(a)和(b)的优点，保证速度，且有translation invariance</p>
 <p>本文用的方法自然是(c)，这一篇其实跟上一篇FCN大同小异，不过提供了一些FCN没有的地方，可以互相对照着看看。</p>
 <h2 id="3-2_FCNN_中的一些实现细节">3.2 FCNN 中的一些实现细节</h2><p>记录本章提到的一些细节：</p>
 <ul>
@@ -688,67 +688,67 @@
 <li>gt的得到方式是经过两个pool，而不是直接调用resize函数（这个算很细节的考虑了）</li>
 <li>最后loss函数，是对每个点都做logistic。</li>
 </ul>
-<h2 id="4_Multi-stage_FCNN">4 Multi-stage FCNN</h2><p>本质上是生成了三种特征输入，最后做一个fusion：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130095402.png" alt=""><br>三种特征分别是Apperance，Motion，Structure。<br>作者这里比较仔细地讨论了fusion的方式：</p>
+<h2 id="4_Multi-stage_FCNN">4 Multi-stage FCNN</h2><p>本质上是生成了三种特征输入，最后做一个fusion：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130095402.png" alt=""><br>三种特征分别是Apperance，Motion，Structure。<br>作者这里比较仔细地讨论了fusion的方式：</p>
 <ul>
 <li>input fusion：直接在输入时候用channel拼起来</li>
 <li>feature fusion：在最后一层特征做fusion，之后predict结果</li>
 <li>decision fusion：三个网络三个predict map，最后对三张predict map做融合</li>
 </ul>
 <p>另外训练网络的细节也是用他们实验室一个常用的trick：训练好一个网络，fix住，然后训练后面的网络</p>
-<h2 id="结果">结果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141130102716.png" alt=""><br>如上图，可以看成，其实fusion有提高，但是不会太多。感觉对于分割问题，同尺度的fusion对提高准确率差别不多。</p>
+<h2 id="结果">结果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141130102716.png" alt=""><br>如上图，可以看成，其实fusion有提高，但是不会太多。感觉对于分割问题，同尺度的fusion对提高准确率差别不多。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[一句话概括，FCNN跟上一篇FCN是一样的东西，不过这篇是做人群分割的（其实也跟语义分割大同小异）]]>
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Fully Convolutional Networks for Semantic Segmentation》]]></title>
-    <link href="http://zhangliliang.com/2014/11/28/paper-note-fcn-segment/"/>
-    <id>http://zhangliliang.com/2014/11/28/paper-note-fcn-segment/</id>
+    <link href="http://xuchuanhua.com/2014/11/28/paper-note-fcn-segment/"/>
+    <id>http://xuchuanhua.com/2014/11/28/paper-note-fcn-segment/</id>
     <published>2014-11-28T11:10:50.000Z</published>
     <updated>2014-11-28T11:33:41.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处：<a href="http://arxiv.org/abs/1411.4038" target="_blank" rel="external">http://arxiv.org/abs/1411.4038</a><br>估计是用来投CVPR15的，个人觉得应该至少是oral的节奏。</p>
-<h2 id="概述">概述</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
-<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
+<h2 id="概述">概述</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191657.png" alt=""><br>如上图，直观地说，将所有层都变“胖”，然后就可以直接生成spatial output map了，之后可以做pixelwise的分割问题。</p>
+<h2 id="如何变“胖”">如何变“胖”</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191710.png" alt=""><br>这里可以参考这个帖子：<br><a href="http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb" target="_blank" rel="external">http://nbviewer.ipython.org/github/BVLC/caffe/blob/master/examples/net_surgery.ipynb</a><br>上面例子讲述了怎么改写训练好的AlexNet，通过将fc6改成6x6x256x4096的conv6，fc7改成1x1x4096x4096的conv7，fc8改成1x1x4096x1000的conv8。输出从227x227改成451x451，这样就能够生成8x8的spatial output了</p>
 <h2 id="overfeat的trick">overfeat的trick</h2><p>这里讲overfeat是怎么形成dense output的，个人有点忘了，等看回之后补充。</p>
 <h2 id="另一种trick，对feature_map直接做upsample">另一种trick，对feature map直接做upsample</h2><p>这里是作者实际用的trick，本质上，就是对feature map做一个bilinear的上采样。作者还提到其实这样的上采样参数也是可以学习的，实现上基本就是对conv的FP和BP反过来。</p>
-<h2 id="结果">结果</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
-<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
+<h2 id="结果">结果</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191723.png" alt=""><br>自然是state-of-the-art</p>
+<h2 id="coarse_to_fine">coarse to fine</h2><p><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191737.png" alt=""><br>由于输出空间的map的步长大概是32，所以边缘很不好。于是作者想到一种方法来refine。<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141128191732.png" alt=""><br>过程大致如上图，本质上，是认为较低层的步长比较短，感受野也比较小，能够得到更加fine的结果。于是分别作了几个heatmap，然后fusion。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[一句话概括，将全连接层也变成卷积层，形成spatial output，来做VOC的分割问题]]>
     
     </summary>
     
-      <category term="CNN" scheme="http://zhangliliang.com/tags/CNN/"/>
+      <category term="CNN" scheme="http://xuchuanhua.com/tags/CNN/"/>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
   </entry>
   
   <entry>
     <title><![CDATA[论文笔记 《Learning Structural SVMs with Latent Variables》]]></title>
-    <link href="http://zhangliliang.com/2014/11/22/paper-note-latent-structural-svm/"/>
-    <id>http://zhangliliang.com/2014/11/22/paper-note-latent-structural-svm/</id>
+    <link href="http://xuchuanhua.com/2014/11/22/paper-note-latent-structural-svm/"/>
+    <id>http://xuchuanhua.com/2014/11/22/paper-note-latent-structural-svm/</id>
     <published>2014-11-22T11:31:17.000Z</published>
     <updated>2015-05-18T08:07:17.000Z</updated>
     <content type="html"><![CDATA[<p>论文出处：<a href="http://www.cs.cornell.edu/~cnyu/papers/icml09_latentssvm.pdf" target="_blank" rel="external">http://www.cs.cornell.edu/~cnyu/papers/icml09_latentssvm.pdf</a><br>ICML09的“老物”，作者项目见：<a href="http://www.cs.cornell.edu/~cnyu/latentssvm/" target="_blank" rel="external">http://www.cs.cornell.edu/~cnyu/latentssvm/</a></p>
 <h2 id="概述">概述</h2><p>先介绍structural SVM，然后介绍latent structual SVM的求解方法。</p>
-<h2 id="Structual_SVM">Structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145317.png" alt=""><br>大致理解成，y是某种结构化的label，φ是data和label的联合特征，由于y是离散的，所以只能通过搜索来进行求解。<br>由于预测label和真实label之间差值的Δ也是非凸离散的，所以需要找到一个凸上界来优化：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145326.png" alt=""><br>直观理解为，max那一项是通过搜索找出最接近真实label的y尖的得分；最后一项是真实label的真实得分。<br>最后加上正则项，就变成了SVM-like的loss function：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122145334.png" alt=""></p>
-<h2 id="Latent_structual_SVM">Latent structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150120.png" alt=""><br>可以看出多出的一项是h，代表隐项，这项其实也是通过搜索得到，理解成搜索空间又变大了好多。。囧<br>衡量真实label和预测label差值的Δ也升级了，变成：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150128.png" alt=""><br>大概给出的直观解释是：</p>
+<h2 id="Structual_SVM">Structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145317.png" alt=""><br>大致理解成，y是某种结构化的label，φ是data和label的联合特征，由于y是离散的，所以只能通过搜索来进行求解。<br>由于预测label和真实label之间差值的Δ也是非凸离散的，所以需要找到一个凸上界来优化：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145326.png" alt=""><br>直观理解为，max那一项是通过搜索找出最接近真实label的y尖的得分；最后一项是真实label的真实得分。<br>最后加上正则项，就变成了SVM-like的loss function：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122145334.png" alt=""></p>
+<h2 id="Latent_structual_SVM">Latent structual SVM</h2><p>优化目标如下：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150120.png" alt=""><br>可以看出多出的一项是h，代表隐项，这项其实也是通过搜索得到，理解成搜索空间又变大了好多。。囧<br>衡量真实label和预测label差值的Δ也升级了，变成：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150128.png" alt=""><br>大概给出的直观解释是：</p>
 <ul>
 <li>h*是说，知道真实label的情况下（比如训练样本），搜索出最佳的隐变量h，作为h*</li>
 <li>h尖是说，不知道真实label情况下（比如测试样本），搜索出最佳的预测label和隐变量。</li>
 </ul>
-<p>之后经过一番求bound，得到最后的loss function形式为：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122150151.png" alt=""><br>也算是SVM-like吧。</p>
-<h2 id="优化方法">优化方法</h2><p>由于上式减号两边都是凸的，所以用CCCP来求解：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153124.png" alt=""><br>撇开那么高大上的说法，对于latent structual SVM来说，其实是两步：<br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153130.png" alt=""><br><img src="http://hexo-pic-zhangliliang.qiniudn.com/小Q截图-20141122153139.png" alt=""><br>对应的直观含义是：</p>
+<p>之后经过一番求bound，得到最后的loss function形式为：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122150151.png" alt=""><br>也算是SVM-like吧。</p>
+<h2 id="优化方法">优化方法</h2><p>由于上式减号两边都是凸的，所以用CCCP来求解：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153124.png" alt=""><br>撇开那么高大上的说法，对于latent structual SVM来说，其实是两步：<br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153130.png" alt=""><br><img src="http://hexo-pic-xuchuanhua.qiniudn.com/小Q截图-20141122153139.png" alt=""><br>对应的直观含义是：</p>
 <ol>
 <li>对于真实label，求解最优的隐变量h*</li>
 <li>fix住h*，常规求解structual SVM</li>
@@ -760,9 +760,9 @@
     
     </summary>
     
-      <category term="Computer Vision" scheme="http://zhangliliang.com/tags/Computer-Vision/"/>
+      <category term="Computer Vision" scheme="http://xuchuanhua.com/tags/Computer-Vision/"/>
     
-      <category term="SVM" scheme="http://zhangliliang.com/tags/SVM/"/>
+      <category term="SVM" scheme="http://xuchuanhua.com/tags/SVM/"/>
     
   </entry>
   
